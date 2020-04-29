@@ -25,3 +25,5 @@ Review: Adeline (by 7th April)
 Production: Adeline & Kai Ying (by 6th April)
 Review: Adeline & Kai Ying (by 7th April)
 
+9.33pm, 29th April 2020
+I, Adeline Chew Yao Yi, accept this Work Breakdown Agreement.
