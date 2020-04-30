@@ -27,3 +27,6 @@ Review: Adeline & Kai Ying (by 7th April)
 
 9.33pm, 29th April 2020
 I, Adeline Chew Yao Yi, accept this Work Breakdown Agreement.
+
+11.18am, 30th April 2020
+I, Tey Kai Ying, accept this Work Breakdown Agreement.
