@@ -45,6 +45,11 @@ public class AttackAction extends Action {
 		String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
 
 		target.hurt(damage);
+
+		if(target.isConscious() && target.getDisplayChar() == 'Z'){
+			result += "\n" + playerAttack(target);
+		}
+
 		if (!target.isConscious()) {
 			Item corpse = new PortableItem("dead " + target, '%');
 			map.locationOf(target).addItem(corpse);
@@ -66,4 +71,17 @@ public class AttackAction extends Action {
 	public String menuDescription(Actor actor) {
 		return actor + " attacks " + target;
 	}
+
+	public String playerAttack(Actor target){
+		Zombie z;
+		String result = "Weak damage to " + target.toString();
+		boolean partsOff = rand.nextInt(4) == 0;
+
+		if(partsOff){
+			z = (Zombie) target;
+			result = z.lostParts(target.toString());
+		}
+		return result;
+	}
 }
+
