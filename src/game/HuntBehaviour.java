@@ -90,6 +90,10 @@ public class HuntBehaviour implements Behaviour {
 
 	@Override
 	public Action getAction(Actor actor, GameMap map) {
+		if(actor instanceof Zombie){
+			if(((Zombie) actor).getNumberOfLegs() == 0 || ((Zombie) actor).getTurn() % 2 == 0)
+				return null;
+		}
 		return hunt(actor, map.locationOf(actor));
 	}
 
