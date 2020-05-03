@@ -1,11 +1,6 @@
 package edu.monash.fit2099.demo.conwayslife;
 
-import edu.monash.fit2099.engine.Action;
-import edu.monash.fit2099.engine.Actions;
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.Display;
-import edu.monash.fit2099.engine.GameMap;
-import edu.monash.fit2099.engine.Menu;
+import edu.monash.fit2099.engine.*;
 
 /**
  * Class representing the Player.
@@ -13,6 +8,7 @@ import edu.monash.fit2099.engine.Menu;
 public class Player extends Actor {
 
 	private Menu menu = new Menu();
+	private char[] chars = {'+', 't', 'T'};
 
 	/**
 	 * Constructor.
@@ -31,6 +27,7 @@ public class Player extends Actor {
 			return lastAction.getNextAction();
 
 		actions.add(new SleepAction());
+		actions.add(new SowAction());
 		return menu.showMenu(this, actions, display);
 	}
 
@@ -60,5 +57,25 @@ public class Player extends Actor {
 
 			return null;
 		}
+	}
+
+	private class SowAction extends Action{
+		public String execute(Actor actor, GameMap map) {
+			String s = "";
+
+			int x = map.locationOf(actor).x();
+			int y = map.locationOf(actor).y();
+
+			if (map.at(x+1, y).getDisplayChar() == '.') {
+				s = "Sowing";
+			}
+
+			return s;
+		}
+		@Override
+		public String menuDescription(Actor actor) {
+			return "Sow a seed";
+		}
+
 	}
 }

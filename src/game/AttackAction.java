@@ -54,7 +54,7 @@ public class AttackAction extends Action {
 		target.hurt(damage);
 
 		if(target.isConscious() && target.getDisplayChar() == 'Z'){
-			result += "\n" + playerAttack(target);
+			result += "\n" + playerAttack(target, map);
 		}
 
 		if (!target.isConscious()) {
@@ -79,14 +79,14 @@ public class AttackAction extends Action {
 		return actor + " attacks " + target;
 	}
 
-	public String playerAttack(Actor target){
+	public String playerAttack(Actor target, GameMap map){
 		Zombie z;
 		String result = "Weak damage to " + target.toString();
 		boolean partsOff = rand.nextInt(4) == 0;
 
 		if(partsOff){
 			z = (Zombie) target;
-			result = z.lostParts(target.toString());
+			result = z.lostParts(target, map);
 		}
 		return result;
 	}
