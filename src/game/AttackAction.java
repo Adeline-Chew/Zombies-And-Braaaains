@@ -34,14 +34,21 @@ public class AttackAction extends Action {
 
 	@Override
 	public String execute(Actor actor, GameMap map) {
-
+		boolean hit = rand.nextBoolean();
+		double hitRate = Math.random();
 		Weapon weapon = actor.getWeapon();
+		int damage = weapon.damage();
 
-		if (rand.nextBoolean()) {
+		if(hit && weapon.verb().equals("bites")){
+			damage += weapon.damage() * (int) (1 - hitRate);
+			if(actor instanceof Zombie)		// check if this actor is Zombie
+				actor.heal(5);
+		}
+
+		if (!hit) {
 			return actor + " misses " + target + ".";
 		}
 
-		int damage = weapon.damage();
 		String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
 
 		target.hurt(damage);
