@@ -31,6 +31,7 @@ public class SowBehaviour extends Action implements Behaviour {
             if(item.getDisplayChar() == 'c'){
                 crop = (Crop) item;
                 crop.speedGrowth();
+                return this;
             }
         }
 

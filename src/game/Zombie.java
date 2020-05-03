@@ -13,24 +13,35 @@ import java.util.Random;
  *
  */
 public class Zombie extends ZombieActor {
-	private int noOfLimbs;
-	private int noOfLegs;
+	private Random rand = new Random();
+	private int numberOfArms, numberOfLegs;
 	private Behaviour[] behaviours = {
 			new AttackBehaviour(ZombieCapability.ALIVE),
+			new PickUpBehaviour(),
 			new HuntBehaviour(Human.class, 10),
-			new WanderBehaviour()
+			new WanderBehaviour(),
 	};
-	private Random rand = new Random();
 
 	public Zombie(String name) {
 		super(name, 'Z', 100, ZombieCapability.UNDEAD);
-		noOfLegs = 2;
-		noOfLimbs = 2;
+		numberOfArms = 2;
+		numberOfLegs = 2;
 	}
+	
 
 	@Override
-	public IntrinsicWeapon getIntrinsicWeapon() {
-		return new IntrinsicWeapon(10, "punches");
+
+	// 50% probability of using bite attack
+	public IntrinsicWeapon getIntrinsicWeapon(){
+		double probability = Math.random();
+		IntrinsicWeapon intrinsicWeapon;
+		if(probability >= 0.5){
+			intrinsicWeapon = new IntrinsicWeapon(20, "bites");
+		}
+		else{
+			intrinsicWeapon = new IntrinsicWeapon(10, "punches");
+		}
+		return intrinsicWeapon;
 	}
 
 	/**
@@ -44,6 +55,12 @@ public class Zombie extends ZombieActor {
 	 */
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+		double probability = Math.random();
+		ScreamBehaviour scream;
+		if(probability <= 0.1){
+			scream = new ScreamBehaviour();
+			display.println(scream.execute(this, map));
+		}
 		for (Behaviour behaviour : behaviours) {
 			Action action = behaviour.getAction(this, map);
 			if (action != null)
@@ -52,29 +69,19 @@ public class Zombie extends ZombieActor {
 		return new DoNothingAction();	
 	}
 
-
-	public String lostParts(Actor target, GameMap map) {
+	public String lostParts(String name){
 		String result = "";
-		DropItemAction drop;
-		int prob = rand.nextInt(5);
+		int probability = rand.nextInt(5);
 
-		if (noOfLimbs != 0) {
-			noOfLimbs--;
-			ZombieParts arm = new ZombieParts("FallenArm", 'A', 12, "knocks") ;
-			drop = new DropItemAction(arm);
-			drop.execute(target, map);
-			result = target.toString() + " lost a limb";
+		if(probability < 4 && numberOfArms > 0){
+			numberOfArms--;
+			result = name + " lost a limb";
 		}
 
-		if (prob < 3 && noOfLegs != 0) {
-			noOfLegs--;
-			ZombieParts leg = new ZombieParts("FallenLeg", 'L', 15, "strikes");
-			drop = new DropItemAction(leg);
-			drop.execute(target, map);
-			result = target.toString() + " lost a leg";
+		if(probability == 0 && numberOfLegs > 0){
+			numberOfLegs--;
+			result = name + " lost a leg.";
 		}
-
 		return result;
 	}
-
 }

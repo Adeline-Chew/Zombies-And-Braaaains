@@ -1,6 +1,10 @@
 package game;
 
-import edu.monash.fit2099.engine.*;
+import edu.monash.fit2099.engine.Action;
+import edu.monash.fit2099.engine.Actions;
+import edu.monash.fit2099.engine.Display;
+import edu.monash.fit2099.engine.GameMap;
+import edu.monash.fit2099.engine.Menu;
 
 /**
  * Class representing the Player.
@@ -8,7 +12,6 @@ import edu.monash.fit2099.engine.*;
 public class Player extends Human {
 
 	private Menu menu = new Menu();
-	private Display display = new Display();
 
 	/**
 	 * Constructor.
