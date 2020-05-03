@@ -2,12 +2,7 @@ package game;
 
 import java.util.Random;
 
-import edu.monash.fit2099.engine.Action;
-import edu.monash.fit2099.engine.Actions;
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.GameMap;
-import edu.monash.fit2099.engine.Item;
-import edu.monash.fit2099.engine.Weapon;
+import edu.monash.fit2099.engine.*;
 
 /**
  * Special Action for attacking other Actors.
@@ -34,20 +29,40 @@ public class AttackAction extends Action {
 
 	@Override
 	public String execute(Actor actor, GameMap map) {
-
+		boolean hit = rand.nextBoolean();
+		double hitRate = Math.random();
 		Weapon weapon = actor.getWeapon();
+		int damage = weapon.damage();
 
-		if (rand.nextBoolean()) {
+		if(actor instanceof Zombie) {
+			if (weapon.verb().equals("bites")) {
+				damage =  (int) (damage * (1 - hitRate));
+				actor.heal(5);
+			}
+			else if(((Zombie) actor).getNumberOfArms() == 1){
+				hit = rand.nextBoolean();	// probability of punching is halved
+				boolean drop = rand.nextBoolean();
+				if(!actor.getInventory().isEmpty() && drop){
+					actor.removeItemFromInventory((WeaponItem) actor.getWeapon());
+				}
+			}
+			else if(((Zombie) actor).getNumberOfArms() == 0){
+				hit = false; // cannot punch anymore
+				actor.removeItemFromInventory((WeaponItem) actor.getWeapon());
+			}
+		}
+
+
+		if (!hit) {	// player and zombie
 			return actor + " misses " + target + ".";
 		}
 
-		int damage = weapon.damage();
 		String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
 
 		target.hurt(damage);
 
 		if(target.isConscious() && target.getDisplayChar() == 'Z'){
-			result += "\n" + playerAttack(target);
+			result += "\n" + playerAttack(target, map);
 		}
 
 		if (!target.isConscious()) {
@@ -72,14 +87,14 @@ public class AttackAction extends Action {
 		return actor + " attacks " + target;
 	}
 
-	public String playerAttack(Actor target){
+	public String playerAttack(Actor target, GameMap map){
 		Zombie z;
 		String result = "Weak damage to " + target.toString();
 		boolean partsOff = rand.nextInt(4) == 0;
 
 		if(partsOff){
 			z = (Zombie) target;
-			result = z.lostParts(target.toString());
+			result = z.lostParts(target.toString(), map);
 		}
 		return result;
 	}
