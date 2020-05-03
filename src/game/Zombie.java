@@ -1,11 +1,8 @@
 package game;
 
-import edu.monash.fit2099.engine.Action;
-import edu.monash.fit2099.engine.Actions;
-import edu.monash.fit2099.engine.Display;
-import edu.monash.fit2099.engine.DoNothingAction;
-import edu.monash.fit2099.engine.GameMap;
-import edu.monash.fit2099.engine.IntrinsicWeapon;
+import edu.monash.fit2099.engine.*;
+
+import java.util.Random;
 
 /**
  * A Zombie.
@@ -16,20 +13,35 @@ import edu.monash.fit2099.engine.IntrinsicWeapon;
  *
  */
 public class Zombie extends ZombieActor {
+	private Random rand = new Random();
+	private int numberOfArms, numberOfLegs;
 	private Behaviour[] behaviours = {
 			new AttackBehaviour(ZombieCapability.ALIVE),
+			new PickUpBehaviour(),
 			new HuntBehaviour(Human.class, 10),
-			new WanderBehaviour()
+			new WanderBehaviour(),
 	};
 
 	public Zombie(String name) {
 		super(name, 'Z', 100, ZombieCapability.UNDEAD);
+		numberOfArms = 2;
+		numberOfLegs = 2;
 	}
 	
 
 	@Override
-	public IntrinsicWeapon getIntrinsicWeapon() {
-		return new IntrinsicWeapon(10, "punches");
+
+	// 50% probability of using bite attack
+	public IntrinsicWeapon getIntrinsicWeapon(){
+		double probability = Math.random();
+		IntrinsicWeapon intrinsicWeapon;
+		if(probability >= 0.5){
+			intrinsicWeapon = new IntrinsicWeapon(20, "bites");
+		}
+		else{
+			intrinsicWeapon = new IntrinsicWeapon(10, "punches");
+		}
+		return intrinsicWeapon;
 	}
 
 	/**
@@ -43,11 +55,33 @@ public class Zombie extends ZombieActor {
 	 */
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+		double probability = Math.random();
+		ScreamBehaviour scream;
+		if(probability <= 0.1){
+			scream = new ScreamBehaviour();
+			display.println(scream.execute(this, map));
+		}
 		for (Behaviour behaviour : behaviours) {
 			Action action = behaviour.getAction(this, map);
 			if (action != null)
 				return action;
 		}
 		return new DoNothingAction();	
+	}
+
+	public String lostParts(String name){
+		String result = "";
+		int probability = rand.nextInt(5);
+
+		if(probability < 4 && numberOfArms > 0){
+			numberOfArms--;
+			result = name + " lost a limb";
+		}
+
+		if(probability == 0 && numberOfLegs > 0){
+			numberOfLegs--;
+			result = name + " lost a leg.";
+		}
+		return result;
 	}
 }
