@@ -35,8 +35,11 @@ public class AttackAction extends Action {
 		int damage = weapon.damage();
 
 		if(actor instanceof Zombie) {
+			int probability = rand.nextInt(5);
+			hit = probability == 0 || probability == 1;	// biting probability is less than punching (40%)
+
 			if (weapon.verb().equals("bites")) {
-				damage =  (int) (damage * (1 - hitRate));
+				damage =  damage + (int) (damage * (1 - hitRate));
 				actor.heal(5);
 			}
 			else if(((Zombie) actor).getNumberOfArms() == 1){
