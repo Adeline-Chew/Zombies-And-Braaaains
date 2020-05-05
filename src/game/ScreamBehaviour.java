@@ -2,6 +2,7 @@ package game;
 
 import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actor;
+import edu.monash.fit2099.engine.Display;
 import edu.monash.fit2099.engine.GameMap;
 
 
@@ -9,10 +10,10 @@ public class ScreamBehaviour extends Action implements Behaviour{
 
     @Override
     public Action getAction(Actor actor, GameMap map){
+        Display display = new Display();
         double probability = Math.random();
         if(probability <= 0.1){
-            execute(actor, map);
-            return this;
+            display.println(execute(actor, map));
         }
         return null;
     }

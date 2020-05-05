@@ -19,6 +19,7 @@ public class Zombie extends ZombieActor {
 			new AttackBehaviour(ZombieCapability.ALIVE),
 			new PickUpBehaviour(),
 			new HuntBehaviour(Human.class, 10),
+			new ScreamBehaviour(),
 			new WanderBehaviour(),
 	};
 
@@ -66,12 +67,7 @@ public class Zombie extends ZombieActor {
 	 */
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-		double probability = Math.random();
-		ScreamBehaviour scream;
-		if(probability <= 0.1){
-			scream = new ScreamBehaviour();
-			display.println(scream.execute(this, map));
-		}
+
 		if(this.numberOfLegs == 1){
 			turn++;		// move every second turn
 		}
