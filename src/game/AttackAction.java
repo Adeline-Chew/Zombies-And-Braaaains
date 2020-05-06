@@ -3,9 +3,11 @@ package game;
 import java.util.Random;
 
 import edu.monash.fit2099.engine.*;
+import game.Actors.Human;
+import game.Actors.Zombie;
 
 /**
- * Special Action for attacking other Actors.
+ * Special game.Action for attacking other Actors.
  */
 public class AttackAction extends Action {
 
@@ -64,13 +66,17 @@ public class AttackAction extends Action {
 
 		target.hurt(damage);
 
-		if(target.isConscious() && target.getDisplayChar() == 'Z'){
+		if(target.isConscious() && target instanceof Zombie){
 			result += "\n" + playerAttack(target, map);
 		}
 
 		if (!target.isConscious()) {
 			Item corpse = new PortableItem("dead " + target, '%');
 			map.locationOf(target).addItem(corpse);
+
+			if(target instanceof Human){
+				
+			}
 			
 			Actions dropActions = new Actions();
 			for (Item item : target.getInventory())
