@@ -6,27 +6,24 @@ Tey Kai Ying, 31176690, ktey0001@student.monash.edu
 
 Tasks:
 1. Game class diagram:
-Production: Adeline (by 6th April)
-Review: Kai Ying (by 7th April)
+    - Actors & Weapons
+        * Production: Adeline (by 8th April)
+        * Review: Kai Ying (by 9th April)
+    - Behaviours & Other in game package
+        * Production: Kai Ying (by 8th April)
+        * Review: Adeline (by 9th April)
 
-2. Zombie behaviours diagram:
-Production: Adeline (by 6th April)
-Review: Kai Ying (by 7th April)
+1. Design Rationale:
+    - Zombie Attacks & Beating Up the Zombies & Rising from the dead
+        * Production: Adeline (by 8th April)
+        * Review: Kai Ying (by 9th April)
+    - Crafting Weapons & Farmers and Food
+        * Production: Kai Ying (by 8th April)
+        * Review: Adeline (by 9th April)
 
-3. Player diagram:
-Production: Kai Ying (by 6th April)
-Review: Adeline (by 7th April)
-
-4. Farmers diagram:
-Production: Kai Ying (by 6th April)
-Review: Adeline (by 7th April)
-
-5. Design Rationale:
-Production: Adeline & Kai Ying (by 6th April)
-Review: Adeline & Kai Ying (by 7th April)
-
-9.33pm, 29th April 2020
+9.51pm, 6th May 2020
 I, Adeline Chew Yao Yi, accept this Work Breakdown Agreement.
 
 11.18am, 30th April 2020
 I, Tey Kai Ying, accept this Work Breakdown Agreement.
+
