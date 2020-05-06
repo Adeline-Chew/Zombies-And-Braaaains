@@ -1,4 +1,4 @@
-package game;
+package game.Behaviours;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,6 +10,7 @@ import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.Exit;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.Location;
+import game.Actors.Zombie;
 
 /**
  * Returns a MoveAction that will take the Actor closer to the nearest instance of a target class.

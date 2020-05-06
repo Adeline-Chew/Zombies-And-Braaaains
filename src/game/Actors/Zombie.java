@@ -1,6 +1,10 @@
-package game;
+package game.Actors;
 
 import edu.monash.fit2099.engine.*;
+import game.Behaviours.*;
+import game.PortableItem;
+import game.ZombieCapability;
+import game.Weapons.ZombieLimbs;
 
 import java.util.Random;
 
@@ -61,7 +65,7 @@ public class Zombie extends ZombieActor {
 	 * If no humans are close enough it will wander randomly.
 	 * 
 	 * @param actions list of possible Actions
-	 * @param lastAction previous Action, if it was a multiturn action
+	 * @param lastAction previous game.Action, if it was a multiturn action
 	 * @param map the map where the current Zombie is
 	 * @param display the Display where the Zombie's utterances will be displayed
 	 */

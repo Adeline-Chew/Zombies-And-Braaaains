@@ -1,4 +1,4 @@
-package game;
+package game.Behaviours;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.Exit;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.Location;
+import game.Actors.Zombie;
 
 /**
  * Allows an Actor to wander around at random.

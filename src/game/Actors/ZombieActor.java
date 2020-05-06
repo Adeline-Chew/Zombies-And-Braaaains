@@ -1,8 +1,10 @@
-package game;
+package game.Actors;
 
 import edu.monash.fit2099.engine.Actions;
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
+import game.AttackAction;
+import game.ZombieCapability;
 
 /**
  * Base class for Actors in the Zombie World
