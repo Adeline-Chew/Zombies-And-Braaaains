@@ -1,7 +1,6 @@
-package game.Actors;
+package game;
 
 import edu.monash.fit2099.engine.*;
-import game.Food;
 
 /**
  * Class representing the Player.
@@ -24,7 +23,7 @@ public class Player extends Human {
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		for(Item item: this.getInventory()){
-			if(item.getDisplayChar() == 'E'){
+			if(item instanceof Food){
 				this.heal(((Food) item).getFoodValue());
 				this.removeItemFromInventory(item);
 			}
@@ -34,4 +33,5 @@ public class Player extends Human {
 			return lastAction.getNextAction();
 		return menu.showMenu(this, actions, display);
 	}
+
 }

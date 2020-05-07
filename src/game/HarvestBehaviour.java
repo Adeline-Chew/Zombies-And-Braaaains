@@ -1,11 +1,9 @@
-package game.Behaviours;
+package game;
 
 import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.Location;
-import game.Dirt;
-import game.Food;
 
 public class HarvestBehaviour extends Action implements Behaviour {
 

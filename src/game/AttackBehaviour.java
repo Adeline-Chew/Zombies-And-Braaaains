@@ -1,4 +1,4 @@
-package game.Behaviours;
+package game;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,8 +8,6 @@ import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.Exit;
 import edu.monash.fit2099.engine.GameMap;
-import game.AttackAction;
-import game.ZombieCapability;
 
 /**
  * A class that generates an AttackAction if the current Actor is standing

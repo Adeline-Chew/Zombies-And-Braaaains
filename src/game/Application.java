@@ -8,11 +8,6 @@ import edu.monash.fit2099.engine.Display;
 import edu.monash.fit2099.engine.FancyGroundFactory;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.World;
-import game.Actors.Farmer;
-import game.Actors.Human;
-import game.Actors.Player;
-import game.Actors.Zombie;
-import game.Weapons.Plank;
 
 /**
  * The main class for the zombie apocalypse game.
@@ -86,8 +81,8 @@ public class Application {
 		// FIXME: Add more zombies!
 		gameMap.at(30, 20).addActor(new Zombie("Groan"));
 		gameMap.at(31,  18).addActor(new Zombie("Boo"));
-		gameMap.at(35,  10).addActor(new Zombie("Uuuurgh"));
-		gameMap.at(34, 11).addActor(new Zombie("Mortalis"));
+		gameMap.at(35,  15).addActor(new Zombie("Uuuurgh"));
+		gameMap.at(34, 14).addActor(new Zombie("Mortalis"));
 		gameMap.at(1, 10).addActor(new Zombie("Gaaaah"));
 		gameMap.at(62, 12).addActor(new Zombie("Aaargh"));
 //		gameMap.at(30, 12).addActor(new Zombie("Z1"));

@@ -2,7 +2,7 @@ package edu.monash.fit2099.demo.mars;
 
 import java.util.*;
 
-import game.Behaviours.Behaviour;
+import game.Behaviour;
 import edu.monash.fit2099.engine.*;
 
 

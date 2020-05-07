@@ -1,10 +1,6 @@
-package game.Actors;
+package game;
 
 import edu.monash.fit2099.engine.*;
-import game.Behaviours.Behaviour;
-import game.Behaviours.HarvestBehaviour;
-import game.Behaviours.SowBehaviour;
-import game.Behaviours.WanderBehaviour;
 
 public class Farmer extends Human {
 
