@@ -1,10 +1,7 @@
 package game.Actors;
 
-import edu.monash.fit2099.engine.Action;
-import edu.monash.fit2099.engine.Actions;
-import edu.monash.fit2099.engine.Display;
-import edu.monash.fit2099.engine.GameMap;
-import edu.monash.fit2099.engine.Menu;
+import edu.monash.fit2099.engine.*;
+import game.Food;
 
 /**
  * Class representing the Player.
@@ -26,6 +23,12 @@ public class Player extends Human {
 
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+		for(Item item: this.getInventory()){
+			if(item.getDisplayChar() == 'E'){
+				this.heal(((Food) item).getFoodValue());
+				this.removeItemFromInventory(item);
+			}
+		}
 		// Handle multi-turn Actions
 		if (lastAction.getNextAction() != null)
 			return lastAction.getNextAction();

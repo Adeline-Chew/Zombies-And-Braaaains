@@ -2,12 +2,13 @@ package game.Actors;
 
 import edu.monash.fit2099.engine.*;
 import game.Behaviours.Behaviour;
+import game.Behaviours.HarvestBehaviour;
 import game.Behaviours.SowBehaviour;
 import game.Behaviours.WanderBehaviour;
 
 public class Farmer extends Human {
 
-    private Behaviour[] behaviours = {new SowBehaviour(), new WanderBehaviour()};
+    private Behaviour[] behaviours = {new HarvestBehaviour(),new SowBehaviour(), new WanderBehaviour()};
 
     public Farmer(String name){
         super(name, 'F', 50);

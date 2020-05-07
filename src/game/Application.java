@@ -57,8 +57,9 @@ public class Application {
 		Actor player = new Player("Player", '@', 100);
 		world.addPlayer(player, gameMap.at(42, 15));
 
-		// Place a farmer
+		// Place farmers
 		gameMap.at(32, 10).addActor(new Farmer("Old-man"));
+		gameMap.at(40, 16).addActor(new Farmer("Farmer-2"));
 
 	    // Place some random humans
 		String[] humans = {"Carlton", "May", "Vicente", "Andrea", "Wendy",
@@ -89,9 +90,9 @@ public class Application {
 		gameMap.at(34, 11).addActor(new Zombie("Mortalis"));
 		gameMap.at(1, 10).addActor(new Zombie("Gaaaah"));
 		gameMap.at(62, 12).addActor(new Zombie("Aaargh"));
-		gameMap.at(30, 12).addActor(new Zombie("Z1"));
-		gameMap.at(32, 11).addActor(new Zombie("Z2"));
-		gameMap.at(32, 12).addActor(new Zombie("Z3"));
+//		gameMap.at(30, 12).addActor(new Zombie("Z1"));
+//		gameMap.at(32, 11).addActor(new Zombie("Z2"));
+//		gameMap.at(32, 12).addActor(new Zombie("Z3"));
 		world.run();
 	}
 }

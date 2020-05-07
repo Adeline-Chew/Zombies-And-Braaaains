@@ -1,16 +1,15 @@
 package game;
 
-import edu.monash.fit2099.engine.Item;
+import edu.monash.fit2099.engine.Ground;
 import edu.monash.fit2099.engine.Location;
 
-public class Crop extends Item {
-    private int foodValue;
+public class Crop extends Ground {
     private int turn = 0;
 
-    public Crop(String name, boolean portable, int value) {
-        super(name, 'c', portable);
-        foodValue = value;
+    public Crop() {
+        super('c');
     }
+
 
      @Override
     public void tick(Location currentLocation){
