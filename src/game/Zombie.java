@@ -1,10 +1,6 @@
-package game.Actors;
+package game;
 
 import edu.monash.fit2099.engine.*;
-import game.Behaviours.*;
-import game.PortableItem;
-import game.ZombieCapability;
-import game.Weapons.ZombieLimbs;
 
 import java.util.Random;
 
@@ -85,17 +81,17 @@ public class Zombie extends ZombieActor {
 
 	public String lostParts(String name, GameMap map){
 		String result = "";
-		int probability = rand.nextInt(5);
+		boolean arm = rand.nextBoolean();
 		Location here = map.locationOf(this);
 
-		if(probability < 4 && numberOfArms > 0){
+		if(arm && numberOfArms > 0){
 			numberOfArms--;
-			Item zombieArm = new PortableItem("Zombie Arm", 'A');
+			Item zombieArm = new ZombieLimbs();
 			here.addItem(zombieArm);
 			result = name + " lost a limb";
 		}
 
-		if(probability == 0 && numberOfLegs > 0){
+		if(!arm && numberOfLegs > 0){
 			numberOfLegs--;
 			WeaponItem zombieLeg = new ZombieLimbs();
 			here.addItem(zombieLeg);
