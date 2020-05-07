@@ -46,7 +46,7 @@ to protect itself from `Player`'s attack.
 ### **Crafting Weapons**
 
 #### **Design choice**
-1. Create two different classes, ‘ZombieMace` and `ZombieClub` classes, which represent the weapons where the player crafted from Zombies fallen limbs.
+1. Create two different classes, `ZombieMace` and `ZombieClub` classes, which represent the weapons where the player crafted from Zombies fallen limbs.
 1. `ZombieMace` and `ZombieClub` classes extend from `WeaponItem` class, the constructor remains mostly unchanged.
 1. Inside `Player` playTurn method, loop through the items in inventory. If limbs object exist, remove the simple clubs, and add crafted club/mace into the inventory. 
 
