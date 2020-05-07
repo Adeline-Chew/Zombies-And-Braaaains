@@ -3,8 +3,6 @@ package game;
 import java.util.Random;
 
 import edu.monash.fit2099.engine.*;
-import game.Actors.Human;
-import game.Actors.Zombie;
 
 /**
  * Special game.Action for attacking other Actors.
@@ -41,7 +39,7 @@ public class AttackAction extends Action {
 			hit = probability == 0 || probability == 1;	// biting probability is less than punching (40%)
 
 			if (weapon.verb().equals("bites")) {
-				damage =  damage + (int) (damage * (1 - hitRate));
+				damage =  damage + (int) (10 * (1 - hitRate));
 				actor.heal(5);
 			}
 			else if(((Zombie) actor).getNumberOfArms() == 1){
@@ -71,12 +69,14 @@ public class AttackAction extends Action {
 		}
 
 		if (!target.isConscious()) {
-			Item corpse = new PortableItem("dead " + target, '%');
-			map.locationOf(target).addItem(corpse);
-
+			Item corpse;
 			if(target instanceof Human){
-				
+				corpse = new HumanCorpse(target.toString());
 			}
+			else {
+				corpse = new PortableItem("dead " + target, '%');
+			}
+			map.locationOf(target).addItem(corpse);
 			
 			Actions dropActions = new Actions();
 			for (Item item : target.getInventory())
