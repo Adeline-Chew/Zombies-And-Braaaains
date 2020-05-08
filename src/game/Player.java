@@ -23,7 +23,7 @@ public class Player extends Human {
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		for(Item item: this.getInventory()){
-			if(item instanceof Food){
+			if(item instanceof Food && this.hitPoints < 100){
 				this.heal(((Food) item).getFoodValue());
 				this.removeItemFromInventory(item);
 			}
