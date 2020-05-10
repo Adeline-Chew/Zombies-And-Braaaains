@@ -47,11 +47,12 @@ to protect itself from `Player`'s attack.
 #### **Design choice**
 1. Create two different classes, `ZombieMace` and `ZombieClub` classes, which represent the weapons where the player crafted from Zombies fallen limbs.
 1. `ZombieMace` and `ZombieClub` classes extend from `WeaponItem` class, the constructor remains mostly unchanged.
-1. Inside `Player` *playTurn()* method, loop through the items in inventory. If limbs object exist, remove the simple clubs, and add crafted club/mace into the inventory. 
+1. Create a new class `CraftAction` which extends `Action` class, which `Player` can choose whether to craft a weapon from the menu.
+1. In `CraftAction` *execute()* method, loop through the inventory of `Player`, if a limb exists, craft into mace or club, which has 40/60 probability for each.
+1. Inside `Player` *playTurn()* method, add `CraftAction` into actions.
 
 #### **Advantages**
 * Simple implementation and keep the code DRY.
-* A new class does not have to be implemented for crafting weapons.
 * No changes to engine code.
 
 #### **Disadvantages**
