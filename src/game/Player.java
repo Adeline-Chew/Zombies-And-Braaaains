@@ -27,10 +27,15 @@ public class Player extends Human {
 				this.heal(((Food) item).getFoodValue());
 				this.removeItemFromInventory(item);
 			}
+			if(item instanceof ZombieLimbs){
+				actions.add(new CraftAction((ZombieLimbs) item));
+			}
+
 		}
 		// Handle multi-turn Actions
 		if (lastAction.getNextAction() != null)
 			return lastAction.getNextAction();
+
 		return menu.showMenu(this, actions, display);
 	}
 
