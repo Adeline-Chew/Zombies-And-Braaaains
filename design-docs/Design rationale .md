@@ -81,8 +81,10 @@ to protect itself from `Player`'s attack.
 #### **Design choice**
 
 1. Create a `Farmer` class which will extend the `Human` class.
-1. All the `Farmer` objects have Sow Behaviour, Wander Behaviour and Harvest Behaviour.
-1. Create a `SowBehaviour` class which have a method that `Farmer` can sow and fertilise a crop.
+1. All the `Farmer` objects have Sow Behaviour, Fertilise Behaviour, Wander Behaviour and Harvest Behaviour.
+1. Create a `SowBehaviour` class which implements `Behaviour` class so that `Farmer` can sow a crop.
+1. Create a `FertiliseBehaviour` class which implements `Behaviour` class so that `Farmer` can fertilise a crop.
+1. In the *getAction()* method in `FertiliseBehaviour` class, location of `Farmer` and the ground type will be checked. 
 1. Create a `Crop` class which extends the `Ground` class.
 1. `Crop` has a *speedGrowth()* method which its turn can be increased by 10.
 1. Create a `HarvestBehaviour` which have a method that `Crop` can be harvested.
