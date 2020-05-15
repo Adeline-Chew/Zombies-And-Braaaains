@@ -15,7 +15,10 @@ public class PickUpBehaviour implements Behaviour {
         }
 
         for(Item item: here.getItems()){
-            if(item instanceof WeaponItem){
+            if(item instanceof WeaponItem && actor.getDisplayChar() == 'Z'){
+                return item.getPickUpAction();
+            }
+            if(item.getDisplayChar() == 'E' && actor.getDisplayChar() == 'H'){
                 return item.getPickUpAction();
             }
         }
