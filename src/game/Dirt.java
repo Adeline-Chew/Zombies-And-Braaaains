@@ -10,4 +10,8 @@ public class Dirt extends Ground {
 	public Dirt() {
 		super('.');
 	}
+
+
+	@Override
+	public void speedGrowth() {}
 }

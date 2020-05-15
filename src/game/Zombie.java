@@ -84,14 +84,14 @@ public class Zombie extends ZombieActor {
 		boolean arm = rand.nextBoolean();
 		Location here = map.locationOf(this);
 
-		if(arm && numberOfArms >6){
+		if(arm && numberOfArms > 2){
 			numberOfArms--;
 			ZombieLimbs zombieArm = new ZombieLimbs();
 			here.addItem(zombieArm);
 			result = name + " lost a limb";
 		}
 
-		if(!arm && numberOfLegs > 0){
+		if(numberOfLegs > 2){
 			numberOfLegs--;
 			ZombieLimbs zombieLeg = new ZombieLimbs();
 			here.addItem(zombieLeg);

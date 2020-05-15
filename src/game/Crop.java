@@ -22,7 +22,10 @@ public class Crop extends Ground {
         }
      }
 
+     @Override
      public void speedGrowth(){
-        turn += 10;
+        if(turn < 20){
+            turn += 10;
+        }
      }
 }
