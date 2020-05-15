@@ -13,12 +13,14 @@ public class HarvestBehaviour extends Action implements Behaviour {
         Location location = map.locationOf(actor);
         int x = location.x();
         int y = location.y();
+        Location [] locations = {location, map.at(x+1, y), map.at(x-1,y), map.at(x, y+1), map.at(x, y-1)};
 
-        if(location.getDisplayChar() == 'C' || map.at(x+1,y).getDisplayChar() == 'C' || map.at(x-1,y).getDisplayChar() == 'C'){
-            Dirt dirt = new Dirt();
-            location.setGround(dirt);
-            location.addItem(new Food("Yumm", true));
-            return this;
+        for(Location here : locations){
+            if(here.getGround().hasCapability(Crop.CropCapability.RIPEN)){
+                here.setGround(new Dirt());
+                here.addItem(new Food("Yumm", true));
+                return this;
+            }
         }
 
         return null;
@@ -26,7 +28,7 @@ public class HarvestBehaviour extends Action implements Behaviour {
 
     @Override
     public String execute(Actor actor, GameMap map) {
-        return actor.toString() + "harvests a crop";
+        return actor.toString() + " harvests a crop";
     }
 
     @Override

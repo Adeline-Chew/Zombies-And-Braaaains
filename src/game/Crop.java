@@ -8,6 +8,7 @@ public class Crop extends Ground {
 
     public Crop() {
         super('c');
+        this.addCapability(CropCapability.UNRIPE);
     }
 
 
@@ -17,9 +18,15 @@ public class Crop extends Ground {
 
         turn++;
 
-        if(turn >= 20){
+        if(turn == 20){
+            displayChar = 'C';
+            this.addCapability(CropCapability.RIPEN);
+        }
+
+        if(turn > 20){
             displayChar = 'C';
         }
+
      }
 
      @Override
@@ -27,5 +34,9 @@ public class Crop extends Ground {
         if(turn < 20){
             turn += 10;
         }
+     }
+
+     enum CropCapability{
+        UNRIPE, RIPEN
      }
 }

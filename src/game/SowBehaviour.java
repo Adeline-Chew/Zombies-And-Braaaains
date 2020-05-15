@@ -16,17 +16,10 @@ public class SowBehaviour extends Action implements Behaviour {
     public Action getAction(Actor actor, GameMap map) {
         boolean sowACrop = rand.nextInt(3) == 0;
         Crop seed = new Crop();
-        Crop crop;
         Location location = map.locationOf(actor);
         int x = location.x();
         int y = location.y();
 
-        // fertilise
-        if(location.getDisplayChar() == 'c'){
-            crop = (Crop) map.locationOf(actor).getGround();
-            crop.speedGrowth();
-            return this;
-        }
 
         // right patch
         if(map.at(x+1, y).getDisplayChar() == '.' && sowACrop){
