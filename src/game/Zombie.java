@@ -45,13 +45,20 @@ public class Zombie extends ZombieActor {
 
 	// 50% probability of using bite attack
 	public IntrinsicWeapon getIntrinsicWeapon(){
-		double probability = Math.random();
+		double probability = Math.random(), hitRate = Math.random();
+		int damage = 10;
+		boolean hit = rand.nextBoolean();
 		IntrinsicWeapon intrinsicWeapon;
 		if(probability >= 0.5){
 			intrinsicWeapon = new IntrinsicWeapon(20, "bites");
+			if(this.numberOfArms == 1 && !hit){
+				return null;
+			}
 		}
 		else{
-			intrinsicWeapon = new IntrinsicWeapon(10, "punches");
+			damage =  damage + (int) (10 * (1 - hitRate));
+			intrinsicWeapon = new IntrinsicWeapon(damage, "punches");
+
 		}
 		return intrinsicWeapon;
 	}
@@ -91,7 +98,7 @@ public class Zombie extends ZombieActor {
 			result = name + " lost a limb";
 		}
 
-		if(numberOfLegs > 2){
+		else if(numberOfLegs > 2){
 			numberOfLegs--;
 			ZombieLimbs zombieLeg = new ZombieLimbs();
 			here.addItem(zombieLeg);
