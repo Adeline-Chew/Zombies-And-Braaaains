@@ -30,13 +30,14 @@ public class AttackAction extends Action {
 	@Override
 	public String execute(Actor actor, GameMap map) {
 		int damage;
+		Weapon weapon = actor.getWeapon();
 
-		if(actor.getWeapon() == null){
+		if(weapon == null){
 			return actor + " misses " + target + ".";
 		}
 
-		damage = actor.getWeapon().damage();
-		String result = actor + " " + actor.getWeapon().verb() + " " + target + " for " + damage + " damage.";
+		damage = weapon.damage();
+		String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
 		target.hurt(damage);
 
 
