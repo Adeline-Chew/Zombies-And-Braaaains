@@ -20,7 +20,7 @@ public class Zombie extends ZombieActor {
 			new PickUpBehaviour(),
 			new HuntBehaviour(Human.class, 10),
 			new ScreamBehaviour(),
-			new WanderBehaviour(),
+			new WanderBehaviour()
 	};
 
 	public Zombie(String name) {
@@ -50,17 +50,38 @@ public class Zombie extends ZombieActor {
 		boolean hit = rand.nextBoolean();
 		IntrinsicWeapon intrinsicWeapon;
 		if(probability >= 0.5){
-			intrinsicWeapon = new IntrinsicWeapon(20, "bites");
-			if(this.numberOfArms == 1 && !hit){
+			intrinsicWeapon = new IntrinsicWeapon(10, "punches");
+			if((this.numberOfArms == 1 && !hit) || this.numberOfArms == 0){
 				return null;
 			}
 		}
 		else{
 			damage =  damage + (int) (10 * (1 - hitRate));
-			intrinsicWeapon = new IntrinsicWeapon(damage, "punches");
-
+			intrinsicWeapon = new IntrinsicWeapon(damage, "bites");
 		}
 		return intrinsicWeapon;
+	}
+
+	@Override
+	public Weapon getWeapon() {
+		Weapon weapon = getIntrinsicWeapon();
+		double probability = Math.random();
+		boolean hit = rand.nextBoolean();
+		for (Item item : inventory) {
+			if (item.asWeapon() != null)
+				weapon = item.asWeapon();
+		}
+
+		if(weapon.verb().equals("bites")){
+			hit = probability <= 0.4;
+			if(hit)
+				this.heal(5);
+		}
+
+		if(hit){
+			return weapon;
+		}
+		return null;
 	}
 
 	/**
@@ -104,6 +125,6 @@ public class Zombie extends ZombieActor {
 			here.addItem(zombieLeg);
 			result = name + " lost a leg.";
 		}
-		return result;
 	}
+
 }

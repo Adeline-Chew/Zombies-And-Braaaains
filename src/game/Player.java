@@ -2,12 +2,15 @@ package game;
 
 import edu.monash.fit2099.engine.*;
 
+import java.util.Random;
+
 /**
  * Class representing the Player.
  */
 public class Player extends Human {
 
 	private Menu menu = new Menu();
+	private Random rand = new Random();
 
 	/**
 	 * Constructor.
@@ -37,6 +40,16 @@ public class Player extends Human {
 			return lastAction.getNextAction();
 
 		return menu.showMenu(this, actions, display);
+	}
+
+	@Override
+	public Weapon getWeapon(){
+		boolean hit = rand.nextBoolean();
+		Weapon weapon = super.getWeapon();
+		if(hit){
+			return weapon;
+		}
+		return null;
 	}
 
 }
