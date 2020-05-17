@@ -22,6 +22,7 @@ public class Zombie extends ZombieActor {
 			new ScreamBehaviour(),
 			new WanderBehaviour()
 	};
+	private Location currentLocation;
 
 	public Zombie(String name) {
 		super(name, 'Z', 100, ZombieCapability.UNDEAD);
@@ -95,35 +96,43 @@ public class Zombie extends ZombieActor {
 	 */
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+		boolean drop = rand.nextBoolean() && this.numberOfArms == 1;
+
+		if((drop || this.numberOfArms == 0) && !this.getInventory().isEmpty()){
+			this.removeItemFromInventory((WeaponItem) this.getWeapon());
+		}
 
 		if(this.numberOfLegs == 1){
 			turn++;		// move every second turn
 		}
 		for (Behaviour behaviour : behaviours) {
 			Action action = behaviour.getAction(this, map);
+			currentLocation = map.locationOf(this);
 			if (action != null)
 				return action;
 		}
 		return new DoNothingAction();	
 	}
 
-	public String lostParts(String name, GameMap map){
-		String result = "";
-		boolean arm = rand.nextBoolean();
-		Location here = map.locationOf(this);
+	@Override
+	public void hurt(int points){
+		super.hurt(points);
+		int probability = rand.nextInt(4);
+		boolean arm = rand.nextBoolean(), knockOff = probability == 0 || probability == 1;
+		Display display = new Display();
 
-		if(arm && numberOfArms > 2){
+		if(knockOff && arm && numberOfArms >= 2){
 			numberOfArms--;
 			ZombieLimbs zombieArm = new ZombieLimbs();
-			here.addItem(zombieArm);
-			result = name + " lost a limb";
+			currentLocation.addItem(zombieArm);
+			display.println(this.name + "lost an arm.");
 		}
 
-		else if(numberOfLegs > 2){
+		else if(knockOff && numberOfLegs >= 2){
 			numberOfLegs--;
 			ZombieLimbs zombieLeg = new ZombieLimbs();
-			here.addItem(zombieLeg);
-			result = name + " lost a leg.";
+			currentLocation.addItem(zombieLeg);
+			display.println(this.name + "lost a leg.");
 		}
 	}
 
