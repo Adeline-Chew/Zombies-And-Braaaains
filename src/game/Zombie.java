@@ -2,6 +2,8 @@ package game;
 
 import edu.monash.fit2099.engine.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -13,33 +15,23 @@ import java.util.Random;
  *
  */
 public class Zombie extends ZombieActor {
-	private Random rand = new Random();
+	private final Random rand = new Random();
 	private int numberOfArms, numberOfLegs, turn;
-	private Behaviour[] behaviours = {
-			new AttackBehaviour(ZombieCapability.ALIVE),
-			new PickUpBehaviour(),
-			new HuntBehaviour(Human.class, 10),
-			new ScreamBehaviour(),
-			new WanderBehaviour()
-	};
+	private final AttackBehaviour attackBehaviour = new AttackBehaviour(ZombieCapability.ALIVE);
+	private final HuntBehaviour huntBehaviour = new HuntBehaviour(Human.class, 10);
+	private final PickUpBehaviour pickUpBehaviour = new PickUpBehaviour();
+	private final ScreamBehaviour screamBehaviour = new ScreamBehaviour();
+	private final WanderBehaviour wanderBehaviour = new WanderBehaviour();
+
+	private final Behaviour[] behaviours = {attackBehaviour, pickUpBehaviour,
+			huntBehaviour, screamBehaviour, wanderBehaviour};
+
 	private Location currentLocation;
 
 	public Zombie(String name) {
 		super(name, 'Z', 100, ZombieCapability.UNDEAD);
 		numberOfArms = 2;
 		numberOfLegs = 2;
-	}
-
-	public int getNumberOfArms() {
-		return numberOfArms;
-	}
-
-	public int getNumberOfLegs() {
-		return numberOfLegs;
-	}
-
-	public int getTurn(){
-		return turn;
 	}
 
 	@Override
@@ -102,10 +94,11 @@ public class Zombie extends ZombieActor {
 			this.removeItemFromInventory((WeaponItem) this.getWeapon());
 		}
 
-		if(this.numberOfLegs == 1){
+		if(numberOfLegs == 1){
 			turn++;		// move every second turn
 		}
-		for (Behaviour behaviour : behaviours) {
+
+		for (Behaviour behaviour : getBehaviours()) {
 			Action action = behaviour.getAction(this, map);
 			currentLocation = map.locationOf(this);
 			if (action != null)
@@ -125,15 +118,26 @@ public class Zombie extends ZombieActor {
 			numberOfArms--;
 			ZombieLimbs zombieArm = new ZombieLimbs();
 			currentLocation.addItem(zombieArm);
-			display.println(this.name + "lost an arm.");
+			display.println(this.name + " lost an arm.");
 		}
 
 		else if(knockOff && numberOfLegs >= 2){
 			numberOfLegs--;
 			ZombieLimbs zombieLeg = new ZombieLimbs();
 			currentLocation.addItem(zombieLeg);
-			display.println(this.name + "lost a leg.");
+			display.println(this.name + " lost a leg.");
 		}
 	}
+
+	private ArrayList<Behaviour> getBehaviours(){
+		ArrayList<Behaviour> newBehaviours = new ArrayList<>(Arrays.asList(behaviours));
+
+		if((turn > 0 && turn % 2 == 0) || numberOfLegs == 0){
+			newBehaviours.remove(huntBehaviour);
+			newBehaviours.remove(wanderBehaviour);
+		}
+		return newBehaviours;
+	}
+
 
 }

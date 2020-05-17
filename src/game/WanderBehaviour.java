@@ -31,11 +31,6 @@ public class WanderBehaviour implements Behaviour {
 	@Override
 	public Action getAction(Actor actor, GameMap map) {
 		ArrayList<Action> actions = new ArrayList<Action>();
-
-		if(actor instanceof Zombie && ((Zombie) actor).getTurn() > 0){
-			if(((Zombie) actor).getNumberOfLegs() == 0 || ((Zombie) actor).getTurn() % 2 == 0)
-				return null;
-		}
 		
 		for (Exit exit : map.locationOf(actor).getExits()) {
             Location destination = exit.getDestination();
