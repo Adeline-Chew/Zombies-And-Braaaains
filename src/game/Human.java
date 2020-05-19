@@ -23,6 +23,7 @@ public class Human extends ZombieActor {
 		super(name, 'H', 50, ZombieCapability.ALIVE);
 		behaviours.add(new PickUpBehaviour());
 		behaviours.add(new WanderBehaviour());
+		addCapability(ZombieCapability.WALK);
 	}
 	
 	/**
