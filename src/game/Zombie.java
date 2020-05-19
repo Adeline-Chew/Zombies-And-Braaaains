@@ -111,7 +111,9 @@ public class Zombie extends ZombieActor {
 
 	@Override
 	public String damage(int points, GameMap map){
-		Location here = map.locationOf(this);
+		// Randomly get an adjacent location around Zombie
+		int exits = map.locationOf(this).getExits().size() - 1;
+		Location adjacent = map.locationOf(this).getExits().get(rand.nextInt(exits)).getDestination();
 		String result;
 		int probability = rand.nextInt(4);
 		boolean arm = rand.nextBoolean(), knockOff = probability == 0 || probability == 1;
@@ -123,7 +125,7 @@ public class Zombie extends ZombieActor {
 			if(numberOfArms == 0)
 				this.removeCapability(ZombieCapability.HOLD);
 			ZombieLimbs zombieArm = new ZombieLimbs();
-			here.addItem(zombieArm);
+			adjacent.addItem(zombieArm);
 			result += this.name + " lost an arm.";
 		}
 
@@ -132,7 +134,7 @@ public class Zombie extends ZombieActor {
 			if (numberOfLegs == 0)
 				this.removeCapability(ZombieCapability.WALK);
 			ZombieLimbs zombieLeg = new ZombieLimbs();
-			here.addItem(zombieLeg);
+			adjacent.addItem(zombieLeg);
 			result += this.name + " lost a leg.";
 		}
 		return result;
