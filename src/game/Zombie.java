@@ -18,6 +18,7 @@ public class Zombie extends ZombieActor {
 
 	private final Behaviour[] behaviours = {new AttackBehaviour(ZombieCapability.ALIVE),
 			new PickUpBehaviour(),
+			new ScreamBehaviour(),
 			new HuntBehaviour(Human.class, 10),
 			new ScreamBehaviour(),
 			new WanderBehaviour(),
