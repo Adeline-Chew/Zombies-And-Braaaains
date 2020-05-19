@@ -116,7 +116,7 @@ public class Zombie extends ZombieActor {
 		boolean arm = rand.nextBoolean(), knockOff = probability == 0 || probability == 1;
 		Display display = new Display();
 
-		if(knockOff && arm && numberOfArms >= 2){
+		if(knockOff && arm && numberOfArms > 0){
 			numberOfArms--;
 			dropWeapon();
 			ZombieLimbs zombieArm = new ZombieLimbs();
@@ -124,7 +124,7 @@ public class Zombie extends ZombieActor {
 			display.println(this.name + " lost an arm.");
 		}
 
-		else if(knockOff && numberOfLegs >= 2){
+		else if(knockOff && numberOfLegs > 0){
 			numberOfLegs--;
 			ZombieLimbs zombieLeg = new ZombieLimbs();
 			currentLocation.addItem(zombieLeg);
