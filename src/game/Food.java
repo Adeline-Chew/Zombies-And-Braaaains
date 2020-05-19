@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  * An edible item which can heal player and damaged humans
  *
- * @author Tey Kai Ying
+ * @author Adeline Chew Yao Yi and Tey Kai Ying
  */
 
 public class Food extends Item {
@@ -17,11 +17,13 @@ public class Food extends Item {
      * Constructor. The food's value is generated randomly upon construction
      *
      * @param name the Food's display name
-     * @param portable a boolean indicating whether the item can be carried
+     *
      */
-    public Food(String name, boolean portable) {
-        super(name, 'E', portable);
+    public Food(String name) {
+        super(name, 'E', true);
+        this.addCapability(FoodCapability.EDIBLE);
         int randomInt = rand.nextInt(15);
+
         if(randomInt != 0){
             foodValue = randomInt;
         }
@@ -37,5 +39,9 @@ public class Food extends Item {
      */
     public int getFoodValue() {
         return foodValue;
+    }
+
+    enum FoodCapability{
+        EDIBLE
     }
 }
