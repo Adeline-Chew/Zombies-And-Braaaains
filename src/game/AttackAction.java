@@ -38,7 +38,7 @@ public class AttackAction extends Action {
 
 		damage = weapon.damage();
 		String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
-		target.hurt(damage);
+		target.damage(damage, map);
 
 
 		if (!target.isConscious()) {
