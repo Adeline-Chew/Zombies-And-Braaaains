@@ -86,11 +86,12 @@ public class HuntBehaviour implements Behaviour {
 				targetClass.isInstance(here.getActor()));
 	}
 
-
-
 	@Override
 	public Action getAction(Actor actor, GameMap map) {
-		return hunt(actor, map.locationOf(actor));
+		if(actor.hasCapability(ZombieCapability.WALK)){
+			return hunt(actor, map.locationOf(actor));
+		}
+		return null;
 	}
 
 }

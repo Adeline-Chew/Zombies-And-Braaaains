@@ -2,8 +2,6 @@ package game;
 
 import edu.monash.fit2099.engine.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -17,14 +15,13 @@ import java.util.Random;
 public class Zombie extends ZombieActor {
 	private final Random rand = new Random();
 	private int numberOfArms, numberOfLegs, turn;
-	private final AttackBehaviour attackBehaviour = new AttackBehaviour(ZombieCapability.ALIVE);
-	private final HuntBehaviour huntBehaviour = new HuntBehaviour(Human.class, 10);
-	private final PickUpBehaviour pickUpBehaviour = new PickUpBehaviour();
-	private final ScreamBehaviour screamBehaviour = new ScreamBehaviour();
-	private final WanderBehaviour wanderBehaviour = new WanderBehaviour();
 
-	private final Behaviour[] behaviours = {attackBehaviour, pickUpBehaviour,
-			huntBehaviour, screamBehaviour, wanderBehaviour};
+	private final Behaviour[] behaviours = {new AttackBehaviour(ZombieCapability.ALIVE),
+			new PickUpBehaviour(),
+			new HuntBehaviour(Human.class, 10),
+			new ScreamBehaviour(),
+			new WanderBehaviour(),
+	};
 
 	private Location currentLocation;
 
@@ -32,10 +29,11 @@ public class Zombie extends ZombieActor {
 		super(name, 'Z', 100, ZombieCapability.UNDEAD);
 		numberOfArms = 2;
 		numberOfLegs = 2;
+		addCapability(ZombieCapability.WALK);
+		addCapability(ZombieCapability.HOLD);
 	}
 
 	@Override
-
 	// 50% probability of using bite attack
 	public IntrinsicWeapon getIntrinsicWeapon(){
 		double probability = Math.random(), hitRate = Math.random();
@@ -60,12 +58,15 @@ public class Zombie extends ZombieActor {
 		Weapon weapon = getIntrinsicWeapon();
 		double probability = Math.random();
 		boolean hit = rand.nextBoolean();
-		for (Item item : inventory) {
-			if (item.asWeapon() != null)
-				weapon = item.asWeapon();
+
+		if(this.hasCapability(ZombieCapability.HOLD)) {
+			for (Item item : inventory) {
+				if (item.asWeapon() != null)
+					weapon = item.asWeapon();
+			}
 		}
 
-		if(weapon.verb().equals("bites")){
+		if(weapon != null && weapon.verb().equals("bites")){
 			hit = probability <= 0.4;
 			if(hit)
 				this.heal(5);
@@ -88,17 +89,18 @@ public class Zombie extends ZombieActor {
 	 */
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-		boolean drop = rand.nextBoolean() && this.numberOfArms == 1;
-
-		if((drop || this.numberOfArms == 0) && !this.getInventory().isEmpty()){
-			this.removeItemFromInventory((WeaponItem) this.getWeapon());
-		}
 
 		if(numberOfLegs == 1){
 			turn++;		// move every second turn
+			if(turn % 2 == 0){
+				removeCapability(ZombieCapability.WALK);
+			}
+			else{
+				addCapability(ZombieCapability.WALK);
+			}
 		}
 
-		for (Behaviour behaviour : getBehaviours()) {
+		for (Behaviour behaviour : behaviours) {
 			Action action = behaviour.getAction(this, map);
 			currentLocation = map.locationOf(this);
 			if (action != null)
@@ -116,6 +118,7 @@ public class Zombie extends ZombieActor {
 
 		if(knockOff && arm && numberOfArms >= 2){
 			numberOfArms--;
+			dropWeapon();
 			ZombieLimbs zombieArm = new ZombieLimbs();
 			currentLocation.addItem(zombieArm);
 			display.println(this.name + " lost an arm.");
@@ -127,17 +130,26 @@ public class Zombie extends ZombieActor {
 			currentLocation.addItem(zombieLeg);
 			display.println(this.name + " lost a leg.");
 		}
-	}
 
-	private ArrayList<Behaviour> getBehaviours(){
-		ArrayList<Behaviour> newBehaviours = new ArrayList<>(Arrays.asList(behaviours));
-
-		if((turn > 0 && turn % 2 == 0) || numberOfLegs == 0){
-			newBehaviours.remove(huntBehaviour);
-			newBehaviours.remove(wanderBehaviour);
+		if(numberOfArms == 0){
+			this.removeCapability(ZombieCapability.HOLD);
 		}
-		return newBehaviours;
+
+		if(numberOfLegs == 0){
+			this.removeCapability(ZombieCapability.WALK);
+		}
 	}
 
+	/**
+	 * Drop any weapon the Zombie is holding.
+	 * When Zombie lose an arm, it has 50% chance of dropping the weapon it is holding,
+	 * when Zombie lose both arms, it will definitely drops any weapon it is holding.
+	 */
+	private void dropWeapon(){
+		boolean drop = rand.nextBoolean() && this.numberOfArms == 1;
 
+		if((drop || this.numberOfArms == 0) && !this.getInventory().isEmpty()){
+			this.removeItemFromInventory((WeaponItem) this.getWeapon());
+		}
+	}
 }

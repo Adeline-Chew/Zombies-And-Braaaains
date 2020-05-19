@@ -2,5 +2,7 @@ package game;
 
 public enum ZombieCapability {
 	UNDEAD,
-	ALIVE
+	ALIVE,
+	WALK,
+	HOLD
 }

@@ -39,7 +39,7 @@ public class WanderBehaviour implements Behaviour {
             }
         }
 		
-		if (!actions.isEmpty()) {
+		if (!actions.isEmpty() && actor.hasCapability(ZombieCapability.WALK)) {
 			return actions.get(random.nextInt(actions.size()));
 		}
 		return null;
