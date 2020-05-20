@@ -9,16 +9,11 @@ public class PickUpBehaviour implements Behaviour {
     public Action getAction(Actor actor, GameMap map){
         Location here = map.locationOf(actor);
 
-        // Pick up if the actor has intrinsic weapon only
-        if(actor.getWeapon() instanceof WeaponItem){
-            return null;
-        }
-
         for(Item item: here.getItems()){
-            if(item instanceof WeaponItem && actor.getDisplayChar() == 'Z'){
+            if(item.hasCapability(ItemCapability.AS_WEAPON)){
                 return item.getPickUpAction();
             }
-            if(item.getDisplayChar() == 'E' && actor.getDisplayChar() == 'H'){
+            if(item.hasCapability(ItemCapability.EDIBLE) && actor.hasCapability(ZombieCapability.ALIVE)){
                 return item.getPickUpAction();
             }
         }
