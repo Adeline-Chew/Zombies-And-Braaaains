@@ -13,6 +13,7 @@ import edu.monash.fit2099.engine.*;
 public class Human extends ZombieActor {
 	private Behaviour[] behaviours = {
 			new AttackBehaviour(ZombieCapability.UNDEAD),
+			new EatBehaviour(),
 			new PickUpBehaviour(),
 			new WanderBehaviour(),
 	};
@@ -43,6 +44,11 @@ public class Human extends ZombieActor {
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		// FIXME humans are pretty dumb, maybe they should at least run away from zombies?
+
+		// if this human has lower health points, it should be considered as damaged
+		if(this.hitPoints < this.maxHitPoints && !this.hasCapability(ZombieCapability.DAMAGED)){
+			this.addCapability(ZombieCapability.DAMAGED);
+		}
 
 		for (Behaviour behaviour : behaviours) {
 			Action action = behaviour.getAction(this, map);
