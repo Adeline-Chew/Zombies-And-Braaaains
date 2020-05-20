@@ -43,7 +43,7 @@ public class AttackAction extends Action {
 
 		if (!target.isConscious()) {
 			Item corpse;
-			if(target instanceof Human){
+			if(target.hasCapability(ZombieCapability.DEAD)){
 				corpse = new HumanCorpse(target.toString());
 			}
 			else {
