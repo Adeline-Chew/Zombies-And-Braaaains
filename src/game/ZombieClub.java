@@ -6,6 +6,7 @@ public class ZombieClub extends WeaponItem {
 
     public ZombieClub(){
         super("Zombie Club", 'C', 20, "smacks");
+        addCapability(ItemCapability.AS_WEAPON);
     }
 
 }
