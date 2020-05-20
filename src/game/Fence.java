@@ -25,8 +25,4 @@ public class Fence extends Ground {
 		return true;
 	}
 
-	@Override
-	public void speedGrowth() {
-
-	}
 }

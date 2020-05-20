@@ -27,5 +27,4 @@ public class Tree extends Ground {
 			displayChar = 'T';
 	}
 
-	public void speedGrowth(){}
 }

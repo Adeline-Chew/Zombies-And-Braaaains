@@ -12,6 +12,4 @@ public class Dirt extends Ground {
 	}
 
 
-	@Override
-	public void speedGrowth() {}
 }
