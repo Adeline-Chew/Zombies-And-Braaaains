@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * A class that allows Farmer to harvest a ripen crop nearby
+ * A class that allows Farmer/Player to harvest a ripen crop nearby
  *
  * @author Adeline Chew Yao Yi and Tey Kai Ying
  */
@@ -35,11 +35,11 @@ public class HarvestBehaviour extends Action implements Behaviour {
      */
     @Override
     public String menuDescription(Actor actor) {
-        return "";
+        return "Player harvests a crop";
     }
 
     /**
-     * If adjacent locations of a Farmer has a ripen crop, the Farmer will harvest the crop
+     * If location or adjacent locations of an Actor has a ripen crop, the Actor will harvest the crop
      * The ripen crop will be dropped on the ground
      * If no crop, returns null
      *
@@ -51,9 +51,11 @@ public class HarvestBehaviour extends Action implements Behaviour {
     public Action getAction(Actor actor, GameMap map) {
         double probability = Math.random();
         String foodName;
+
+        // this exit is the location of the actor
         Exit here = new Exit("Stay" , map.locationOf(actor), "z");
 
-        // Decide food name randomly to make game more fun
+        // Food with different names to make the game more fun!
         if(probability <= 0.30){
             foodName = "Yummyy";
         }
@@ -65,13 +67,13 @@ public class HarvestBehaviour extends Action implements Behaviour {
         }
 
         // Is there ripen crop next to Actor?
-        List<Exit> exits = new ArrayList<Exit>(map.locationOf(actor).getExits());
+        List<Exit> exits = new ArrayList<>(map.locationOf(actor).getExits());
         exits.add(here);
         Collections.shuffle(exits);
 
         for(Exit e : exits){
             if(e.getDestination().getGround().hasCapability(Crop.CropCapability.RIPEN)){
-                e.getDestination().setGround(new Dirt());
+                e.getDestination().setGround(new Dirt());         // the ground was crop, now set back to dirt
                 e.getDestination().addItem(new Food(foodName));
                 return this;
             }
