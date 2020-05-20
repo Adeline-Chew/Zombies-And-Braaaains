@@ -2,7 +2,6 @@ package game;
 
 import edu.monash.fit2099.engine.*;
 
-import java.util.ArrayList;
 
 /**
  * Class representing an ordinary human.
@@ -12,7 +11,11 @@ import java.util.ArrayList;
  *
  */
 public class Human extends ZombieActor {
-	private ArrayList <Behaviour> behaviours = new ArrayList<>();
+	private Behaviour[] behaviours = {
+			new AttackBehaviour(ZombieCapability.UNDEAD),
+			new PickUpBehaviour(),
+			new WanderBehaviour(),
+	};
 
 	/**
 	 * The default constructor creates default Humans
@@ -21,8 +24,6 @@ public class Human extends ZombieActor {
 	 */
 	public Human(String name) {
 		super(name, 'H', 50, ZombieCapability.ALIVE);
-		behaviours.add(new PickUpBehaviour());
-		behaviours.add(new WanderBehaviour());
 		addCapability(ZombieCapability.WALK);
 	}
 	
@@ -36,14 +37,12 @@ public class Human extends ZombieActor {
 	 */
 	protected Human(String name, char displayChar, int hitPoints) {
 		super(name, displayChar, hitPoints, ZombieCapability.ALIVE);
+		addCapability(ZombieCapability.WALK);
 	}
 
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		// FIXME humans are pretty dumb, maybe they should at least run away from zombies?
-		if(this.hitPoints < this.maxHitPoints && this.behaviours.size() == 2){
-			behaviours.add(0, new EatBehaviour());
-		}
 
 		for (Behaviour behaviour : behaviours) {
 			Action action = behaviour.getAction(this, map);
