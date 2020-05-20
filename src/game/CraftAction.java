@@ -5,39 +5,55 @@ import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
 import edu.monash.fit2099.engine.Item;
 
-import java.util.Random;
-
+/**
+ * Action to allow the Player to craft a weapon.
+ *
+ * @author Adeline Chew Yao Yi and Tey Kai Ying
+ */
 public class CraftAction extends Action {
-    private ZombieLimbs limb;
+    private Item limb;
 
-    private Random rand = new Random();
-
-    // Constructor parameter can change to Item
-    public CraftAction(ZombieLimbs item){
+    /**
+     * Constructor.
+     *
+     * @param item item to be crafted as weapon item
+     */
+    public CraftAction(Item item){
         limb = item;
     }
 
+    /**
+     * Craft a mace or club depends on the item's capability.
+     * Then remove the original item from inventory after done crafting.
+     *
+     * @param actor The actor performing the action.
+     * @param map The map the actor is on.
+     * @return a suitable description about the craft action in the UI
+     */
     @Override
     public String execute(Actor actor, GameMap map) {
-        String result;
-        for(Item item: actor.getInventory()){
-            if(item.hasCapability(ItemCapability.CRAFTABLE)){
-                actor.removeItemFromInventory(item);
-            }
-        }
+        String result = "";
+
         actor.removeItemFromInventory(limb);
-        if(rand.nextBoolean()){
+
+        if(limb.hasCapability(ZombieLimbs.Limb.ARM)){
             actor.addItemToInventory(new ZombieClub());
-            result = "Club";
+            result += "Club";
         }
-        else{
+        else if(limb.hasCapability(ZombieLimbs.Limb.LEG)){
             actor.addItemToInventory(new ZombieMace());
-            result = "Mace";
+            result += "Mace";
         }
 
         return actor + " gets a " + result + " as new weapon!";
     }
 
+    /**
+     * Describe the action to be displayed in the menu
+     *
+     * @param actor The actor performing the action.
+     * @return a string about the action
+     */
     @Override
     public String menuDescription(Actor actor) {
         return actor + " crafts a new weapon";

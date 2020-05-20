@@ -28,7 +28,7 @@ public class Player extends Human {
 	 * Select and return an action for current turn.
 	 * Player can harvest if there is ripen crop nearby. If not, Player can eat
 	 * if damaged. Player can also craft a new weapon if it is holding craftable item.
-	 * Player can wander around too. 
+	 * Player can wander around too.
 	 *
 	 * @param actions collection of possible Actions for this Actor
 	 * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action
