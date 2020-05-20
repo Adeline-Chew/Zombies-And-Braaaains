@@ -31,24 +31,63 @@ public class Zombie extends ZombieActor {
 		addCapability(ZombieCapability.HOLD);
 	}
 
+	/**
+	 * If a Zombie can attack, it will.  If not, it will chase any human within 10 spaces.
+	 * If no humans are close enough it will wander randomly.
+	 *
+	 * @param actions list of possible Actions
+	 * @param lastAction previous game.Action, if it was a multiturn action
+	 * @param map the map where the current Zombie is
+	 * @param display the Display where the Zombie's utterances will be displayed
+	 */
 	@Override
-	// 50% probability of using bite attack
-	public IntrinsicWeapon getIntrinsicWeapon(){
-		double probability = Math.random(), hitRate = Math.random();
-		int damage = 10;
-		boolean hit = rand.nextBoolean();
-		IntrinsicWeapon intrinsicWeapon;
-		if(probability >= 0.5){
-			intrinsicWeapon = new IntrinsicWeapon(10, "punches");
-			if((this.numberOfArms == 1 && !hit) || this.numberOfArms == 0){
-				return null;
+	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
+
+		if(numberOfLegs == 1){
+			turn++;		// move every second turn
+			if(turn % 2 == 0){
+				removeCapability(ZombieCapability.WALK);
+			}
+			else{
+				addCapability(ZombieCapability.WALK);
 			}
 		}
-		else{
-			damage =  damage + (int) (10 * (1 - hitRate));
-			intrinsicWeapon = new IntrinsicWeapon(damage, "bites");
+
+		for (Behaviour behaviour : behaviours) {
+			Action action = behaviour.getAction(this, map);
+			if (action != null)
+				return action;
 		}
-		return intrinsicWeapon;
+		return new DoNothingAction();
+	}
+
+	@Override
+	public IntrinsicWeapon getIntrinsicWeapon(){
+		double probability = Math.random(), hitRate = Math.random();
+		int bitesDamage = 10 + (int) (10 * (1 - hitRate));
+		boolean bite = rand.nextBoolean();
+		IntrinsicWeapon punches = new IntrinsicWeapon(10, "punches"),
+						bites = new IntrinsicWeapon(bitesDamage, "bites");
+
+		if(numberOfArms == 2){
+			// 50% probability of choosing bite and punch
+			if(bite){
+				return bites;
+			}
+			return punches;
+		}
+
+		else if(numberOfArms == 1){
+			// 75% probability of choosing bite
+			if(probability <= 0.75){
+				return bites;
+			}
+			return punches;
+		}
+
+		else{
+			return bites;
+		}
 	}
 
 	@Override
@@ -74,36 +113,6 @@ public class Zombie extends ZombieActor {
 			return weapon;
 		}
 		return null;
-	}
-
-	/**
-	 * If a Zombie can attack, it will.  If not, it will chase any human within 10 spaces.  
-	 * If no humans are close enough it will wander randomly.
-	 * 
-	 * @param actions list of possible Actions
-	 * @param lastAction previous game.Action, if it was a multiturn action
-	 * @param map the map where the current Zombie is
-	 * @param display the Display where the Zombie's utterances will be displayed
-	 */
-	@Override
-	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-
-		if(numberOfLegs == 1){
-			turn++;		// move every second turn
-			if(turn % 2 == 0){
-				removeCapability(ZombieCapability.WALK);
-			}
-			else{
-				addCapability(ZombieCapability.WALK);
-			}
-		}
-
-		for (Behaviour behaviour : behaviours) {
-			Action action = behaviour.getAction(this, map);
-			if (action != null)
-				return action;
-		}
-		return new DoNothingAction();	
 	}
 
 	@Override
