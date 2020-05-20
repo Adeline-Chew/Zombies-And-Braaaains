@@ -7,7 +7,7 @@ import edu.monash.fit2099.engine.Location;
 import java.util.Random;
 
 public class HumanCorpse extends PortableItem {
-    private int turn;
+    private int turn = 0;
     private Random rand = new Random();
 
     public HumanCorpse(String name){
@@ -17,24 +17,26 @@ public class HumanCorpse extends PortableItem {
     @Override
     public void tick(Location currentLocation) {
         boolean revive = rand.nextBoolean();
-        super.tick(currentLocation);
 
         turn++;
 
         if((turn > 5 && turn < 10 && revive) || turn == 10) {
-            // If the HumanCorpse is in Actor's inventory
-            if (currentLocation.containsAnActor() && currentLocation.getActor().getInventory().contains(this)) {
-                Actor actor = currentLocation.getActor();
-                corpseRevive(actor.getRandomAdjacent(currentLocation.map()));
-                actor.removeItemFromInventory(this);
-            }
-            // If the HumanCorpse is stay on the ground
-            else {
-                corpseRevive(currentLocation);
-                currentLocation.removeItem(this);
-            }
+            corpseRevive(currentLocation);
+            currentLocation.removeItem(this);
         }
 
+    }
+
+    @Override
+    public void tick(Location currentLocation, Actor actor){
+        boolean revive = rand.nextBoolean();
+
+        turn++;
+
+        if((turn > 5 && turn < 10 && revive) || turn == 10) {
+            corpseRevive(actor.getRandomAdjacent(currentLocation.map()));
+            actor.removeItemFromInventory(this);
+        }
     }
 
     private void corpseRevive(Location here){
