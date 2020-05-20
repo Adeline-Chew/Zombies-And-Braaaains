@@ -108,9 +108,7 @@ public class Zombie extends ZombieActor {
 
 	@Override
 	public String damage(int points, GameMap map){
-		// Randomly get an adjacent location around Zombie
-		int exits = map.locationOf(this).getExits().size() - 1;
-		Location adjacent = map.locationOf(this).getExits().get(rand.nextInt(exits)).getDestination();
+		Location adjacent = getRandomAdjacent(map);
 		String result;
 		int probability = rand.nextInt(4);
 		boolean arm = rand.nextBoolean(), knockOff = probability == 0 || probability == 1;
