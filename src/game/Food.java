@@ -15,13 +15,14 @@ public class Food extends Item {
 
     /**
      * Constructor. The food's value is generated randomly upon construction
+     * and it has capability EDIBLE
      *
      * @param name the Food's display name
      *
      */
     public Food(String name) {
         super(name, 'E', true);
-        this.addCapability(FoodCapability.EDIBLE);
+        this.addCapability(ItemCapability.EDIBLE);
         int randomInt = rand.nextInt(15);
 
         if(randomInt != 0){
@@ -41,7 +42,4 @@ public class Food extends Item {
         return foodValue;
     }
 
-    enum FoodCapability{
-        EDIBLE
-    }
 }

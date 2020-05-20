@@ -42,7 +42,7 @@ public class Crop extends Ground {
 
     /**
      * Decrease the turns of the crop to ripe by 10 turns.
-     * 
+     *
      */
      public void speedGrowth(){
         if(turn + 10 >= 20){
