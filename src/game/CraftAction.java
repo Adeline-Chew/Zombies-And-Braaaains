@@ -12,6 +12,7 @@ public class CraftAction extends Action {
 
     private Random rand = new Random();
 
+    // Constructor parameter can change to Item
     public CraftAction(ZombieLimbs item){
         limb = item;
     }
@@ -19,6 +20,11 @@ public class CraftAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         String result;
+        for(Item item: actor.getInventory()){
+            if(item.hasCapability(ItemCapability.CRAFTABLE)){
+                actor.removeItemFromInventory(item);
+            }
+        }
         actor.removeItemFromInventory(limb);
         if(rand.nextBoolean()){
             actor.addItemToInventory(new ZombieClub());
