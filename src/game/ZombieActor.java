@@ -9,7 +9,7 @@ import java.util.Random;
 
 /**
  * Base class for Actors in the Zombie World
- * @author ram
+ * @author Adeline Chew Yao Yi & Tey Kai Ying
  *
  */
 public abstract class ZombieActor extends Actor {
@@ -20,7 +20,16 @@ public abstract class ZombieActor extends Actor {
 		
 		addCapability(team);
 	}
-	
+
+	/**
+	 * Returns a collection of the Actions that the otherActor can do to the current Actor.
+	 * Add AttackAction if the otherActor is the contrary side of this actor.
+	 *
+	 * @param otherActor the Actor that might be performing attack
+	 * @param direction  String representing the direction of the other Actor
+	 * @param map        current GameMap
+	 * @return A collection of Action.
+	 */
 	@Override
 	public Actions getAllowableActions(Actor otherActor, String direction, GameMap map) {
 		Actions list = super.getAllowableActions(otherActor, direction, map);
@@ -29,14 +38,25 @@ public abstract class ZombieActor extends Actor {
 		return list;
 	}
 
+	/**
+	 * Do some damage to the Actor.
+	 * @param points number of hit points to deduct.
+	 * @param map Game map of this game
+	 * @return Display the current Hit Points of Actor.
+	 */
 	@Override
 	public String damage(int points, GameMap map){
 		String result;
 		hurt(points);
-		result = this.name + " lost " + points + " hit points.";
+		result = this.name + "gets hurt. Hit points: " + this.hitPoints;
 		return result;
 	}
 
+	/**
+	 * Return random adjacent location of the actor's location.
+	 * @param map Game map of this game.
+	 * @return location adjacent to the actor.
+	 */
 	@Override
 	public Location getRandomAdjacent(GameMap map){
 		// Randomly get an adjacent location around Actor

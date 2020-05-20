@@ -5,13 +5,13 @@ import edu.monash.fit2099.engine.*;
 
 /**
  * Class representing an ordinary human.
+ * This Human can attack Zombie, eat food, pick up item and wander around.
  * 
- * 
- * @author ram
+ * @author Adeline Chew Yao Yi & Tey Kai Ying
  *
  */
 public class Human extends ZombieActor {
-	private Behaviour[] behaviours = {
+	private final Behaviour[] behaviours = {
 			new AttackBehaviour(ZombieCapability.UNDEAD),
 			new EatBehaviour(),
 			new PickUpBehaviour(),
@@ -41,6 +41,18 @@ public class Human extends ZombieActor {
 		addCapability(ZombieCapability.WALK);
 	}
 
+	/**
+	 * If there is Zombie around Human, he will attack.
+	 * If not, he will eat food if he lost some hit points and there is some foods in his inventory.
+	 * Otherwise, if there is an item on the location Human is standing on, he will pick up.
+	 * Else, Human will wander around.
+	 *
+	 * @param actions    collection of possible Actions for this Actor
+	 * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
+	 * @param map        the map containing the Actor
+	 * @param display    the I/O object to which messages may be written
+	 * @return Human's action for current turn.
+	 */
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 		// FIXME humans are pretty dumb, maybe they should at least run away from zombies?
@@ -58,6 +70,12 @@ public class Human extends ZombieActor {
 		return new DoNothingAction();
 	}
 
+	/**
+	 * Returns true if the Human has positive hit points.
+	 * Change the capability of Human if he is dead.
+	 *
+	 * @return true if and only if hitPoints is positive.
+	 */
 	@Override
 	public boolean isConscious(){
 		boolean alive = super.isConscious();
