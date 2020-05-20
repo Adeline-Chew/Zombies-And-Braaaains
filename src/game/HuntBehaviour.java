@@ -86,6 +86,14 @@ public class HuntBehaviour implements Behaviour {
 				targetClass.isInstance(here.getActor()));
 	}
 
+	/**
+	 * Return a move action to hunt target if the actor has the capability to walk.
+	 * If no target around, return null.
+	 *
+	 * @param actor the Actor acting
+	 * @param map the GameMap containing the Actor
+	 * @return move action, or null if no target around.
+	 */
 	@Override
 	public Action getAction(Actor actor, GameMap map) {
 		if(actor.hasCapability(ZombieCapability.WALK)){
