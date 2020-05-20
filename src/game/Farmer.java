@@ -15,12 +15,10 @@ import edu.monash.fit2099.engine.*;
 public class Farmer extends Human {
 
     private Behaviour[] behaviours = {
-            new EatBehaviour(),
             new FertiliseBehaviour(),
             new HarvestBehaviour(),
             new SowBehaviour(),
-            new PickUpBehaviour(),
-            new WanderBehaviour()};
+            };
 
     /**
      * The constructor creates default Farmer
@@ -32,10 +30,9 @@ public class Farmer extends Human {
     }
 
     /**
-     * Firstly check if the Farmer is damaged. If yes, it will has a new capability.
-     * Check if the Farmer stands on a unripe crop. If not, check if the Farmer stands on an ripen crop.
+     * Firstly heck if the Farmer stands on a unripe crop. If not, check if the Farmer stands on an ripen crop.
      * If not both, the Farmer will sow a crop while standing on a dirt depends on the probability.
-     * If no crops or dirt are close enough it will wander randomly.
+     * If no crops or dirt are close enough it will do normal human's behaviours.
      *
      * @param actions list of possible Actions
      * @param lastAction previous game.Action, if it was a multiturn action
@@ -43,16 +40,12 @@ public class Farmer extends Human {
      * @param display the Display where the Farmer's utterances will be displayed
      */
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
-        // if this human has lower health points, it should be considered as damaged
-        if(this.hitPoints < this.maxHitPoints && !this.hasCapability(ZombieCapability.DAMAGED)){
-            this.addCapability(ZombieCapability.DAMAGED);
-        }
 
         for (Behaviour behaviour : behaviours) {
             Action action = behaviour.getAction(this, map);
             if (action != null)
                 return action;
         }
-        return new DoNothingAction();
+        return super.playTurn(actions, lastAction, map, display);
     }
 }
