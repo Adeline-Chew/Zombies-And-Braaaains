@@ -21,7 +21,7 @@ public class HumanCorpse extends Item {
 
         turn++;
 
-        if((turn >= 5 && turn < 10 && revive) || turn == 10){
+        if((turn > 5 && turn < 10 && revive) || turn == 10){
             corpseRevive(currentLocation);
         }
     }
@@ -36,13 +36,8 @@ public class HumanCorpse extends Item {
         // Display message
         retVal = this.name + " has turned into Zombie.\n" ;
 
-        // Remove the corpse
-        for(Item item: here.getItems()){
-            if(item.getDisplayChar() == '%'){
-                here.removeItem(item);
-                break;
-            }
-        }
+        // Remove human corpse
+        here.removeItem(this);
 
         display.println(retVal);
     }
