@@ -58,4 +58,14 @@ public class Human extends ZombieActor {
 		return new DoNothingAction();
 	}
 
+	@Override
+	public boolean isConscious(){
+		boolean alive = super.isConscious();
+		if(!alive) {
+			this.removeCapability(ZombieCapability.ALIVE);
+			this.addCapability(ZombieCapability.DEAD);
+		}
+		return alive;
+	}
+
 }
