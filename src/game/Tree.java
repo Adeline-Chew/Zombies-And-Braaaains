@@ -27,4 +27,6 @@ public class Tree extends Ground {
 			displayChar = 'T';
 	}
 
+	@Override
+	public void changeGroundStatus() {}
 }

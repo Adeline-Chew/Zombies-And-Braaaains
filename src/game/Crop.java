@@ -6,7 +6,7 @@ import edu.monash.fit2099.engine.Location;
 /**
  * A crop sowed by Farmer that will grow to become food
  *
- * @author Tey Kai Ying
+ * @author Adeline Chew Yao Yi and Tey Kai Ying
  */
 
 public class Crop extends Ground {
@@ -44,16 +44,17 @@ public class Crop extends Ground {
      * Decrease the turns of the crop to ripe by 10 turns.
      *
      */
-     public void speedGrowth(){
+    @Override
+    public void changeGroundStatus() {
         if(turn + 10 >= 20){
-            turn = 20;
+            turn = 19;
         }
         else{
             turn += 10;
         }
-     }
+    }
 
-     enum CropCapability{
+    enum CropCapability{
         UNRIPE, RIPEN
      }
 }

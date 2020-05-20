@@ -50,11 +50,9 @@ public class FertiliseBehaviour extends Action implements Behaviour {
     @Override
     public Action getAction(Actor actor, GameMap map) {
         Location location = map.locationOf(actor);
-        Crop crop;
 
-        if(location.getDisplayChar() == 'c'){
-            crop = (Crop) map.locationOf(actor).getGround();
-            crop.speedGrowth();
+        if(location.getGround().hasCapability(Crop.CropCapability.UNRIPE)){
+            location.getGround().changeGroundStatus();
             return this;
         }
         return null;
