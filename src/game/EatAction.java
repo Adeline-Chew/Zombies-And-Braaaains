@@ -16,7 +16,7 @@ public class EatAction extends Action {
         actor.heal(food.getFoodValue());
         actor.removeItemFromInventory(food);
 
-        return actor.toString() + "heals by eating " + food.toString() + ": "+ food.getFoodValue() + " points";
+        return actor.toString() + " heals by eating " + food.toString() + ": "+ food.getFoodValue() + " points";
     }
 
     @Override
