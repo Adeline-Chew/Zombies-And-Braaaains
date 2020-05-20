@@ -7,9 +7,9 @@ import java.util.Random;
 /**
  * A Zombie.
  * 
- * This Zombie is pretty boring.  It needs to be made more interesting.
+ * This Zombie has the abilities to attack human, pick up weapon, scream, hunting human, and wander around.
  * 
- * @author ram
+ * @author Adeline Chew Yao Yi, Tey Kai Ying
  *
  */
 public class Zombie extends ZombieActor {
@@ -22,8 +22,6 @@ public class Zombie extends ZombieActor {
 			new HuntBehaviour(Human.class, 10),
 			new WanderBehaviour(),
 	};
-
-	private Location currentLocation;
 
 	public Zombie(String name) {
 		super(name, 'Z', 100, ZombieCapability.UNDEAD);
@@ -102,7 +100,6 @@ public class Zombie extends ZombieActor {
 
 		for (Behaviour behaviour : behaviours) {
 			Action action = behaviour.getAction(this, map);
-			currentLocation = map.locationOf(this);
 			if (action != null)
 				return action;
 		}
@@ -124,7 +121,7 @@ public class Zombie extends ZombieActor {
 			dropWeapon();
 			if(numberOfArms == 0)
 				this.removeCapability(ZombieCapability.HOLD);
-			ZombieLimbs zombieArm = new ZombieLimbs();
+			ZombieLimbs zombieArm = new ZombieLimbs(ZombieLimbs.Limb.ARM);
 			adjacent.addItem(zombieArm);
 			result += this.name + " lost an arm.";
 		}
@@ -133,7 +130,7 @@ public class Zombie extends ZombieActor {
 			numberOfLegs--;
 			if (numberOfLegs == 0)
 				this.removeCapability(ZombieCapability.WALK);
-			ZombieLimbs zombieLeg = new ZombieLimbs();
+			ZombieLimbs zombieLeg = new ZombieLimbs(ZombieLimbs.Limb.LEG);
 			adjacent.addItem(zombieLeg);
 			result += this.name + " lost a leg.";
 		}
