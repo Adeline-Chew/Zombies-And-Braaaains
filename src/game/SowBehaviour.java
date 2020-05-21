@@ -54,7 +54,6 @@ public class SowBehaviour extends Action implements Behaviour {
     public Action getAction(Actor actor, GameMap map) {
         // 1/3 chance to sow a crop
         boolean sowACrop = rand.nextInt(3) == 0;
-        Crop seed = new Crop();
 
         // Is there dirt next to Actor?
         List<Exit> exits = new ArrayList<>(map.locationOf(actor).getExits());
@@ -63,7 +62,7 @@ public class SowBehaviour extends Action implements Behaviour {
         for(Exit e : exits){
             if(e.getDestination().getGround().hasCapability(Dirt.DirtCapability.SOIL) && sowACrop){
                 e.getDestination().getGround().removeCapability(Dirt.DirtCapability.SOIL);
-                e.getDestination().setGround(seed);
+                e.getDestination().setGround(new Crop());
                 return this;
             }
         }
