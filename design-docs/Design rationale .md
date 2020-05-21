@@ -1,23 +1,72 @@
 # **Assignment 1 - Team StormBreaker**
 
 ## **Zombie Attacks**
+1. Modify the *getIntrinsicWeapon()* in `Zombie`  class, `Zombie` is having bite attack and punch attack to attack `Human`.
+1. Probability of choosing bite or punch attack is 50%.
+1. In getWeapon(), if bite attack is selected and hit, heal the `Zombie` 5 hit points.
+1. Create a new class `PickUpBehaviour` implements `Behaviour` and add it into _behaviours_ in `Zombie`, so `Zombie` has the ability to pick up weapon.
+1. Create a new class `ScreamBehaviour` which inherits `Action` and implements `Behaviour`, add it into _behaviours_ in `Zombie`.
+1. `Zombie` has 10% chance to say things every turn.
 
 #### **Design choice**
-1. Modify the *getIntrinsicWeapon()* in `Zombie`  class, implement *Math.random()* to choose between punch and bite.
-1. In `AttackAction`, bite attack's chance of hitting is lower than punch attack's, but it outputs greater damage based on the random hit rate.
-1. In order to confirm `Zombie`'s weapon and to heal `Zombie`, check if an `Actor` is an instance of `Zombie` in *execute()*.
-1. *actor.heal(5)* is used after a successful bite attack.
-1. Create a `PickUpBehaviour` and add it into *behaviour* in `Zombie`: If there is a `WeaponItem` at the `Zombie`'s location, `PickUpBehaviour` will return *pickUpAction()*.
-1. Create a `ScreamBehaviour` which extends `Action` and implements `Behaviour`, add it into *behaviour* in `Zombie`: This class has a 25% to display "braaaains" and return null.
-1. A `Zombie` is able to say words while doing other action.
+
+#### Modify *getIntrinsicWeapon()* in `Zombie`
+- This method has two *IntrinsicWeapon* attributes which are punch attack and bite attack, and a probability of *double* type
+to decide the kind of *IntrinsicWeapon*. 
+- When a `Zombie` has both arms, the probability to choose bite attack is 50%,
+return the chosen *IntrinsicWeapon*. 
+- We also used *Math.random()* to decide the hit rate of bite attack, the lower the hit rate, the higher the bite attack's damage.
+
+##### Design reason
+* Bite attack is Zombie's attack instinct thus we make it as *IntrinsicWeapon* type and 
+declared in this method for the sake of the principle **Declare things in the tightest possible scope**. 
+
+#### Override *getWeapon* in `Zombie`
+- This method has overridden in `Zombie` class, it contains a *Weapon* type attribute named _weapon_,
+and it checks the inventory of `Zombie` if there is a weapon for `Zombie` to attack and assign this to _weapon_. If not, _weapon_ will assign to an *IntrinsicWeapon*
+by calling *getIntrinsicWeapon()*. 
+- Declared a *boolean* variable named _hit_ to decide whether the attack is success or failed, 
+probability of hitting for bite attack is 40% while others are 50%.
+- Check if the _weapon_ is bite attack, then heal the Zombie 5 points when the hitting is success.
+- Return _weapon_ that the Zombie going to use or _null_ if the hitting boolean failed.
+
+##### Design reason
+* We implemented the probability and heal Zombie in `Zombie` class instead of checking in `AttackAction`
+as these properties are belong to `Zombie`, `Zombie` should be responsible for its own properties.**
+
+#### Create a new class `PickUpBehaviour`
+- `PickUpBehaviour` is implementing the interface `Behaviour`, this class is responsible for `Actor` to have the ability
+to pick up any `Item` object on the location where the `Actor` is standing.
+- Override *getAction()* method, used an enhanced for loop to iterate the *Item* on the location, 
+return *getPickUpAction()* or null if there is no item the Actor desired.
+- This `PickUpBehaviour` is instantiated in `Zombie` class and added in Zombie's behaviours. During Zombie's *playTurn()*,
+it will iterate `PickUpBehaviour` so `Zombie` is able to pick up weapon if there is any. 
+
+##### Design reason
+* It implements `Behaviour` as picking up item is an objective every Actor can have. 
+Implementation of `Behaviour` will return an `Action` to achieve this objective, in this case we return `PickUpItemAction`.
+
+#### Create a new class `ScreamBehaviour`
+- The new class `ScreamBehaviour` inherits from `Action` and implements `Behaviour`, in this class we override *getAction()* from `Behaviour`,
+*execute()* and *menuDescription()* from `Action`. 
+- In *getAction()*, we get the probability using Math.random() and if it is 10%, we return _this_ as `ScreamBehaviour` since
+considered as an `Action` type. 
+- In *menuDescription()*, we declared some zombie-like words and randomly return one of these words. 
+While in *execute()* we simply return *menuDescription()* 
+- This `ScreamBehaviour` is instantiated in `Zombie` class and added in Zombie's behaviours. During Zombie's *playTurn()*, 
+if `Zombie` get the chance to speak, the message will display on the console. 
+
+##### Design reason
+- `ScreamBehaviour` implements `Behaviour` and inherits `Action` as we follow the principle **Reduce dependencies as much 
+as possible**.
+- `Zombie` cannot do other `Action` while saying, as the `Zombie` is not smart enough to multi-tasking.
 
 #### **Advantages**
 * `Zombie` is extensible, more interesting behaviour can be added in the future.
-* `Zombie` will only pick up weapon if it doesn't have any.
-* A Multitask `Zombie` makes this game more worth playing.
 
 #### **Disadvantages**
 * No message will be displayed in console if a `Zombie` is healed.
+* `Zombie` will blindly take the weapon it just pick up, it is not smart enough to select the weapon with higher damage.
 
 ## **Beating up Zombies**
 
