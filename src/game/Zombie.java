@@ -119,7 +119,7 @@ public class Zombie extends ZombieActor {
 		boolean hit = rand.nextBoolean();
 
 		if(this.hasCapability(ZombieCapability.HOLD)) {
-			for (Item item : inventory) {
+			for (Item item : getInventory()) {
 				if (item.asWeapon() != null)
 					// Cast the Item to Weapon
 					weapon = item.asWeapon();
@@ -181,14 +181,19 @@ public class Zombie extends ZombieActor {
 
 	/**
 	 * Drop any weapon the Zombie is holding.
-	 * When Zombie lose an arm, it has 50% chance of dropping the weapon it is holding,
-	 * when Zombie lose both arms, it will definitely drops any weapon it is holding.
+	 * When Zombie loses an arm, it has 50% chance of dropping the weapon it is holding,
+	 * when Zombie loses both arms, it will definitely drops any weapon it is holding.
 	 */
 	private void dropWeapon(){
 		boolean drop = rand.nextBoolean() && this.numberOfArms == 1;
 
 		if((drop || this.numberOfArms == 0) && !this.getInventory().isEmpty()){
-			this.removeItemFromInventory((WeaponItem) this.getWeapon());
+			for(Item item: getInventory()){
+				if(item.hasCapability(ItemCapability.AS_WEAPON)){
+					removeItemFromInventory(item);
+					break;
+				}
+			}
 		}
 	}
 }
