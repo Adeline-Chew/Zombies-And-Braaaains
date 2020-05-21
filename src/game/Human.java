@@ -25,7 +25,6 @@ public class Human extends ZombieActor {
 	 */
 	public Human(String name) {
 		super(name, 'H', 50, ZombieCapability.ALIVE);
-		addCapability(ZombieCapability.WALK);
 	}
 	
 	/**
@@ -38,7 +37,6 @@ public class Human extends ZombieActor {
 	 */
 	protected Human(String name, char displayChar, int hitPoints) {
 		super(name, displayChar, hitPoints, ZombieCapability.ALIVE);
-		addCapability(ZombieCapability.WALK);
 	}
 
 	/**

@@ -22,12 +22,14 @@ public class PickUpBehaviour implements Behaviour {
     public Action getAction(Actor actor, GameMap map){
         Location here = map.locationOf(actor);
 
-        for(Item item: here.getItems()){
-            if(item.hasCapability(ItemCapability.AS_WEAPON)){
-                return item.getPickUpAction();
-            }
-            if(item.hasCapability(ItemCapability.EDIBLE) && actor.hasCapability(ZombieCapability.ALIVE)){
-                return item.getPickUpAction();
+        if(actor.hasCapability(ZombieCapability.HOLD)) {
+            for (Item item : here.getItems()) {
+                if (item.hasCapability(ItemCapability.AS_WEAPON)) {
+                    return item.getPickUpAction();
+                }
+                if (item.hasCapability(ItemCapability.EDIBLE) && actor.hasCapability(ZombieCapability.ALIVE)) {
+                    return item.getPickUpAction();
+                }
             }
         }
         return null;

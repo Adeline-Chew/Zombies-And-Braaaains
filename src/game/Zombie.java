@@ -16,8 +16,8 @@ public class Zombie extends ZombieActor {
 	private final Random rand = new Random();
 	private int numberOfArms, numberOfLegs, turn;
 
-	private final Behaviour[] behaviours = {new AttackBehaviour(ZombieCapability.ALIVE),
-			new PickUpBehaviour(),
+	private final Behaviour[] behaviours = {new PickUpBehaviour(),
+			new AttackBehaviour(ZombieCapability.ALIVE),
 			new ScreamBehaviour(),
 			new HuntBehaviour(Human.class, 10),
 			new WanderBehaviour(),
@@ -31,8 +31,6 @@ public class Zombie extends ZombieActor {
 		super(name, 'Z', 100, ZombieCapability.UNDEAD);
 		numberOfArms = 2;
 		numberOfLegs = 2;
-		addCapability(ZombieCapability.WALK);
-		addCapability(ZombieCapability.HOLD);
 	}
 
 	/**
@@ -156,7 +154,7 @@ public class Zombie extends ZombieActor {
 		Location adjacent = getRandomAdjacent(map);
 		String result;
 		int probability = rand.nextInt(4);	// 25% probability
-		boolean arm = rand.nextBoolean(), knockOff = probability == 0 || probability == 1;
+		boolean arm = rand.nextBoolean(), knockOff = (probability == 0 || probability == 1);
 
 		result = super.damage(points, map);
 

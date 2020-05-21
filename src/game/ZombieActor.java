@@ -19,6 +19,8 @@ public abstract class ZombieActor extends Actor {
 		super(name, displayChar, hitPoints);
 		
 		addCapability(team);
+		addCapability(ZombieCapability.WALK);
+		addCapability(ZombieCapability.HOLD);
 	}
 
 	/**
