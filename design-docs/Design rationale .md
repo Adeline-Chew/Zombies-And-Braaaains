@@ -94,19 +94,90 @@ to protect itself from `Player`'s attack.
 ## **Crafting Weapons**
 
 #### **Design choice**
-1. Create a `ZombieLimbs` class extends `WeaponItem` class, which is a primitive weapon dropped by `Zombie` body, it has capability *CRAFTABLE*. 
-1. Create two different classes, `ZombieMace` and `ZombieClub` classes, which represent the weapons where the player crafted from Zombies fallen limbs.
-1. `ZombieMace` and `ZombieClub` classes extend from `WeaponItem` class, the constructor remains mostly unchanged. A capability *AS_WEAPON* is added.
-1. Create a new class `CraftAction` which extends `Action` class, which `Player` can choose whether to craft a weapon from the menu.
-1. In `CraftAction` *execute()* method, loop through the inventory of `Player`, if a limb exists, craft into mace or club, depends on the limb capability *LEG* or *ARM*. 
-1. Inside `Player` *playTurn()* method, add `CraftAction` into actions if its inventory has item with capability *CRAFTABLE*. 
+##### *A new class: ZombieLimbs*
 
-#### **Advantages**
-* Simple implementation and keep the code DRY. Use capabilities to make the code easier to understand. 
-* Check inventory of Player with item capabilities to add suitable actions. Only one loop required.
-* No changes to engine code. 
-* Different kinds of weapon with different damages are classified clearly. 
-* Player can hold weapon with highest damage.
+* A new type of simple weapon item dropped from `Zombie`.
+
+1. This class extends `WeaponItem` class.
+1. This weapon has 15 damages.
+1. The constructor has a capability as parameter, it represents whether the dropped limb is *LEG* or *ARM*.
+1. In the constructor, add the capability *AS_WEAPON* and *CRAFTABLE*. 
+
+###### *Design reason* 
+
+* Minimise the dependencies. 
+* Use capabilities to make the item easier to be identified in other classes.
+* Each weapon is classified clearly with its own damage.
+
+##### *A new class: ZombieClub*
+
+* A new type of weapon item crafted from `Zombie` limbs. 
+
+1. This class extends `WeaponItem` class.
+1. This weapon has higher damage than simple limbs, which is 22 damages.
+1. In the constructor, the capability *AS_WEAPON* is added.
+
+###### *Design reason*
+
+* Simple implementation. Dependencies is minimised as much as possible.
+* Each weapon is classified clearly with its own damage.
+
+##### *A new class: ZombieMace*
+
+* A new type of weapon item crafted from `Zombie` limbs. 
+
+1. This class extends `WeaponItem` class.
+1. This weapon has higher damage than simple limbs, which is 25 damages.
+1. In the constructor, the capability *AS_WEAPON* is added.
+
+###### *Design reason*
+
+* Simple implementation. Dependencies is minimised as much as possible.
+* Each weapon is classified clearly with its own damage.
+
+##### *A new class: CraftAction*
+
+* A new type of action so that `Player` can craft a new weapon.
+
+1. This class extends `Action` class.
+1. It has an instance variable `Item` represents limb dropped on the ground.
+1. It has an overridden *execute()* method.
+	* A string local variable to be displayed in the UI after performing the craft action.
+	* Remove the original limb from the player’s inventory first. 
+	* Then use if statement to check the capability of the limb.
+	* If the capability is *ARM*, a zombie club is crafted and added to inventory.
+    * If the capability is *LEG*, a zombie mace is crafted and added to inventory. 
+1. It has an overridden *menuDescription()* method.
+	* This method shows a message in the menu, this enables `Player` to choose when to craft a new weapon.
+
+###### *Design reason*
+
+* Reduce repeated code, as remove limb item first instead of removing after deciding the new weapon type.
+* Each variable is declared in its tightest possible scope.
+* A new `Action` child class instead of `Behaviour` as this can be performed by the `Player` only.
+
+##### *Modify class: Zombie*
+
+1. In the overridden *damage()* method: 
+	* A boolean indicating whether the dropped limb is arm or leg.
+	* It has 50/50 chance to drop an arm or leg when the `Zombie` dropped a limb.
+	* The dropped limb has new capability, either *LEG* or *ARM*.
+	* Adjacent location will be added the dropped limb item using method *addItem()*.
+
+##### *Modify class: Player*
+
+1. In the for loop *playTurn()* method: 
+	* Item in the inventory will be check for its capability. 
+	* If item has capability *CRAFTABLE*, a new *CraftAction* will be added into the actions list.
+1. In the overridden *getWeapon()* method: 
+	* A list of weapons available in the inventory is created. 
+	* Each weapon’s damage will be compared. `Player` will hold the highest damage weapon at last.
+
+###### *Design reason*
+
+* A new craft action is added only when the inventory has suitable item. 
+* Player is able to attack with highest damage weapon. 
+* Repeated code is reduced as much as possible, only a for loop is used.
 
 #### **Disadvantages**
 * Player always hold the first weapon in inventory. (Solved)
@@ -192,8 +263,6 @@ to protect itself from `Player`'s attack.
 1. It has another overridden *execute()* method.
 	* This method will return a string about the description of the sow action with actor’s name.
 
-
-
 ##### *A new class: FertiliseBehaviour*
 
 * A new type of behaviour of `Farmer` so that `Farmer` can fertilise a crop.
@@ -259,6 +328,11 @@ to protect itself from `Player`'s attack.
 
 * Simple implementation as it just perform healing and removing item. 
 * Player is able to choose when to perform the eating and healing action.
+
+##### *Modify class: Player*
+1. In the *playTurn()* method, a new `FertiliseBehaviour` will be added into actions if the action performed does not return null.
+1. A for loop loops through the inventory of `Player` to get item's capability.
+1. A new `EatAction` will be added into actions if item has capability `EDIBLE` and `Player` is damaged
 
 #### **Disadvantages**
 * Adding new classes will increase the dependencies. For example, a `Crop` is created in `Sowbehaviour` class. 
