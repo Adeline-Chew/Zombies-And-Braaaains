@@ -61,7 +61,8 @@ public class SowBehaviour extends Action implements Behaviour {
         Collections.shuffle(exits);
 
         for(Exit e : exits){
-            if(e.getDestination().getDisplayChar() == '.' && sowACrop){
+            if(e.getDestination().getGround().hasCapability(Dirt.DirtCapability.SOIL) && sowACrop){
+                e.getDestination().getGround().removeCapability(Dirt.DirtCapability.SOIL);
                 e.getDestination().setGround(seed);
                 return this;
             }

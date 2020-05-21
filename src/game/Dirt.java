@@ -9,9 +9,14 @@ public class Dirt extends Ground {
 
 	public Dirt() {
 		super('.');
+		addCapability(DirtCapability.SOIL);
 	}
 
 
 	@Override
 	public void changeGroundStatus() {}
+
+	enum DirtCapability{
+		SOIL;
+	}
 }
