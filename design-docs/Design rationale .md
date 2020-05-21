@@ -13,15 +13,16 @@
 #### Modify *getIntrinsicWeapon()* in `Zombie`
 - This method has two *IntrinsicWeapon* attributes which are punch attack and bite attack, and a probability of *double* type
 to decide the kind of *IntrinsicWeapon*. 
-- When a `Zombie` has both arms, the probability to choose bite attack is 50%,
-return the chosen *IntrinsicWeapon*. 
+- When a `Zombie` has both arms, the probability of choosing bite attack is 50%, when `Zombie` loses one arm, the probability of choosing
+punch attack is 25% and bite attack 75%, while the chance of bite attack is 100% when `Zombie` loses both arms.
+- Return the chosen *IntrinsicWeapon*. 
 - We also used *Math.random()* to decide the hit rate of bite attack, the lower the hit rate, the higher the bite attack's damage.
 
 ##### Design reason
 * Bite attack is Zombie's attack instinct thus we make it as *IntrinsicWeapon* type and 
 declared in this method for the sake of the principle **Declare things in the tightest possible scope**. 
 
-#### Override *getWeapon* in `Zombie`
+#### Override *getWeapon()* in `Zombie`
 - This method has overridden in `Zombie` class, it contains a *Weapon* type attribute named _weapon_,
 and it checks the inventory of `Zombie` if there is a weapon for `Zombie` to attack and assign this to _weapon_. If not, _weapon_ will assign to an *IntrinsicWeapon*
 by calling *getIntrinsicWeapon()*. 
@@ -69,27 +70,89 @@ as possible**.
 * `Zombie` will blindly take the weapon it just pick up, it is not smart enough to select the weapon with higher damage.
 
 ## **Beating up Zombies**
+1. When `Zombie` get attacked, the attacker has 25% of probability to knock off Zombie's limb. A new method *damage()* is implemented
+in `ActorInterface` and overridden by `ZombieActor` and `Zombie`.
+1. Modify `Zombie` class, instance variables and capabilities added.
+1. If `Zombie` loses one arm, probability of punching is halved (25% punching and 75% biting), it has 50% chance of dropping
+any weapon it is holding.
+1. If `Zombie` loses both arms, it will drop any weapon it was holding and lost the capabilities to pick up items.
+1. If `Zombie` loses one leg, start counting the turn in *playTurn()*, so it can only move every second turn. `Zombie` will lose
+walking ability if it loses both legs.
+1. Check the *WALK* capability of `Actor` in behaviours that return move action such as `HuntBehaviour` and `WanderBehaviour`.
+1. Created `ZombieLimbs` will drop on Zombie's adjacent location, in order to randomly get the adjacent location of `Zombie`,
+we created a new method *getAdjacentLocation()* in `ActorInterface`.
+1. `ZombieLimbs` extends from `WeaponItem` class and has 15 damage. This `ZombieLimbs` is considered a simple weapon and can be
+casted into more powerful weapons such as `ZombieClub` or `ZombieMace`.
 
 #### **Design choice**
-1. Implement a *playerAttack()* in `AttackAction`, call it when running *execute()* if a `Player` is attacking a `Zombie`,
-this method has 25% probability of knocking off one of the four `Zombie`'s limbs. It will then call a method in `Zombie`
-to decrease the number of limbs of `Zombie`.
-1. Each `Zombie` has two instance variables to record the number of its arms and legs.
-1. In `AttackAction` when the actor is `Zombie` : (i)its leg has left one, (ii) the `IntrinsicWeapon` returned from `Zombie` 
-is punching, when these two conditions meet, a random boolean need to throw again to half the probability of punching. 
-1. In `Zombie` class, start counting the turn after it lost one leg, modify the classes which will return a moving action such as 
-`WanderBehaviour` and `HuntBehaviour` so that they will return null when the turn of `Zombie` is even and greater than 0.
-1. When a `Zombie` losing its limbs, a new `ZombieLimbs` object created and added on the `Location` where `Zombie` standing.
-1. This `ZombieLimbs` can be casted into a more powerful weapon : `ZombieClub` or `ZombieMace`.
+### Modify `Zombie` class
+- Two instance variables _numberOfArms_ and _numberOfLegs_ are added in `Zombie` class.
+- These instance variables tell the number of arms, or the number of legs for that particular `Zombie`.
+- Created private void dropWeapon() method, we used boolean _drop_ to determine is the `Zombie` going to drop its weapon when it loses
+one arm.
+- If drop is true or `Zombie` loses both arms, the weapon `Zombie` is holding will drop by calling the method *removeItemFromInventory()*.
+
+### Design reason
+- Both instance variables is properties of `Zombie` because only `Zombie` will fall to pieces at this moment, thus we follow
+the principle **Classes should be responsible for their own properties**.
+
+### Added new `ZombieCapabilities` constants for `ZombieActor`.
+- Two new constants added in enum class `ZombieCapabilities`: *WALK* and *HOLD*.
+- In the constructor of `ZombieActor`, we added these two capabilities by calling *addCapabilities()*, this represents 
+that every `ZombieActor` has the capability to walk and hold object.
+
+### Design reason
+- We can reduce some redundant code to check the number of legs or arms the Actor has, and so far this capability applied to all
+actor in this game.
+
+### New method *getRandomAdjacent(GameMap map)* in `ActorInterface`
+- This is override in `ZombieActor`, it randomly returns an available exit for an `Actor`.
+
+### Design reason
+- This method can be called in several classes such as `Zombie` and `HumanCorpse` rather than writing several duplicated code.
+
+### New method *damage(int points, GameMap map)* in `ActorInterface`
+- We override *damage(int points, GameMap map) in `ZombieActor`, it calls *hurt(int points)* and pass the parameter _points_ to deduct
+`Actor`'s hit points. 
+- This method returns String that indicates the Actor current hit points.
+
+### Design reason
+- Instead of using *hurt()* that deducts hit points and simply returns null when actor get attacked,
+ *damage()* can do more with the extra parameter _map_ and returned String indicating the `Actor`'s status.
+- Calling hurt() in this method as we follow the principle **Don't Repeat Yourself**.
+
+### Override *damage(int points, GameMap map)* in `Zombie`
+- This method declared a few attributes: Location type named _adjacent_ to get a random adjacent location of `Zombie`, 
+String type named _result_ to return the information of `Zombie` in this damage, int _probability_ and boolean _arm_ to decide whether arm or leg
+is getting knocked off, boolean _knockOff_ inform is the attacker success to knock off `Zombie`'s limb.
+- If the arm is getting knock off, decrease the _numberOfArms_ and if _numberOfArms_ reaches 0, remove *HOLD* capability of the `Zombie`,
+call the method *dropWeapon()*, a `ZombieLimbs` which has the capability of *ARM* is created and drop it to adjacent location by calling _adjacent_.addItem().
+- Else if the leg is getting knock off, decrease the _numberOfLegs_ and if _numberOfLegs_ reaches 0, remove *WALK* capability of the `Zombie`,
+a `ZombieLimbs` which has the capability of *LEG* is created, and the way dropping is similar with `Zombie`'s arms. 
+- Finally, return the String that informed `Zombie` current status.
+
+### Design reason
+- We override this method in `Zombie` class as `Zombie` has the chance to drop its limbs when it gets attacked. This property
+is unique to `Zombie` thus we **encapsulated it in the tightest possible scope**.
+
+### Modify playTurn() in `Zombie`
+- If _numberOfLegs_ equals to 1, starts to increment _turn_, remove *WALK* capability of `Zombie` when _turn_ is an even number
+while add *WALK* capability back when _turn_ is odd. 
+
+### Modify `HuntBehaviour` and `WanderBehaviour`
+- We modify the method getAction() in both classes by checking if the `Actor` has the *WALK* capability before return any move action.
+
+### Design reason
+- According to the design principle **Minimize dependencies that cross encapsulation boundaries**, it is considered unwisely
+if we downcast the `Actor` to `Zombie` just for getting the number of legs of `Zombie`, thus we implemented *WALK* capabilities
+for `ZombieActor`.
 
 #### **Advantages**
-* Further implementations can be added to make `Zombie` more "Zombielike" such as `Zombie` can pick up its limb 
-to protect itself from `Player`'s attack.
+* Further implementations can be added to make `Zombie` more "Zombielike".
 * Minimise the dependencies between `Zombie` and all the weapons created.
-* This design allows `Human` to attack `Zombie` as well if we need to implement it in the future.
 
 #### **Disadvantages**
-* Code in the method *execute()* of `AttackAction` is too complicated, may be troublesome to maintain.
+* Capability may need to change if there is a new character added in future.
 
 ## **Crafting Weapons**
 
