@@ -8,7 +8,7 @@
 1. Create a new class `ScreamBehaviour` which inherits `Action` and implements `Behaviour`, add it into _behaviours_ in `Zombie`.
 1. `Zombie` has 10% chance to say things every turn.
 
-#### **Design choice**
+### **Design choice**
 
 #### Modify *getIntrinsicWeapon()* in `Zombie`
 - This method has two *IntrinsicWeapon* attributes which are punch attack and bite attack, and a probability of *double* type
@@ -18,7 +18,7 @@ punch attack is 25% and bite attack 75%, while the chance of bite attack is 100%
 - Return the chosen *IntrinsicWeapon*. 
 - We also used *Math.random()* to decide the hit rate of bite attack, the lower the hit rate, the higher the bite attack's damage.
 
-##### Design reason
+#### Design reason
 * Bite attack is Zombie's attack instinct thus we make it as *IntrinsicWeapon* type and 
 declared in this method for the sake of the principle **Declare things in the tightest possible scope**. 
 
@@ -31,7 +31,7 @@ probability of hitting for bite attack is 40% while others are 50%.
 - Check if the _weapon_ is bite attack, then heal the Zombie 5 points when the hitting is success.
 - Return _weapon_ that the Zombie going to use or _null_ if the hitting boolean failed.
 
-##### Design reason
+#### Design reason
 * We implemented the probability and heal Zombie in `Zombie` class instead of checking in `AttackAction`
 as these properties are belong to `Zombie`, `Zombie` should be responsible for its own properties.**
 
@@ -43,7 +43,7 @@ return *getPickUpAction()* or null if there is no item the Actor desired.
 - This `PickUpBehaviour` is instantiated in `Zombie` class and added in Zombie's behaviours. During Zombie's *playTurn()*,
 it will iterate `PickUpBehaviour` so `Zombie` is able to pick up weapon if there is any. 
 
-##### Design reason
+#### Design reason
 * It implements `Behaviour` as picking up item is an objective every Actor can have. 
 Implementation of `Behaviour` will return an `Action` to achieve this objective, in this case we return `PickUpItemAction`.
 
@@ -57,7 +57,7 @@ While in *execute()* we simply return *menuDescription()*
 - This `ScreamBehaviour` is instantiated in `Zombie` class and added in Zombie's behaviours. During Zombie's *playTurn()*, 
 if `Zombie` get the chance to speak, the message will display on the console. 
 
-##### Design reason
+#### Design reason
 - `ScreamBehaviour` implements `Behaviour` and inherits `Action` as we follow the principle **Reduce dependencies as much 
 as possible**.
 - `Zombie` cannot do other `Action` while saying, as the `Zombie` is not smart enough to multi-tasking.
@@ -84,44 +84,44 @@ we created a new method *getAdjacentLocation()* in `ActorInterface`.
 1. `ZombieLimbs` extends from `WeaponItem` class and has 15 damage. This `ZombieLimbs` is considered a simple weapon and can be
 casted into more powerful weapons such as `ZombieClub` or `ZombieMace`.
 
-#### **Design choice**
-### Modify `Zombie` class
+### **Design choice**
+#### Modify `Zombie` class
 - Two instance variables _numberOfArms_ and _numberOfLegs_ are added in `Zombie` class.
 - These instance variables tell the number of arms, or the number of legs for that particular `Zombie`.
 - Created private void dropWeapon() method, we used boolean _drop_ to determine is the `Zombie` going to drop its weapon when it loses
 one arm.
 - If drop is true or `Zombie` loses both arms, the weapon `Zombie` is holding will drop by calling the method *removeItemFromInventory()*.
 
-### Design reason
+#### Design reason
 - Both instance variables is properties of `Zombie` because only `Zombie` will fall to pieces at this moment, thus we follow
 the principle **Classes should be responsible for their own properties**.
 
-### Added new `ZombieCapabilities` constants for `ZombieActor`.
+#### Added new `ZombieCapabilities` constants for `ZombieActor`.
 - Two new constants added in enum class `ZombieCapabilities`: *WALK* and *HOLD*.
 - In the constructor of `ZombieActor`, we added these two capabilities by calling *addCapabilities()*, this represents 
 that every `ZombieActor` has the capability to walk and hold object.
 
-### Design reason
+#### Design reason
 - We can reduce some redundant code to check the number of legs or arms the Actor has, and so far this capability applied to all
 actor in this game.
 
-### New method *getRandomAdjacent(GameMap map)* in `ActorInterface`
+#### New method *getRandomAdjacent(GameMap map)* in `ActorInterface`
 - This is override in `ZombieActor`, it randomly returns an available exit for an `Actor`.
 
-### Design reason
+#### Design reason
 - This method can be called in several classes such as `Zombie` and `HumanCorpse` rather than writing several duplicated code.
 
-### New method *damage(int points, GameMap map)* in `ActorInterface`
+#### New method *damage(int points, GameMap map)* in `ActorInterface`
 - We override *damage(int points, GameMap map) in `ZombieActor`, it calls *hurt(int points)* and pass the parameter _points_ to deduct
 `Actor`'s hit points. 
 - This method returns String that indicates the Actor current hit points.
 
-### Design reason
+#### Design reason
 - Instead of using *hurt()* that deducts hit points and simply returns null when actor get attacked,
  *damage()* can do more with the extra parameter _map_ and returned String indicating the `Actor`'s status.
 - Calling hurt() in this method as we follow the principle **Don't Repeat Yourself**.
 
-### Override *damage(int points, GameMap map)* in `Zombie`
+#### Override *damage(int points, GameMap map)* in `Zombie`
 - This method declared a few attributes: Location type named _adjacent_ to get a random adjacent location of `Zombie`, 
 String type named _result_ to return the information of `Zombie` in this damage, int _probability_ and boolean _arm_ to decide whether arm or leg
 is getting knocked off, boolean _knockOff_ inform is the attacker success to knock off `Zombie`'s limb.
@@ -131,18 +131,18 @@ call the method *dropWeapon()*, a `ZombieLimbs` which has the capability of *ARM
 a `ZombieLimbs` which has the capability of *LEG* is created, and the way dropping is similar with `Zombie`'s arms. 
 - Finally, return the String that informed `Zombie` current status.
 
-### Design reason
+#### Design reason
 - We override this method in `Zombie` class as `Zombie` has the chance to drop its limbs when it gets attacked. This property
 is unique to `Zombie` thus we **encapsulated it in the tightest possible scope**.
 
-### Modify playTurn() in `Zombie`
+#### Modify playTurn() in `Zombie`
 - If _numberOfLegs_ equals to 1, starts to increment _turn_, remove *WALK* capability of `Zombie` when _turn_ is an even number
 while add *WALK* capability back when _turn_ is odd. 
 
-### Modify `HuntBehaviour` and `WanderBehaviour`
+#### Modify `HuntBehaviour` and `WanderBehaviour`
 - We modify the method getAction() in both classes by checking if the `Actor` has the *WALK* capability before return any move action.
 
-### Design reason
+#### Design reason
 - According to the design principle **Minimize dependencies that cross encapsulation boundaries**, it is considered unwisely
 if we downcast the `Actor` to `Zombie` just for getting the number of legs of `Zombie`, thus we implemented *WALK* capabilities
 for `ZombieActor`.
@@ -156,8 +156,8 @@ for `ZombieActor`.
 
 ## **Crafting Weapons**
 
-#### **Design choice**
-##### *A new class: ZombieLimbs*
+### **Design choice**
+#### A new class: ZombieLimbs
 
 * A new type of simple weapon item dropped from `Zombie`.
 
@@ -166,13 +166,13 @@ for `ZombieActor`.
 1. The constructor has a capability as parameter, it represents whether the dropped limb is *LEG* or *ARM*.
 1. In the constructor, add the capability *AS_WEAPON* and *CRAFTABLE*. 
 
-###### *Design reason* 
+#### Design reason
 
 * Minimise the dependencies. 
 * Use capabilities to make the item easier to be identified in other classes.
 * Each weapon is classified clearly with its own damage.
 
-##### *A new class: ZombieClub*
+#### A new class: ZombieClub
 
 * A new type of weapon item crafted from `Zombie` limbs. 
 
@@ -180,12 +180,12 @@ for `ZombieActor`.
 1. This weapon has higher damage than simple limbs, which is 22 damages.
 1. In the constructor, the capability *AS_WEAPON* is added.
 
-###### *Design reason*
+#### Design reason
 
 * Simple implementation. Dependencies is minimised as much as possible.
 * Each weapon is classified clearly with its own damage.
 
-##### *A new class: ZombieMace*
+#### A new class: ZombieMace
 
 * A new type of weapon item crafted from `Zombie` limbs. 
 
@@ -193,12 +193,12 @@ for `ZombieActor`.
 1. This weapon has higher damage than simple limbs, which is 25 damages.
 1. In the constructor, the capability *AS_WEAPON* is added.
 
-###### *Design reason*
+#### Design reason
 
 * Simple implementation. Dependencies is minimised as much as possible.
 * Each weapon is classified clearly with its own damage.
 
-##### *A new class: CraftAction*
+#### A new class: CraftAction
 
 * A new type of action so that `Player` can craft a new weapon.
 
@@ -213,13 +213,13 @@ for `ZombieActor`.
 1. It has an overridden *menuDescription()* method.
 	* This method shows a message in the menu, this enables `Player` to choose when to craft a new weapon.
 
-###### *Design reason*
+#### Design reason
 
 * Reduce repeated code, as remove limb item first instead of removing after deciding the new weapon type.
 * Each variable is declared in its tightest possible scope.
 * A new `Action` child class instead of `Behaviour` as this can be performed by the `Player` only.
 
-##### *Modify class: Zombie*
+#### Modify class: Zombie
 
 1. In the overridden *damage()* method: 
 	* A boolean indicating whether the dropped limb is arm or leg.
@@ -227,7 +227,7 @@ for `ZombieActor`.
 	* The dropped limb has new capability, either *LEG* or *ARM*.
 	* Adjacent location will be added the dropped limb item using method *addItem()*.
 
-##### *Modify class: Player*
+##### Modify class: Player
 
 1. In the for loop *playTurn()* method: 
 	* Item in the inventory will be check for its capability. 
@@ -236,7 +236,7 @@ for `ZombieActor`.
 	* A list of weapons available in the inventory is created. 
 	* Each weapon’s damage will be compared. `Player` will hold the highest damage weapon at last.
 
-###### *Design reason*
+#### Design reason
 
 * A new craft action is added only when the inventory has suitable item. 
 * Player is able to attack with highest damage weapon. 
@@ -247,14 +247,45 @@ for `ZombieActor`.
 * While choosing highest damage weapon, a list of `Weapon` is created, this can increase the dependency. 
 
 ## **Rising from The Dead**
+1. Create a `HumanCorpse` class extends from `PortableItem`.
+1. When `Human` is killed by `Zombie`, his corpse will turn into `Zombie` within 5 - 10 turns.
+1. Add *DEAD* capability in `ZombieCapability`.
+1. Override isConscious() method in `Human` class.
+1. Since `HumanCorpse` is portable, it can be carried by `Actor`.
+1. Modify *execute()* in `AttackAction` so it can create `HumanCorpse` when a `Human` is killed.
 
-#### **Design choice**
-1. Create a `HumanCorpse` class, which will be created in `AttackAction` when a `Human` is dead.
-1. `HumanCorpse` extends `Item`, overrides the inherited *tick()* method to count the turns of each `HumanCorpse`.
-1. After 5 rounds, it has 50% of probability to revive and in 10th round, it must be returned from dead.
-1. To revive a dead human, a new `Zombie` object is created in the same location where the `HumanCorpse` located.
-1. Display the message of new `Zombie`.
-1. Remove the `HumanCorpse` from the current location.
+### **Design choice**
+
+#### Create new class `HumanCorpse`
+- `HumanCorpse` extends from `PortableItem`, instance variables declared are int _turn_ and Random type _rand_ .
+- Override *tick(Location currentLocation)* from `Item`, *tick()* will be called every time at the end of the turn, so the object can tell the passage
+of the time. _revive_ is assigned to a random boolean value, then increase _turn_ by 1. When _turn_ is greater than 5
+and smaller than 10, `HumanCorpse` has 50% chance to rise from the dead and in the 10th turn, it must be turned into `Zombie`.
+- If the _revive_ return true or _turn_ is equal to 10, an internal method corpseRevive(currentLocation) is called.
+Lastly, remove the corpse from current location using *currentLocation.removeItem(this)* so the _turn_ will stop counting.
+- Override another overloaded *tick(Location currentLocation, Actor actor)* from `Item`, this method will be called every turn
+if the `HumanCorpse` is in an `Actor`'s inventory. The conditions to turn a `HumanCorpse` into a `Zombie` are the same, 
+but the parameter passes through corpseRevive() we pass the adjacent location of the `Actor` by calling *getRandomAdjacent*,
+so the `Zombie` will be created at any adjacent near the `Actor`.
+- Eventually remove the corpse from the `Actor`'s inventory, call *actor.removeItemFromInventory(this)*.
+- A private method corpseRevive(Location here) is created, when this method is called, it add an actor at the current location
+and pass a new `Zombie` object as the parameter, then display message on the console telling the user that the dead human has 
+turned into `Zombie`.
+
+#### Design reason
+- Override two overloaded methods so even though the corpse is carried by an `Actor` halfway when the turn start counting, 
+the _turn_ will still continue increase until the corpse return to `Zombie`.
+- We declared _revive_ in *tick()* method rather than declared as an instance variable as the design principles
+tell us **Declare things in the tightest possible scope**.
+
+#### Override isConscious() in `Human`
+- A boolean _alive_ is assigned to the return value of *super.isConscious*, if _alive_ is false, we remove the *ALIVE* capability 
+and add *DEAD* capability for `Human`.
+
+#### Modify execute() in `AttackAction`
+- When the _target_ is unconscious, if the target has the *DEAD* capability, a new `HumanCorpse` object is created and assigned
+to _corpse_ attribute. If not, a new `PortableItem` object will be created and assigned to _corpse_.
+- _corpse_ is added on the location where the _target_ died. 
 
 #### **Advantages**
 * `HumanCorpse` will not continue counting after being removed.
@@ -263,12 +294,13 @@ for `ZombieActor`.
 
 #### **Disadvantages**
 * Dependencies of `AttackAction` increased.
+* Dependencies cross encapsulation boundaries will increase as new class created.
 
 ## **Farmers and Food**
 
-#### **Design choice**
+### **Design choice**
 
-##### *A new class: Farmer*
+#### A new class: Farmer
 
 * A new type of `Human` which have same behaviours as `Human` but also can sow, fertilise and harvest crops. 
 
@@ -279,12 +311,12 @@ for `ZombieActor`.
     * If the action does not return null, the actor will perform the action
     * It will perform `Human` normal behaviours if no farmer’s behaviours available.
 
-###### *Design reason* 
+#### Design reason
 
 * The `Farmer` class is responsible for its own properties only. It calls super class method to perform normal human’s behaviours, instead of repeating the code.
 * `Farmer` class is extensible, extra behaviours can be implemented further.
 
-##### *A new class: Crop*
+#### A new class: Crop
 
 * A new type of `Ground` which can be grown to food.
 
@@ -295,11 +327,11 @@ for `ZombieActor`.
 1. It has an overridden *changeGroundStatus()* method which is implemented in `GroundInterface`.
 	* It will increase the turn of the crop to ripe by 10 turns. 
 
-###### *Design reason* 
+#### Design reason
 
 * A new method implemented in `GroundInterface` to avoid downcasting. It makes the child classes more extensible.
 
-##### *A new class: Food*
+#### A new class: Food
 
 * A new type of item which can eaten by player and humans to heal damage. 
 
@@ -308,12 +340,12 @@ for `ZombieActor`.
 1. In the constructor, the food value is generated randomly between 1 and 14. 
 1. It has an accessor *getFoodValue()* to get the food value.
 
-###### *Design reason* 
+#### Design reason 
 
 * Capability is used to make code implementation easier. 
 * Dependencies are minimised as much as possible.  
 
-##### *A new class: SowBehaviour*
+#### A new class: SowBehaviour
 
 * A new type of behaviour of `Farmer` so that `Farmer` can sow a crop. 
 
@@ -326,7 +358,7 @@ for `ZombieActor`.
 1. It has another overridden *execute()* method.
 	* This method will return a string about the description of the sow action with actor’s name.
 
-##### *A new class: FertiliseBehaviour*
+#### A new class: FertiliseBehaviour
 
 * A new type of behaviour of `Farmer` so that `Farmer` can fertilise a crop.
 
@@ -337,11 +369,11 @@ for `ZombieActor`.
 1. It has another overridden *execute()* method.
 	* This method will return a string about the description of the fertilise action with actor’s name.
 
-###### *Design reason* 
+#### Design reason
 
 * Variable for the location is declared in the tightest possible scope. 
 
-##### *A new class: HarvestBehaviour*
+#### A new class: HarvestBehaviour
 
 * A new type of behaviour of `Farmer` and `Player` so that they can harvest a crop.
 
@@ -355,11 +387,11 @@ for `ZombieActor`.
 3. It has another overridden *execute()* method.
     * This method will return a string about the description of the harvest action with actor’s name.
 
-###### *Design reason* 
+#### Design reason
 
 * Variable for the food name and list of exits is declared in the tightest possible scope. 
 
-##### *A new class: EatBehaviour*
+#### A new class: EatBehaviour
 
 * A new type of behaviour of `Farmer` and `Human` so that they can perform an eat action.
 
@@ -369,12 +401,12 @@ for `ZombieActor`.
     * A for loop through the inventory of the actor and get item with capability *EDIBLE*.
     * It will return a new EatAction with particular food item. 
 
-###### *Design reason* 
+#### Design reason
 
 * Reduce dependencies as much as possible. 
 * An action will be performed only when the actor is damaged. 
 
-##### *A new class: EatAction*
+#### A new class: EatAction
 
 * A new type of action so that actor can eat and heal.
 
@@ -387,12 +419,12 @@ for `ZombieActor`.
 1. It has an overridden *menuDescription()* method.
     * This returns a string describing the action to be displayed in the menu.
 
-###### *Design reason* 
+#### Design reason 
 
 * Simple implementation as it just perform healing and removing item. 
 * Player is able to choose when to perform the eating and healing action.
 
-##### *Modify class: Player*
+#### Modify class: Player
 1. In the *playTurn()* method, a new `FertiliseBehaviour` will be added into actions if the action performed does not return null.
 1. A for loop loops through the inventory of `Player` to get item's capability.
 1. A new `EatAction` will be added into actions if item has capability `EDIBLE` and `Player` is damaged
