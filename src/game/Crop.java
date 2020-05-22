@@ -34,7 +34,8 @@ public class Crop extends Ground {
 
         if(turn == 20){
             displayChar = 'C';
-            this.addCapability(CropCapability.RIPEN);
+            removeCapability(CropCapability.UNRIPE);
+            addCapability(CropCapability.RIPEN);
 
         }
 

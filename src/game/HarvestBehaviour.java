@@ -12,31 +12,8 @@ import java.util.List;
  * @author Adeline Chew Yao Yi and Tey Kai Ying
  */
 
-public class HarvestBehaviour extends Action implements Behaviour {
+public class HarvestBehaviour implements Behaviour {
 
-    /**
-     * Describe the harvest action made by the actor
-     *
-     * @param actor The actor performing the action.
-     * @param map The map the actor is on.
-     * @return a String of the action suitable for feedback in the UI.
-     */
-    @Override
-    public String execute(Actor actor, GameMap map) {
-        return actor.toString() + " harvests a crop";
-    }
-
-    /**
-     * Returns a description of this action suitable to display in the menu.
-     * In this case, an empty string is returned as it is acted by Farmer
-     *
-     * @param actor The actor performing the action.
-     * @return an empty String.
-     */
-    @Override
-    public String menuDescription(Actor actor) {
-        return "Player harvests a crop";
-    }
 
     /**
      * If location or adjacent locations of an Actor has a ripen crop, the Actor will harvest the crop
@@ -73,14 +50,13 @@ public class HarvestBehaviour extends Action implements Behaviour {
 
         for(Exit e : exits){
             if(e.getDestination().getGround().hasCapability(Crop.CropCapability.RIPEN)){
-                e.getDestination().setGround(new Dirt());         // the ground was crop, now set back to dirt
-                e.getDestination().addItem(new Food(foodName));
-                return this;
+                return new HarvestAction(e, foodName);
             }
         }
 
         return null;
     }
+
 
 
 }

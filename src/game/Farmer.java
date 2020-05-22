@@ -15,9 +15,9 @@ import edu.monash.fit2099.engine.*;
 public class Farmer extends Human {
 
     private Behaviour[] behaviours = {
-            new FertiliseBehaviour(),
             new HarvestBehaviour(),
             new SowBehaviour(),
+            new FertiliseBehaviour(),
             };
 
     /**
