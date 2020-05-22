@@ -41,7 +41,7 @@ public class HumanCorpse extends PortableItem {
 
         turn++;
 
-        if((turn > 5 && turn < 10 && revive) || turn == 10) {
+        if((turn > 5 && turn < 10 && revive) || turn >= 10) {
             while (!success) {
                 try {
                     corpseRevive(currentLocation);
@@ -70,7 +70,7 @@ public class HumanCorpse extends PortableItem {
 
         turn++;
 
-        if((turn > 5 && turn < 10 && revive) || turn == 10) {
+        if((turn > 5 && turn < 10 && revive) || turn >= 10) {
             while (!success) {
                 try {
                     corpseRevive(actor.getRandomAdjacent(currentLocation.map()));
