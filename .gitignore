@@ -154,3 +154,35 @@ fabric.properties
 
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
+/design-docs/javadoc/element-list
+/design-docs/javadoc/resources/glass.png
+/design-docs/javadoc/script-dir/external/jquery/jquery.js
+/design-docs/javadoc/script-dir/jquery-3.4.1.js
+/design-docs/javadoc/script-dir/jquery-ui.css
+/design-docs/javadoc/script-dir/jquery-ui.js
+/design-docs/javadoc/script-dir/jquery-ui.min.css
+/design-docs/javadoc/script-dir/jquery-ui.min.js
+/design-docs/javadoc/script-dir/jquery-ui.structure.css
+/design-docs/javadoc/script-dir/jquery-ui.structure.min.css
+/design-docs/javadoc/script-dir/jszip/dist/jszip.js
+/design-docs/javadoc/script-dir/jszip/dist/jszip.min.js
+/design-docs/javadoc/script-dir/jszip-utils/dist/jszip-utils.js
+/design-docs/javadoc/script-dir/jszip-utils/dist/jszip-utils.min.js
+/design-docs/javadoc/script-dir/jszip-utils/dist/jszip-utils-ie.js
+/design-docs/javadoc/script-dir/jszip-utils/dist/jszip-utils-ie.min.js
+/design-docs/javadoc/member-search-index.js
+/design-docs/javadoc/package-search-index.js
+/design-docs/javadoc/search.js
+/design-docs/javadoc/type-search-index.js
+/design-docs/javadoc/script-dir/images/ui-bg_glass_55_fbf9ee_1x400.png
+/design-docs/javadoc/script-dir/images/ui-bg_glass_65_dadada_1x400.png
+/design-docs/javadoc/script-dir/images/ui-bg_glass_75_dadada_1x400.png
+/design-docs/javadoc/script-dir/images/ui-bg_glass_75_e6e6e6_1x400.png
+/design-docs/javadoc/script-dir/images/ui-bg_glass_95_fef1ec_1x400.png
+/design-docs/javadoc/script-dir/images/ui-bg_highlight-soft_75_cccccc_1x100.png
+/design-docs/javadoc/script-dir/images/ui-icons_2e83ff_256x240.png
+/design-docs/javadoc/script-dir/images/ui-icons_222222_256x240.png
+/design-docs/javadoc/script-dir/images/ui-icons_454545_256x240.png
+/design-docs/javadoc/script-dir/images/ui-icons_888888_256x240.png
+/design-docs/javadoc/script-dir/images/ui-icons_cd0a0a_256x240.png
+/design-docs/javadoc/resources/x.png
