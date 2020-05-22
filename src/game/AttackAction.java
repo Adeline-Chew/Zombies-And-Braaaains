@@ -33,17 +33,17 @@ public class AttackAction extends Action {
 	 */
 	@Override
 	public String execute(Actor actor, GameMap map) {
-		int weaponDamage;
 		Weapon weapon = actor.getWeapon();
-
-		if(weapon == null){
-			return actor + " misses " + target + ".";
-		}
+		String result;
 
 		// Attack the target
-		weaponDamage = weapon.damage();
-		String result = actor + " " + weapon.verb() + " " + target + " for " + weaponDamage + " damage.";
-		target.damage(weaponDamage, map);
+		try {
+			result = actor + " " + weapon.verb() + " " + target + " for " + weapon.damage() + " damage.";
+			result += target.damage(weapon.damage(), map);
+		}
+		catch (NullPointerException e){
+			return actor + " misses " + target + ".";
+		}
 
 
 		// If target died
