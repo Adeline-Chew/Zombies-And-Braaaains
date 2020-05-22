@@ -7,7 +7,7 @@ import edu.monash.fit2099.engine.*;
  * Class representing an ordinary human.
  * This Human can attack Zombie, eat food, pick up item and wander around.
  * 
- * @author Adeline Chew Yao Yi & Tey Kai Ying
+ * @author Adeline Chew Yao Yi and Tey Kai Ying
  *
  */
 public class Human extends ZombieActor {

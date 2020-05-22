@@ -7,7 +7,7 @@ import edu.monash.fit2099.engine.GameMap;
 /**
  * Allows an Actor to say something.
  *
- * @author Adeline Chew Yao Yi & Tey Kai Ying
+ * @author Adeline Chew Yao Yi and Tey Kai Ying
  *
  */
 

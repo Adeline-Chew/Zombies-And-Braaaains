@@ -9,7 +9,8 @@ import java.util.Random;
 
 /**
  * Base class for Actors in the Zombie World
- * @author Adeline Chew Yao Yi & Tey Kai Ying
+ *
+ * @author Adeline Chew Yao Yi and Tey Kai Ying
  *
  */
 public abstract class ZombieActor extends Actor {

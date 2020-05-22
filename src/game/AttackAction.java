@@ -5,7 +5,7 @@ import edu.monash.fit2099.engine.*;
 /**
  * Special game.Action for attacking other Actors.
  *
- * @author Adeline Chew Yao Yi & Tey Kai Ying
+ * @author Adeline Chew Yao Yi and Tey Kai Ying
  */
 public class AttackAction extends Action {
 

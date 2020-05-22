@@ -5,7 +5,7 @@ import edu.monash.fit2099.engine.*;
 /**
  * Allows an Actor to pick up an item.
  *
- * @author Adeline Chew Yao Yi & Tey Kai Ying
+ * @author Adeline Chew Yao Yi and Tey Kai Ying
  *
  */
 
