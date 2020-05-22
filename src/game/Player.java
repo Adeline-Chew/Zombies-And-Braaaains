@@ -40,9 +40,9 @@ public class Player extends Human {
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 
 		// this make sure Player only do harvest action in a valid situation
-		HarvestBehaviour behaviour = new HarvestBehaviour();
-		if(behaviour.getAction(this, map) != null){
-			actions.add(behaviour);
+		Exit here = new Exit("Stay" , map.locationOf(this), "z");
+		if(map.locationOf(this).getGround().hasCapability(Crop.CropCapability.RIPEN)){
+			actions.add(new HarvestAction(here, "Player's food"));
 		}
 
 		for(Item item: this.getInventory()){
