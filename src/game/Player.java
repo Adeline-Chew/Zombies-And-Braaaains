@@ -20,8 +20,11 @@ public class Player extends Human {
 	 * @param displayChar Character to represent the player in the UI
 	 * @param hitPoints   Player's starting number of hitpoints
 	 */
-	public Player(String name, char displayChar, int hitPoints) {
+	public Player(String name, char displayChar, int hitPoints) throws Exception {
 		super(name, displayChar, hitPoints);
+		if(hitPoints < 0){
+			throw new Exception("Player hitpoints must be positive");
+		}
 	}
 
 	/**

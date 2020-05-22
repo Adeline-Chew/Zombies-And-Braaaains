@@ -26,7 +26,7 @@ public class Farmer extends Human {
      * @param name the Farmer's display name
      */
     public Farmer(String name){
-        super(name, 'F', 50);
+        super(name, 'F', 100);
     }
 
     /**

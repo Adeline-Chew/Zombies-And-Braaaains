@@ -23,13 +23,13 @@ public class Food extends Item {
     public Food(String name) {
         super(name, 'E', true);
         this.addCapability(ItemCapability.EDIBLE);
-        int randomInt = rand.nextInt(15);
+        int randomInt = rand.nextInt(20) + 15;
 
         if(randomInt != 0){
             foodValue = randomInt;
         }
         else{
-            foodValue = 20;
+            foodValue = 40;
         }
     }
 

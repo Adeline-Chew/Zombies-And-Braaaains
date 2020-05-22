@@ -52,8 +52,14 @@ public class Application {
 		int x, y;
 		Random rand = new Random();
 
-		Actor player = new Player("Player", '@', 1000);
+		Actor player = null;
+		try {
+			player = new Player("Player", '@', 200);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		world.addPlayer(player, gameMap.at(42, 15));
+
 
 		// Place farmers
 //		gameMap.at(32, 10).addActor(new Farmer("Old-man"));
