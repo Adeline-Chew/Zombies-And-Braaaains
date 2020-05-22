@@ -46,7 +46,7 @@ public class Player extends Human {
 		}
 
 		for(Item item: this.getInventory()){
-			if(item.hasCapability(ItemCapability.EDIBLE) && this.hitPoints < 100){
+			if(item.hasCapability(ItemCapability.EDIBLE) && this.hitPoints < this.maxHitPoints){
 				actions.add(new EatAction((Food)item));			// Player eats only when it has lower hit points
 			}
 
@@ -96,5 +96,4 @@ public class Player extends Human {
 		}
 		return null;
 	}
-
 }

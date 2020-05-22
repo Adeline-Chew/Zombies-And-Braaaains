@@ -59,41 +59,6 @@ public class Application {
 //		gameMap.at(32, 10).addActor(new Farmer("Old-man"));
 //		gameMap.at(40, 16).addActor(new Farmer("Farmer-2"));
 //		gameMap.at(20,5).addActor(new Farmer("Farmer-3"));
-
-		// Place some random farmers
-		String[] farmers = {"Farmer-1", "Farmer-2", "Farmer-3", "Farmer-4", "Farmer-5", "Farmer-6"};
-		for(String name:farmers){
-			Farmer farmer = new Farmer(name);
-			x = rand.nextInt(80);
-			y = rand.nextInt(25);
-			if(!gameMap.at(x, y).containsAnActor() && gameMap.at(x, y).canActorEnter(farmer)){
-				gameMap.at(x, y).addActor(farmer);
-			}
-		}
-
-	    // Place some random humans
-		String[] humans = {"Carlton", "May", "Vicente", "Andrea", "Wendy",
-				"Elina", "Winter", "Clem", "Jacob", "Jaquelyn"};
-
-		for (String name : humans) {
-			do {
-				x = (int) Math.floor(Math.random() * 20.0 + 30.0);
-				y = (int) Math.floor(Math.random() * 7.0 + 5.0);
-			} 
-			while (gameMap.at(x, y).containsAnActor());
-			gameMap.at(x,  y).addActor(new Human(name));
-		}
-		//Place some random humans outside the fence
-		String[] humans1 = {"Paul", "Dennis", "Nathan", "Scott", "Josie"};
-		for(String name: humans1){
-			Human human = new Human(name);
-			x = rand.nextInt(80);
-			y = rand.nextInt(25);
-			if(!gameMap.at(x, y).containsAnActor() && gameMap.at(x, y).canActorEnter(human)){
-				gameMap.at(x, y).addActor(human);
-			}
-		}
-
 		
 		// place a simple weapon
 		gameMap.at(74, 20).addItem(new Plank());
@@ -102,7 +67,7 @@ public class Application {
 		gameMap.at(30, 20).addItem(new Plank());
 		gameMap.at(30, 18).addItem(new Plank());
 		
-		// FIXME: Add more zombies!
+
 		gameMap.at(30, 20).addActor(new Zombie("Groan"));
 		gameMap.at(31,  18).addActor(new Zombie("Boo"));
 		gameMap.at(35,  15).addActor(new Zombie("Uuuurgh"));
@@ -117,6 +82,40 @@ public class Application {
 			y = rand.nextInt(25);
 			if(!gameMap.at(x, y).containsAnActor() && gameMap.at(x, y).canActorEnter(zombie)){
 				gameMap.at(x, y).addActor(zombie);
+			}
+		}
+
+		// Place some random farmers
+		String[] farmers = {"Farmer-1", "Farmer-2", "Farmer-3", "Farmer-4", "Farmer-5", "Farmer-6"};
+		for(String name:farmers){
+			Farmer farmer = new Farmer(name);
+			x = rand.nextInt(80);
+			y = rand.nextInt(25);
+			if(!gameMap.at(x, y).containsAnActor() && gameMap.at(x, y).canActorEnter(farmer)){
+				gameMap.at(x, y).addActor(farmer);
+			}
+		}
+
+		// Place some random humans
+		String[] humans = {"Carlton", "May", "Vicente", "Andrea", "Wendy",
+				"Elina", "Winter", "Clem", "Jacob", "Jaquelyn"};
+
+		for (String name : humans) {
+			do {
+				x = (int) Math.floor(Math.random() * 20.0 + 30.0);
+				y = (int) Math.floor(Math.random() * 7.0 + 5.0);
+			}
+			while (gameMap.at(x, y).containsAnActor());
+			gameMap.at(x,  y).addActor(new Human(name));
+		}
+		//Place some random humans outside the fence
+		String[] humans1 = {"Paul", "Dennis", "Nathan", "Scott", "Josie"};
+		for(String name: humans1){
+			Human human = new Human(name);
+			x = rand.nextInt(80);
+			y = rand.nextInt(25);
+			if(!gameMap.at(x, y).containsAnActor() && gameMap.at(x, y).canActorEnter(human)){
+				gameMap.at(x, y).addActor(human);
 			}
 		}
 

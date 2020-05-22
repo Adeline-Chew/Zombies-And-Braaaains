@@ -24,7 +24,8 @@ public class HumanCorpse extends PortableItem {
      * @param name Display name of the dead Human.
      */
     public HumanCorpse(String name){
-        super(name, '%');
+        super("Dead " + name, '!');
+        this.name = name;
     }
 
     /**
@@ -45,13 +46,13 @@ public class HumanCorpse extends PortableItem {
                 try {
                     corpseRevive(currentLocation);
                     success = true;
+                    currentLocation.removeItem(this);
                 } catch (Exception e) {
                     // Get adjacent location
                     currentLocation = currentLocation.getExits().get(0).getDestination();
-                    }
+                }
             }
         }
-            currentLocation.removeItem(this);
     }
 
 
@@ -74,10 +75,10 @@ public class HumanCorpse extends PortableItem {
                 try {
                     corpseRevive(actor.getRandomAdjacent(currentLocation.map()));
                     success = true;
+                    actor.removeItemFromInventory(this);
                 } catch (Exception e) {
                     actor.getRandomAdjacent(currentLocation.map());
                 }
-                actor.removeItemFromInventory(this);
             }
         }
     }

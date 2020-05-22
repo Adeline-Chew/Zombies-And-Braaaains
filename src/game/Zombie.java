@@ -165,7 +165,7 @@ public class Zombie extends ZombieActor {
 				this.removeCapability(ZombieCapability.HOLD);	// Zombie cannot hold weapon anymore
 			ZombieLimbs zombieArm = new ZombieLimbs(ZombieLimbs.Limb.ARM);
 			adjacent.addItem(zombieArm);
-			result += this.name + " lost an arm.";
+			result += "\n" + this.name + " lost an arm.";
 		}
 
 		else if(knockOff && numberOfLegs > 0) {
@@ -174,7 +174,7 @@ public class Zombie extends ZombieActor {
 				this.removeCapability(ZombieCapability.WALK);	// Zombie cannot walk anymore
 			ZombieLimbs zombieLeg = new ZombieLimbs(ZombieLimbs.Limb.LEG);
 			adjacent.addItem(zombieLeg);
-			result += this.name + " lost a leg.";
+			result += "\n" + this.name + " lost a leg.";
 		}
 		return result;
 	}
