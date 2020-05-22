@@ -36,15 +36,24 @@ public class HumanCorpse extends PortableItem {
      */
     @Override
     public void tick(Location currentLocation) {
-        boolean revive = rand.nextBoolean();
+        boolean revive = rand.nextBoolean(), success = false;
 
         turn++;
 
         if((turn > 5 && turn < 10 && revive) || turn == 10) {
-            corpseRevive(currentLocation);
-            currentLocation.removeItem(this);
+            while (!success) {
+                try {
+                    corpseRevive(currentLocation);
+                    success = true;
+                } catch (Exception e) {
+                    // Get adjacent location
+                    currentLocation = currentLocation.getExits().get(0).getDestination();
+                    }
+            }
         }
+            currentLocation.removeItem(this);
     }
+
 
     /**
      * Count the turn of the game when the corpse is carrying by an actor.
@@ -56,13 +65,20 @@ public class HumanCorpse extends PortableItem {
      */
     @Override
     public void tick(Location currentLocation, Actor actor){
-        boolean revive = rand.nextBoolean();
+        boolean revive = rand.nextBoolean(), success = false;
 
         turn++;
 
         if((turn > 5 && turn < 10 && revive) || turn == 10) {
-            corpseRevive(actor.getRandomAdjacent(currentLocation.map()));
-            actor.removeItemFromInventory(this);
+            while (!success) {
+                try {
+                    corpseRevive(actor.getRandomAdjacent(currentLocation.map()));
+                    success = true;
+                } catch (Exception e) {
+                    actor.getRandomAdjacent(currentLocation.map());
+                }
+                actor.removeItemFromInventory(this);
+            }
         }
     }
 
@@ -70,12 +86,17 @@ public class HumanCorpse extends PortableItem {
      * Turn the HumanCorpse into Zombie at a specified location.
      * @param here Location of where the HumanCorpse turns into Zombie.
      */
-    private void corpseRevive(Location here){
+    private void corpseRevive(Location here) throws Exception {
         Display display = new Display();
         String retVal;
 
         // Create a new zombie
-        here.addActor(new Zombie("Zombie " + this.name));
+        try {
+            here.addActor(new Zombie("Zombie " + this.name));
+        }
+        catch (IllegalArgumentException e){
+            throw new Exception();
+        }
 
         // Display message
         retVal = this.name + " has turned into Zombie.\n" ;
