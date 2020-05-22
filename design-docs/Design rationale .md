@@ -375,17 +375,16 @@ to _corpse_ attribute. If not, a new `PortableItem` object will be created and a
 
 #### A new class: HarvestBehaviour
 
-* A new type of behaviour of `Farmer` and `Player` so that they can harvest a crop.
+* A new type of behaviour of `Farmer` so that they can harvest a crop.
 
-1. This class extends `Action` class and implements `Behaviour` class.
+1. This class implements `Behaviour` class.
 2. It has an overridden *getAction()* method.
     * It has a string local variable represents the food name. Food name is generated differently to make game more interesting.
     * It has a list of exits where the actor can take, these exits are the current and adjacent location of the actor.
     * A for loop in the exits list and check the capability of the ground of the location.
     * If the ground has capability *RIPEN*, which means the crop can be harvested. 
-    * The ripen crop will be dropped onto the ground.
-3. It has another overridden *execute()* method.
-    * This method will return a string about the description of the harvest action with actor’s name.
+    * It will return a new HarvestAction with food name and the location as parameter.
+
 
 #### Design reason
 
@@ -423,6 +422,16 @@ to _corpse_ attribute. If not, a new `PortableItem` object will be created and a
 
 * Simple implementation as it just perform healing and removing item. 
 * Player is able to choose when to perform the eating and healing action.
+
+#### A new class: HarvestAction
+
+* A new type of action so that `Player` can harvest a crop.
+
+1. This class extends `Action` class.
+1. It has an `Exit` instance variable as the location of ripen crop.
+1. It has another overridden *execute()* method.
+    * It will set the ground of the exit to dirt, and add a `Food` item onto the ground.
+    * This method will return a string about the description of the harvest action with actor’s name.
 
 #### Modify class: Player
 1. In the *playTurn()* method, a new `FertiliseBehaviour` will be added into actions if the action performed does not return null.
