@@ -19,7 +19,14 @@ public class CraftAction extends Action {
      * @param item item to be crafted as weapon item
      */
     public CraftAction(Item item){
-        limb = item;
+        try{
+            if(item != null){
+                limb = item;
+            }
+        } catch(NullPointerException e){
+            System.out.println("Item to be crafted is null");
+        }
+
     }
 
     /**
