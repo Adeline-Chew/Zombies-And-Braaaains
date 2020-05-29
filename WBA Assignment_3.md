@@ -31,3 +31,6 @@ Tasks:
     
 2.20pm, 29th May 2020
 I, Adeline Chew Yao Yi, accept this Work Breakdown Agreement.   
+
+3.32pm, 29th May 2020
+I, Tey Kai Ying, accept this Work Breakdown Agreement.
