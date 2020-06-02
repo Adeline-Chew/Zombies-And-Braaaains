@@ -8,7 +8,7 @@ public class Vehicle extends Item {
 
     public Vehicle(GameMap map){
         super("Tesla", 'V', false);
-        this.allowableActions.add(new MoveActorAction(map.at(39, 11), "travelling..."));
+        this.allowableActions.add(new MoveActorAction(map.at(39, 11), "toward another map..."));
     }
 
 }
