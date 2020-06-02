@@ -42,6 +42,9 @@ public class Player extends Human {
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 
+		// for Player to use shotgun
+		actions.add(new ShotgunAction(new Shotgun(), display));
+
 		// this make sure Player only do harvest action in a valid situation
 		Exit here = new Exit("Stay" , map.locationOf(this), "z");
 		if(map.locationOf(this).getGround().hasCapability(Crop.CropCapability.RIPEN)){
