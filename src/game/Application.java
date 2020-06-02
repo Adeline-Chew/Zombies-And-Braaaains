@@ -153,7 +153,41 @@ public class Application {
 		// place a vehicle
 		gameMap.at(40, 11).addItem(new Vehicle(townMap));
 		townMap.at(40, 11).addItem(new Vehicle(gameMap));
-		townMap.at(43, 11).addActor(new Zombie("ZZ"));
+
+		// place some random zombies
+		String[] townZombies = {"ZZ1", "ZZ2", "ZZ3", "ZZ4", "ZZ5"};
+		for(String name: townZombies){
+			Zombie zombie = new Zombie(name);
+			x = rand.nextInt(80);
+			y = rand.nextInt(25);
+			if(!townMap.at(x, y).containsAnActor() && townMap.at(x, y).canActorEnter(zombie)){
+				townMap.at(x, y).addActor(zombie);
+			}
+		}
+
+		// Place some random farmers
+		String[] townFarmers = {"TownFarmer1", "TownFarmer2", "TownFarmer3"};
+		for(String name:townFarmers){
+			Farmer farmer = new Farmer(name);
+			x = rand.nextInt(80);
+			y = rand.nextInt(25);
+			if(!townMap.at(x, y).containsAnActor() && townMap.at(x, y).canActorEnter(farmer)){
+				townMap.at(x, y).addActor(farmer);
+			}
+		}
+
+		// Place some random humans
+		String[] townHumans = {"TownHuman1", "TownHuman2", "TownHuman3", "TownHuman4", "TownHuman5",
+				"TownHuman6", "TownHuman7", "TownHuman8", "TownHuman9", "TownHuman10"};
+
+		for (String name : townHumans) {
+			do {
+				x = (int) Math.floor(Math.random() * 20.0 + 30.0);
+				y = (int) Math.floor(Math.random() * 7.0 + 5.0);
+			}
+			while (townMap.at(x, y).containsAnActor());
+			townMap.at(x,  y).addActor(new Human(name));
+		}
 
 		world.run();
 	}
