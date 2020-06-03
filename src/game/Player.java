@@ -45,6 +45,9 @@ public class Player extends Human {
 		// for Player to use shotgun
 		actions.add(new ShotgunAction(new Shotgun(), display));
 
+		// for Player to quit game
+		actions.add(new QuitGameAction());
+
 		// this make sure Player only do harvest action in a valid situation
 		Exit here = new Exit("Stay" , map.locationOf(this), "z");
 		if(map.locationOf(this).getGround().hasCapability(Crop.CropCapability.RIPEN)){
