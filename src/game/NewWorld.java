@@ -71,4 +71,41 @@ public class NewWorld extends World {
         display.println(endGameMessage());
 
     }
+
+    @Override
+    protected boolean stillRunning() {
+        boolean containHuman = false, containMarie = false, containZombie = false;
+        boolean continueGame = true;
+
+        for(Actor actor : actorLocations){
+            if(actor.hasCapability(ZombieCapability.ALIVE)){
+                containHuman = true;
+            }
+        }
+
+        if(actorLocations.contains(mamboMarie)){
+            containMarie  = true;
+        }
+
+        for(Actor actor : actorLocations){
+            if(actor.hasCapability(ZombieCapability.UNDEAD)){
+                containZombie = true;
+            }
+        }
+
+        if(!containHuman && !super.stillRunning()){
+            display.println("Player loses");
+            continueGame = false;
+        }
+        else if(!containZombie && !containMarie) {
+            display.println("Player wins");
+            continueGame = false;
+        }
+
+        if(!super.stillRunning()){
+            continueGame = false;
+        }
+        
+        return continueGame;
+    }
 }
