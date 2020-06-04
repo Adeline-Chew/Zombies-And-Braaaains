@@ -42,9 +42,6 @@ public class Player extends Human {
 	@Override
 	public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 
-		// for Player to use shotgun
-		actions.add(new ShotgunAction(new Shotgun(), display));
-
 		// for Player to quit game
 		actions.add(new QuitGameAction());
 
@@ -61,6 +58,10 @@ public class Player extends Human {
 
 			if(item.hasCapability(ItemCapability.CRAFTABLE)){
 				actions.add(new CraftAction(item));				// Player crafts only when it has craftable item
+			}
+
+			if(item.hasCapability(ItemCapability.SHOTGUN)){
+				actions.add(new ShotgunAction(new Shotgun(), display));     // for Player to use shotgun
 			}
 
 		}
