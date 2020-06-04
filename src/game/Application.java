@@ -74,20 +74,20 @@ public class Application {
 		gameMap.at(62, 12).addActor(new Zombie("Aaargh"));
 
 		String[] zombies = {"Z1", "Z2", "Z3", "Z4"};
-		putActors(gameMap, zombies);
+		putActors(gameMap, zombies, 'Z');
 
 		// Place some random farmers
 		String[] farmers = {"Farmer-1", "Farmer-2", "Farmer-3", "Farmer-4", "Farmer-5", "Farmer-6"};
-		putActors(gameMap, farmers);
+		putActors(gameMap, farmers, 'F');
 
 		// Place some random humans
 		String[] humans = {"Carlton", "May", "Vicente", "Andrea", "Wendy",
 				"Elina", "Winter", "Clem", "Jacob", "Jaquelyn"};
+		putActors(gameMap, humans, 'H');
 
-		putActors(gameMap, humans);
 		//Place some random humans outside the fence
 		String[] humans1 = {"Paul", "Dennis", "Nathan", "Scott", "Josie"};
-		putActors(gameMap, humans1);
+		putActors(gameMap, humans1, 'H');
 
 
 		FancyGroundFactory newGroundFactory = new FancyGroundFactory(new Lane(), new Dirt(), new Fence(), new Tree());
@@ -127,22 +127,23 @@ public class Application {
 
 		// place some random zombies
 		String[] townZombies = {"ZZ1", "ZZ2", "ZZ3", "ZZ4", "ZZ5"};
-		putActors(townMap, townZombies);
+		putActors(townMap, townZombies,'Z');
 
 		// Place some random farmers
 		String[] townFarmers = {"TownFarmer1", "TownFarmer2", "TownFarmer3"};
-		putActors(townMap, townFarmers);
+		putActors(townMap, townFarmers, 'F');
 
 		// Place some random humans
 		String[] townHumans = {"TownHuman1", "TownHuman2", "TownHuman3", "TownHuman4", "TownHuman5",
 				"TownHuman6", "TownHuman7", "TownHuman8", "TownHuman9", "TownHuman10"};
+		putActors(townMap, townHumans, 'H');
 
-		putActors(townMap, townHumans);
+		townMap.at(2,11).addItem(new Shotgun());
 
 		world.run();
 	}
 
-	private static void putActors(GameMap map, String[] actors) {
+	private static void putActors(GameMap map, String[] actors, char type) {
 		Random rand = new Random();
 		int x;
 		int y;
@@ -152,7 +153,15 @@ public class Application {
 				y = rand.nextInt(map.getYRange().max());
 			}
 			while (map.at(x, y).containsAnActor());
-			map.at(x,  y).addActor(new Human(name));
+			if(type == 'Z'){
+				map.at(x,  y).addActor(new Zombie(name) );
+			}
+			else if(type == 'F'){
+				map.at(x,  y).addActor(new Farmer(name));
+			}
+			else if(type == 'H'){
+				map.at(x,  y).addActor(new Human(name));
+			}
 		}
 	}
 }
