@@ -9,6 +9,11 @@ public class ShotDirectionAction extends Action  {
         this.direction = direction;
     }
 
+    // getter for direction
+    public String getDirection() {
+        return direction;
+    }
+
     @Override
     public String execute(Actor actor, GameMap map) {
         return menuDescription(actor);
@@ -16,7 +21,6 @@ public class ShotDirectionAction extends Action  {
 
     @Override
     public String menuDescription(Actor actor) {
-
         return actor + " fires " + direction;
     }
 }
