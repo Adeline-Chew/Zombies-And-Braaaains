@@ -56,3 +56,6 @@ Bonus mark features:
 
 2.22pm, 5th June 2020
 I, Tey Kai Ying, accept this Work Breakdown Agreement.
+
+2.32pm, 5th June 2020
+I, Adeline Chew Yao Yi, accept this Work Breakdown Agreement.
