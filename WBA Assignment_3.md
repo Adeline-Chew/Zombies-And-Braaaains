@@ -33,9 +33,26 @@ Tasks:
 1. Recommendations for change to the Game engine
     - Production: Adeline & Kai Ying (by 10th June)
     - Review: Adeline & Kai Ying (by 11th June)
-    
-3.27pm, 2nd June 2020
-I, Adeline Chew Yao Yi, accept this Work Breakdown Agreement.   
 
-3.53pm, 2nd June 2020
+Bonus mark features:
+1. New building: Hospital
+   
+   - Production: Adeline (by 10th June)
+   - Documentation: Adeline (by 10th June)
+   - Review: Kai Ying (by 11th June)
+
+1. New Actor: Doctor
+
+   - Production: Kai Ying (by 10th June)
+   - Documentation: Kai Ying (by 10th June)
+   - Review: Adeline (by 11th June)
+
+1. Zombie self-explode feature
+
+   - Production: Adeline & Kai Ying (by 8th June)
+   - Documentation: Kai Ying (by 8th June)
+   - Review: Adeline & Kai Ying (by 9th June)
+    
+
+2.22pm, 5th June 2020
 I, Tey Kai Ying, accept this Work Breakdown Agreement.
