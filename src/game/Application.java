@@ -57,7 +57,9 @@ public class Application {
 			e.printStackTrace();
 		}
 		world.addPlayer(player, gameMap.at(42, 15));
-		
+
+		gameMap.locationOf(player).addItem(new Shotgun());
+		gameMap.locationOf(player).addItem(new SniperRifle());
 		// place a simple weapon
 		gameMap.at(74, 20).addItem(new Plank());
 		gameMap.at(42, 15).addItem(new Plank());
