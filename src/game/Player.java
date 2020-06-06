@@ -12,6 +12,8 @@ public class Player extends Human {
 
 	private Menu menu = new Menu();
 	private Random rand = new Random();
+	private static int concentration;
+	private static ChooseTargetAction chooseTargetAction;
 
 	/**
 	 * Constructor.
@@ -25,6 +27,10 @@ public class Player extends Human {
 		if(hitPoints < 0){
 			throw new Exception("Player hitpoints must be positive");
 		}
+	}
+
+	public static void resetConcentration() {
+		concentration = 0;
 	}
 
 	/**
@@ -60,11 +66,17 @@ public class Player extends Human {
 				actions.add(new CraftAction(item));				// Player crafts only when it has craftable item
 			}
 
-			if(item.hasCapability(ItemCapability.SHOTGUN)){
-				actions.add(new ShotgunAction(new Shotgun(), display));     // for Player to use shotgun
+			if(item.hasCapability(ItemCapability.RANGED_WEAPON)){
+				actions.add(new ChooseWeaponAction(display, (RangedWeapon) item));     // for Player to use shotgun or sniper
 			}
-
 		}
+
+		if(concentration > 0){
+			actions.add(chooseTargetAction);
+		}
+
+		if(concentration == 2)
+			resetConcentration();
 		// Handle multi-turn Actions
 		if (lastAction.getNextAction() != null)
 			return lastAction.getNextAction();
@@ -72,6 +84,10 @@ public class Player extends Human {
 		return menu.showMenu(this, actions, display);
 	}
 
+	public static void concentrateAction(ChooseTargetAction action, int focusValue){
+		concentration = focusValue;
+		chooseTargetAction = action;
+	}
 	/**
 	 * Get the weapon for Player to use. Weapon will be chosen with highest damage.
 	 * If the Player is not carrying any weapon, it will return Player's natural fighting equipment.

@@ -34,6 +34,6 @@ public class AimAction extends Action {
      */
     @Override
     public String menuDescription(Actor actor) {
-        return "Spend a round aiming at " + target;
+        return actor + " spend a round aiming at " + target;
     }
 }
