@@ -6,12 +6,10 @@ import edu.monash.fit2099.engine.*;
 import java.util.*;
 
 public class SniperRifle extends RangedWeapon {
-    private SniperAmmunition[] sniperAmmunition;
     private final HashMap<Double, Integer> sniperDamage = new HashMap<>();
 
     public SniperRifle(){
-        super("Sniper Rifle", 'S', 20, "fires");
-        sniperAmmunition = new SniperAmmunition[20];
+        super("Sniper Rifle", 'S', 20, "bangs");
         this.addCapability(ItemCapability.RANGED_WEAPON);
         sniperDamage.put(0.75, 20);
         sniperDamage.put(0.90, 40);
@@ -78,11 +76,6 @@ public class SniperRifle extends RangedWeapon {
             }
         }
         return nextLayer;
-    }
-
-    @Override
-    public void lostAmmunition() {
-
     }
 
     public HashMap<Double, Integer> getSniperDamage(){

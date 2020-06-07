@@ -6,7 +6,7 @@ public class Shotgun extends RangedWeapon {
     final String [] DIRECTIONS = {"North", "North-East", "East", "South-East", "South", "South-West", "West", "North-West"};
 
     public Shotgun() {
-        super("Shotgun", 'G', 20, "fires");
+        super("Shotgun", 'G', 20, "bangs");
         addCapability(ItemCapability.RANGED_WEAPON);
     }
 
@@ -19,8 +19,4 @@ public class Shotgun extends RangedWeapon {
         return menu.showMenu(actor, actions, display);
     }
 
-    @Override
-    public void lostAmmunition() {
-
-    }
 }

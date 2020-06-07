@@ -2,8 +2,11 @@ package game;
 
 import edu.monash.fit2099.engine.*;
 
+import java.util.ArrayList;
+
 public abstract class RangedWeapon extends WeaponItem {
-    Menu menu;
+    protected Menu menu = new Menu();
+    protected ArrayList<Ammunition> ammunition = new ArrayList<>();
 
     /**
      * Constructor.
@@ -15,12 +18,21 @@ public abstract class RangedWeapon extends WeaponItem {
      */
     public RangedWeapon(String name, char displayChar, int damage, String verb) {
         super(name, displayChar, damage, verb);
-        menu = new Menu();
     }
 
     public String getName(){return name;}
 
     public abstract Action subMenu(Actor actor, GameMap map, Display display);
 
-    public abstract void lostAmmunition();
+    public int getAmountOfBullet(){
+        return ammunition.size();
+    }
+
+    public void shoot(){
+        ammunition.remove(ammunition.size() - 1);
+    }
+
+    public void loadAmmunition(AmmunitionBox box){
+        ammunition.addAll(box.getAmmunition());
+    }
 }

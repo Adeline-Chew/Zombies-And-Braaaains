@@ -1,6 +1,8 @@
 package game;
 
-import edu.monash.fit2099.engine.*;
+import edu.monash.fit2099.engine.Action;
+import edu.monash.fit2099.engine.Actor;
+import edu.monash.fit2099.engine.GameMap;
 
 public class RangedAttackAction extends Action {
     private final RangedWeapon weapon;
@@ -20,6 +22,7 @@ public class RangedAttackAction extends Action {
         String result = actor + " miss " + target;
         if(Math.random() <= hitProb) {
             target.damage(damage, map);
+            weapon.shoot();
             result = actor + " use " + weapon.getName() + " fires " + target + " for " + damage + " damage.";
 
             if(!target.isConscious())
