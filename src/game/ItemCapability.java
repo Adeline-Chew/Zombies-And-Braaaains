@@ -4,6 +4,7 @@ public enum ItemCapability {
     EDIBLE,
     CRAFTABLE,
     AS_WEAPON,
-    RANGED_WEAPON
+    RANGED_WEAPON,
+    BULLET
 
 }
