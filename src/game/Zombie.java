@@ -2,6 +2,9 @@ package game;
 
 import edu.monash.fit2099.engine.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -66,6 +69,21 @@ public class Zombie extends ZombieActor {
 				return action;
 		}
 		return new DoNothingAction();
+	}
+
+
+	private String turnIntoBomb(GameMap map) {
+		int bombDamage = 15;
+		List<Exit> exits = new ArrayList<>(map.locationOf(this).getExits());
+		Collections.shuffle(exits);
+
+		for(Exit exit: exits){
+			if(exit.getDestination().containsAnActor()){
+				Actor actor = exit.getDestination().getActor();
+				actor.damage(bombDamage, map);
+			}
+		}
+		return name + " turn into bomb, hurt surrounding Actors for 15 damage.";
 	}
 
 	/**
@@ -175,6 +193,10 @@ public class Zombie extends ZombieActor {
 			ZombieLimbs zombieLeg = new ZombieLimbs(ZombieLimbs.Limb.LEG);
 			adjacent.addItem(zombieLeg);
 			result += "\n" + this.name + " lost a leg.";
+		}
+
+		if(!isConscious() && Math.random() <= 1){
+			result += "\n" + turnIntoBomb(map);
 		}
 		return result;
 	}
