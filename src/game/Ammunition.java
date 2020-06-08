@@ -1,9 +1,10 @@
 package game;
 
-public abstract class Ammunition extends PortableItem{
+import edu.monash.fit2099.engine.Item;
 
-    public Ammunition(String name, char displayChar) {
-        super(name, displayChar);
-        addCapability(ItemCapability.BULLET);
+public class Ammunition extends Item {
+
+    public Ammunition() {
+        super("Ammunition", 'A', false);
     }
 }

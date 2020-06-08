@@ -1,14 +1,10 @@
 package game;
 
+import edu.monash.fit2099.engine.*;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.Display;
-import edu.monash.fit2099.engine.FancyGroundFactory;
-import edu.monash.fit2099.engine.GameMap;
-import edu.monash.fit2099.engine.World;
 
 /**
  * The main class for the zombie apocalypse game.
@@ -60,6 +56,7 @@ public class Application {
 
 		gameMap.locationOf(player).addItem(new Shotgun());
 		gameMap.locationOf(player).addItem(new SniperRifle());
+		gameMap.locationOf(player).addItem(new AmmunitionBox());
 		// place a simple weapon
 		gameMap.at(74, 20).addItem(new Plank());
 		gameMap.at(42, 15).addItem(new Plank());
