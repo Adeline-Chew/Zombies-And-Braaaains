@@ -89,7 +89,7 @@ public class Application {
 		putActors(gameMap, humans1, 'H');
 
 
-		FancyGroundFactory newGroundFactory = new FancyGroundFactory(new Lane(), new Dirt(), new Fence(), new Tree());
+		FancyGroundFactory newGroundFactory = new FancyGroundFactory(new Lane(), new Dirt(), new Fence(), new Tree(), new Depot());
 
 		List<String> town = Arrays.asList(
 				"________________________________________________________________________________",
@@ -100,13 +100,13 @@ public class Application {
 				"________________________________________________________________________________",
 				"________________________________________________________________________________",
 				"________________________________________________________________________________",
-				"________________________________________________________________________________",
-				"________________________________#####___________________________________________",
-				"________________________________________________________________________________",
-				"________________________________________________________________________________",
+				"_____________________________D___________________D______________________________",
+				"__________________________________##########____________________________________",
 				"________________________________________________________________________________",
 				"________________________________________________________________________________",
 				"________________________________________________________________________________",
+				"__________________________________##########____________________________________",
+				"_____________________________D___________________D______________________________",
 				"________________________________________________________________________________",
 				"________________________________________________________________________________",
 				"________________________________________________________________________________",
@@ -124,28 +124,28 @@ public class Application {
 		gameMap.at(40, 11).addItem(new Vehicle(townMap));
 		townMap.at(40, 11).addItem(new Vehicle(gameMap));
 
-		// place some random zombies
-		String[] townZombies = {"ZZ1", "ZZ2", "ZZ3", "ZZ4", "ZZ5"};
-		putActors(townMap, townZombies,'Z');
+		// Place some farmers in town map
+		townMap.at(0, 24).addActor(new Farmer("TownFarmer1"));
+		townMap.at(1, 24).addActor(new Farmer("TownFarmer2"));
+		townMap.at(2, 24).addActor(new Farmer("TownFarmer3"));
+		townMap.at(4, 24).addActor(new Farmer("TownFarmer4"));
 
-		// Place some random farmers
-		String[] townFarmers = {"TownFarmer1", "TownFarmer2", "TownFarmer3"};
-		putActors(townMap, townFarmers, 'F');
-
-		// Place some random humans
+		// Place some random humans in town map
 		String[] townHumans = {"TownHuman1", "TownHuman2", "TownHuman3", "TownHuman4", "TownHuman5",
 				"TownHuman6", "TownHuman7", "TownHuman8", "TownHuman9", "TownHuman10"};
 		putActors(townMap, townHumans, 'H');
 
-		townMap.at(2,11).addItem(new Shotgun());
+		townMap.at(44,11).addItem(new Shotgun());
+		townMap.at(45, 13).addItem(new Shotgun());
+		townMap.at(45, 9).addItem(new SniperRifle());
+		townMap.at(36, 11).addItem(new SniperRifle());
 
 		world.run();
 	}
 
 	private static void putActors(GameMap map, String[] actors, char type) {
 		Random rand = new Random();
-		int x;
-		int y;
+		int x, y;
 		for (String name : actors) {
 			do {
 				x = rand.nextInt(map.getXRange().max());

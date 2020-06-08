@@ -6,7 +6,7 @@ public class AmmunitionBox extends PortableItem {
     ArrayList<Ammunition> bulletBox = new ArrayList<>();
 
     public AmmunitionBox() {
-        super("Box of bullets", 'A');
+        super("a box of bullets", 'A');
         for(int i = 0; i < 5; i++){
             bulletBox.add(new Ammunition());
         }

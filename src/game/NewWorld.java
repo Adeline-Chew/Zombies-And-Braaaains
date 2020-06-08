@@ -34,19 +34,7 @@ public class NewWorld extends World {
         while (stillRunning()) {
             GameMap playersMap = actorLocations.locationOf(player).map();
             playersMap.draw(display);
-
-            for(GameMap map: gameMaps){
-                if(isAppear && map.contains(player) && !map.contains(mamboMarie)){
-                    int x, y;
-                    do{
-                        x = 0;
-                        y = rand.nextInt(map.getYRange().max());
-                    }
-                    while(map.at(x, y).containsAnActor() || !map.at(x, y).canActorEnter(mamboMarie));
-                    map.addActor(mamboMarie, map.at(x, y));
-                    display.println("Mambo Marie appears in game.");
-                }
-            }
+            GameMap compound = gameMaps.get(0);
 
             // Process all the actors.
             for (Actor actor : actorLocations) {
@@ -59,12 +47,24 @@ public class NewWorld extends World {
                 gameMap.tick();
             }
 
+            // Add Mambo Marie
+            if(isAppear && !compound.contains(mamboMarie)){
+                int x, y;
+                do{
+                    x = 0;
+                    y = rand.nextInt(compound.getYRange().max());
+                }
+                while(compound.at(x, y).containsAnActor() || !compound.at(x, y).canActorEnter(mamboMarie));
+                compound.addActor(mamboMarie, compound.at(x, y));
+                display.println("Mambo Marie appears in game.");
+            }
+
             // After 30 turns, Mambo Marie will vanish
             if(actorLocations.contains(mamboMarie)) {
                 turn++;
                 if (turn % 30 == 0) {
                     actorLocations.remove(mamboMarie);
-                    display.println("Mambo Marie was temporary disappears.");
+                    display.println("Mambo Marie temporary disappears.");
                 }
             }
         }
