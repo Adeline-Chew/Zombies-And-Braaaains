@@ -1,6 +1,9 @@
 package game;
 
-import edu.monash.fit2099.engine.*;
+import edu.monash.fit2099.engine.Action;
+import edu.monash.fit2099.engine.Actor;
+import edu.monash.fit2099.engine.Display;
+import edu.monash.fit2099.engine.GameMap;
 
 public class ChooseWeaponAction extends Action {
     RangedWeapon weapon;
@@ -33,5 +36,7 @@ public class ChooseWeaponAction extends Action {
     public String menuDescription(Actor actor) {
         return actor + " use " + weapon.getName();
     }
+
+    public RangedWeapon getWeapon(){return weapon;}
 
 }

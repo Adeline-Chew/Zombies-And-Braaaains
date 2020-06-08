@@ -32,8 +32,9 @@ public class ChooseTargetAction extends Action {
         actions.add(new RangedAttackAction(sniper, target, getShootProbability(), sniper.getSniperDamage().get(getShootProbability())));
         Action action = menu.showMenu(actor, actions, display);
         result = action.execute(actor, map);
-        if(action instanceof AimAction)
-            Player.concentrateAction(this, aim.getConcentration());
+        if(action instanceof RangedAttackAction)
+            aim.resetConcentration();
+        Player.concentrateAction(this, aim.getConcentration());
 
         return result;
     }
@@ -48,6 +49,13 @@ public class ChooseTargetAction extends Action {
         return prob;
     }
 
+    public boolean lastActionIsAim(Action lastAction){
+        boolean retVal = false;
+        if(lastAction instanceof ChooseWeaponAction && ((ChooseWeaponAction) lastAction).getWeapon().equals(sniper)){
+            retVal = true;
+        }
+        return retVal || lastAction instanceof ChooseTargetAction;
+    }
     /**
      * Returns a descriptive string
      *

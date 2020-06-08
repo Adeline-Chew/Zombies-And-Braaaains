@@ -10,8 +10,8 @@ import java.util.Random;
  */
 public class Player extends Human {
 
-	private Menu menu = new Menu();
-	private Random rand = new Random();
+	private final Menu menu = new Menu();
+	private final Random rand = new Random();
 	private static int concentration;
 	private static ChooseTargetAction chooseTargetAction;
 
@@ -27,10 +27,6 @@ public class Player extends Human {
 		if(hitPoints < 0){
 			throw new Exception("Player hitpoints must be positive");
 		}
-	}
-
-	public static void resetConcentration() {
-		concentration = 0;
 	}
 
 	/**
@@ -58,25 +54,25 @@ public class Player extends Human {
 		}
 
 		for(Item item: this.getInventory()){
-			if(item.hasCapability(ItemCapability.EDIBLE) && this.hitPoints < this.maxHitPoints){
+			if(item.hasCapability(ItemCapability.EDIBLE) && this.hitPoints < this.maxHitPoints)
 				actions.add(new EatAction((Food)item));			// Player eats only when it has lower hit points
-			}
 
-			if(item.hasCapability(ItemCapability.CRAFTABLE)){
+			if(item.hasCapability(ItemCapability.CRAFTABLE))
 				actions.add(new CraftAction(item));				// Player crafts only when it has craftable item
-			}
 
-			if(item.hasCapability(ItemCapability.RANGED_WEAPON)){
+			if(item.hasCapability(ItemCapability.RANGED_WEAPON)) {
 				actions.add(new ChooseWeaponAction(display, (RangedWeapon) item));     // for Player to use shotgun or sniper
 			}
 		}
 
 		if(concentration > 0){
-			actions.add(chooseTargetAction);
+			if(chooseTargetAction.lastActionIsAim(lastAction))
+				actions.add(chooseTargetAction);
+			else
+				concentration = 0;
+
 		}
 
-		if(concentration == 2)
-			resetConcentration();
 		// Handle multi-turn Actions
 		if (lastAction.getNextAction() != null)
 			return lastAction.getNextAction();
@@ -121,5 +117,18 @@ public class Player extends Human {
 			return chosenWeapon;
 		}
 		return null;
+	}
+
+	/**
+	 * Do some damage to the current Actor.
+	 * <p>
+	 * If the Actor's hitpoints go down to zero, it will be knocked out.
+	 *
+	 * @param points number of hitpoints to deduct.
+	 */
+	@Override
+	public void hurt(int points) {
+		super.hurt(points);
+		concentration = 0;
 	}
 }

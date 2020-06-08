@@ -1,10 +1,12 @@
 package game;
 
-import edu.monash.fit2099.engine.*;
+import edu.monash.fit2099.engine.Action;
+import edu.monash.fit2099.engine.Actor;
+import edu.monash.fit2099.engine.GameMap;
 
 public class AimAction extends Action {
-    Actor target;
-    int concentration;
+    private final Actor target;
+    private int concentration;
 
     public AimAction(Actor actor){
         this.target = actor;
@@ -19,12 +21,19 @@ public class AimAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         concentration++;
+        if(concentration > 2)
+            resetConcentration();
         return menuDescription(actor);
     }
 
     public int getConcentration() {
         return concentration;
     }
+
+    public void resetConcentration(){
+        concentration = 0;
+    }
+
 
     /**
      * Returns a descriptive string
