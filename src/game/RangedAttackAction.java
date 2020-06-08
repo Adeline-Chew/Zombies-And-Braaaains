@@ -25,8 +25,10 @@ public class RangedAttackAction extends Action {
             weapon.shoot();
             result = actor + " use " + weapon.getName() + " fires " + target + " for " + damage + " damage.";
 
-            if(!target.isConscious())
+            if (!target.isConscious()) {
+                map.removeActor(target);
                 result += "\n" + target + " is killed.";
+            }
         }
         return result;
     }
