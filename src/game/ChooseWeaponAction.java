@@ -1,9 +1,6 @@
 package game;
 
-import edu.monash.fit2099.engine.Action;
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.Display;
-import edu.monash.fit2099.engine.GameMap;
+import edu.monash.fit2099.engine.*;
 
 public class ChooseWeaponAction extends Action {
     RangedWeapon weapon;
@@ -22,8 +19,20 @@ public class ChooseWeaponAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        Action action = weapon.subMenu(actor, map, display);
-        return action.execute(actor, map);
+        for (Item item : actor.getInventory()){
+            if(item.hasCapability(ItemCapability.BULLET)) {
+                weapon.loadAmmunition((AmmunitionBox) item);
+                actor.removeItemFromInventory(item);
+                break;
+            }
+        }
+        if(weapon.getAmountOfBullet() > 0) {
+            Action action = weapon.subMenu(actor, map, display);
+            return action.execute(actor, map);
+        }
+        else{
+            return weapon + " needs to load bullet to fire.";
+        }
     }
 
     /**

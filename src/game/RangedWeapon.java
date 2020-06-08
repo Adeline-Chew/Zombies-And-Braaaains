@@ -18,6 +18,7 @@ public abstract class RangedWeapon extends WeaponItem {
      */
     public RangedWeapon(String name, char displayChar, int damage, String verb) {
         super(name, displayChar, damage, verb);
+        addCapability(ItemCapability.RANGED_WEAPON);
     }
 
     public String getName(){return name;}

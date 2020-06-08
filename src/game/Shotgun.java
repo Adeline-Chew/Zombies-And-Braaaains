@@ -7,7 +7,6 @@ public class Shotgun extends RangedWeapon {
 
     public Shotgun() {
         super("Shotgun", 'G', 20, "bangs");
-        addCapability(ItemCapability.RANGED_WEAPON);
     }
 
     @Override

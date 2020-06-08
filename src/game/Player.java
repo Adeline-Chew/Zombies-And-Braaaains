@@ -70,7 +70,6 @@ public class Player extends Human {
 				actions.add(chooseTargetAction);
 			else
 				concentration = 0;
-
 		}
 
 		// Handle multi-turn Actions

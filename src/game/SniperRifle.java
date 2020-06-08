@@ -10,7 +10,6 @@ public class SniperRifle extends RangedWeapon {
 
     public SniperRifle(){
         super("Sniper Rifle", 'S', 20, "bangs");
-        this.addCapability(ItemCapability.RANGED_WEAPON);
         sniperDamage.put(0.75, 20);
         sniperDamage.put(0.90, 40);
         sniperDamage.put(1.00, 200);
