@@ -78,7 +78,7 @@ public class NewWorld extends World {
         boolean continueGame = true;
 
         for(Actor actor : actorLocations){
-            if(actor.hasCapability(ZombieCapability.ALIVE)){
+            if(gameMaps.get(0).contains(actor) && actor.hasCapability(ZombieCapability.ALIVE) && actor != player){
                 containHuman = true;
             }
         }
@@ -88,21 +88,16 @@ public class NewWorld extends World {
         }
 
         for(Actor actor : actorLocations){
-            if(actor.hasCapability(ZombieCapability.UNDEAD)){
+            if(gameMaps.get(0).contains(actor) && actor.hasCapability(ZombieCapability.UNDEAD)){
                 containZombie = true;
             }
         }
 
-        if(!containHuman && !super.stillRunning()){
-            display.println("Player loses");
+        if(!containHuman || !super.stillRunning()){
             continueGame = false;
         }
         else if(!containZombie && !containMarie) {
             display.println("Player wins");
-            continueGame = false;
-        }
-
-        if(!super.stillRunning()){
             continueGame = false;
         }
         
