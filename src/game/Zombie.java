@@ -9,7 +9,6 @@ import java.util.Random;
 
 /**
  * A Zombie.
- * 
  * This Zombie has the abilities to attack human, pick up weapon, scream, hunt for human, and wander around.
  * 
  * @author Adeline Chew Yao Yi, Tey Kai Ying
@@ -75,7 +74,7 @@ public class Zombie extends ZombieActor {
 	 * Zombie can turn into a bomb and damage actor around the zombie.
 	 *
 	 * @param map the map where the zombie is
-	 * @return a string message describing the damage caused 
+	 * @return a string message describing the damage caused
 	 */
 	private String turnIntoBomb(GameMap map) {
 		int bombDamage = 15;
