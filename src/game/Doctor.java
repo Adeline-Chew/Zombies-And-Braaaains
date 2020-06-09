@@ -16,7 +16,7 @@ public class Doctor extends Human{
 
     public Action playTurn(Actions actions, Action lastAction, GameMap map, Display display) {
 
-        // doctor can self heal 
+        // doctor can self heal
         if(this.hitPoints < this.maxHitPoints && Math.random() < 0.5){
             int healPoint = new Random().nextInt(16) + 15;
             heal(healPoint);

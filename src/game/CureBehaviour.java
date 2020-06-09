@@ -14,7 +14,7 @@ public class CureBehaviour implements Behaviour {
         Collections.shuffle(exits);
 
         for(Exit e : exits){
-            if(e.getDestination().getActor().hasCapability(ZombieCapability.ALIVE)){
+            if(e.getDestination().containsAnActor() && e.getDestination().getActor().hasCapability(ZombieCapability.ALIVE)){
                 return new InjectVaccineAction(e.getDestination().getActor());
             }
         }
