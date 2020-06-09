@@ -1,31 +1,16 @@
 package game;
 
-import edu.monash.fit2099.engine.Action;
-import edu.monash.fit2099.engine.Actor;
-import edu.monash.fit2099.engine.GameMap;
-
-
-/**
- * Action for Doctor inject vaccine into Humans.
- *
- * @author Adeline Chew Yao Yi and Tey Kai Ying
- */
+import edu.monash.fit2099.engine.*;
 
 public class InjectVaccineAction extends Action {
     private Actor target;
-
-    /**
-     * Constructor.
-     *
-     * @param actor target to be injected vaccine
-     */
 
     public InjectVaccineAction(Actor actor){
         target = actor;
     }
 
     /**
-     * Perform the Inject Action. Injected human has a new capability.
+     * Perform the Action.
      *
      * @param actor The actor performing the action.
      * @param map   The map the actor is on.
@@ -38,10 +23,10 @@ public class InjectVaccineAction extends Action {
     }
 
     /**
-     * Describe the action to be displayed in the menu
+     * Returns a descriptive string
      *
      * @param actor The actor performing the action.
-     * @return a an empty string as it is not needed to be shown
+     * @return the text we put on the menu
      */
     @Override
     public String menuDescription(Actor actor) {
