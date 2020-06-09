@@ -71,7 +71,12 @@ public class Zombie extends ZombieActor {
 		return new DoNothingAction();
 	}
 
-
+	/**
+	 * Zombie can turn into a bomb and damage actor around the zombie.
+	 *
+	 * @param map the map where the zombie is
+	 * @return a string message describing the damage caused 
+	 */
 	private String turnIntoBomb(GameMap map) {
 		int bombDamage = 15;
 		List<Exit> exits = new ArrayList<>(map.locationOf(this).getExits());
