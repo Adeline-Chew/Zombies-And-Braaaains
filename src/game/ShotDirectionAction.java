@@ -4,21 +4,36 @@ import edu.monash.fit2099.engine.*;
 
 import static java.lang.Math.abs;
 
+/**
+ * Action for Player to shoot in a specific direction.
+ *
+ * @author Adeline Chew Yao Yi and Tey Kai Ying
+ */
+
 public class ShotDirectionAction extends Action  {
     protected String direction;
     protected RangedWeapon weapon;
     final String[] DIAGONALDIRECT = {"North-East", "South-East", "South-West", "North-West"};
 
+    /**
+     * Constructor.
+     *
+     * @param weapon weapon to perform the action
+     * @param direction a string represents the shooting direction
+     */
     public ShotDirectionAction(RangedWeapon weapon, String direction){
         this.direction = direction;
         this.weapon = weapon;
     }
 
-    // getter for direction
-    public String getDirection() {
-        return direction;
-    }
-
+    /***
+     * Perform the shooting in a specific direction. Shotgun sends a
+     * 90 cone of pellets out that can hit more than one target. Its range is 3 squares.
+     *
+     * @param actor The actor performing the action.
+     * @param map The map the actor is on.
+     * @return a description of what happened that can be displayed to the user.
+     */
     @Override
     public String execute(Actor actor, GameMap map) {
         Location here = map.locationOf(actor);
@@ -88,14 +103,24 @@ public class ShotDirectionAction extends Action  {
         return menuDescription(actor) + result;
     }
 
-
-
+    /**
+     * Describe the action to be displayed in the menu.
+     *
+     * @param actor The actor performing the action.
+     * @return a string describing the action
+     */
     @Override
     public String menuDescription(Actor actor) {
         return actor + " fires " + direction;
     }
 
-
+    /**
+     * Set the x range about the diagonal location of the actor.
+     *
+     * @param here location of the actor
+     * @param direct string about the direction
+     * @return a NumberRange
+     */
     private NumberRange setXRange(Location here, String direct){
         NumberRange xs = null;
         if(direct.contains("East") ){
@@ -107,6 +132,13 @@ public class ShotDirectionAction extends Action  {
         return xs;
     }
 
+    /**
+     * Set the y range about the diagonal location of the actor.
+     *
+     * @param here location of the actor
+     * @param direct string about the direction
+     * @return a NumberRange
+     */
     private NumberRange setYRange(Location here, String direct){
         NumberRange ys = null;
         if(direct.contains("North")){
@@ -118,6 +150,13 @@ public class ShotDirectionAction extends Action  {
         return ys;
     }
 
+    /**
+     * Set a NumberRange about the location of the actor.
+     *
+     * @param here location of the actor
+     * @param direct string about the direction
+     * @return a NumberRange
+     */
     private NumberRange setRange(Location here, String direct) {
         NumberRange range = null;
 
