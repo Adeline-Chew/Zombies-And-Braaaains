@@ -88,6 +88,10 @@ public class Application {
 		String[] humans1 = {"Paul", "Dennis", "Nathan", "Scott", "Josie"};
 		putActors(gameMap, humans1, 'H');
 
+		// Place some doctors in compound map
+		String[] doctors = {"Doctor-1", "Doctor-2", "Doctor-3"};
+		putActors(gameMap, doctors, 'D');
+
 
 		FancyGroundFactory newGroundFactory = new FancyGroundFactory(new Lane(), new Dirt(), new Fence(), new Tree(), new Depot(), new Hospital());
 
@@ -135,6 +139,10 @@ public class Application {
 				"TownHuman6", "TownHuman7", "TownHuman8", "TownHuman9", "TownHuman10"};
 		putActors(townMap, townHumans, 'H');
 
+		// Place some doctors in town map
+		String[] townDoctors = {"TownDoctor1", "TownDoctor2", "TownDoctor3", "TownDoctor4"};
+		putActors(townMap, townDoctors, 'D');
+
 		townMap.at(44,11).addItem(new Shotgun());
 		townMap.at(45, 13).addItem(new Shotgun());
 		townMap.at(45, 9).addItem(new SniperRifle());
@@ -160,6 +168,9 @@ public class Application {
 			}
 			else if(type == 'H'){
 				map.at(x,  y).addActor(new Human(name));
+			}
+			else if(type == 'D'){
+				map.at(x,  y).addActor(new Doctor(name));
 			}
 		}
 	}
