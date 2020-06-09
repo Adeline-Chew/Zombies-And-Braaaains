@@ -25,10 +25,9 @@ public class Hospital extends Building{
     /**
      * Constructor.
      *
-     * @param displayChar character to display for this type of terrain
      */
-    public Hospital(char displayChar) {
-        super(displayChar);
+    public Hospital() {
+        super('h');
         String[] name = {"Doctor A", "Doctor B", "Doctor C", "Doctor D", "Doctor E",
                 "Doctor F", "Doctor G", "Doctor H", "Doctor I", "Doctor J", "Doctor K",
                 "Doctor L", "Doctor M", "Doctor N", "Doctor O", "Doctor P", "Doctor Q",
