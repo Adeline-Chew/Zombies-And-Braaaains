@@ -21,18 +21,45 @@ public abstract class RangedWeapon extends WeaponItem {
         addCapability(ItemCapability.RANGED_WEAPON);
     }
 
+    /**
+     * Accessor for the name of the weapon.
+     *
+     * @return a string represents the name of the weapon
+     */
     public String getName(){return name;}
 
+    /**
+     * Display the submenu describing the operation of the weapon.
+     *
+     * @param actor actor performs the action
+     * @param map the map where the current actor is
+     * @param display the Display where the weapon's utterances will be displayed
+     * @return an action selected from the menu by Player
+     */
     public abstract Action subMenu(Actor actor, GameMap map, Display display);
 
+    /**
+     * Accessor for the amount of bullet contained in the weapon.
+     *
+     * @return the size of ammunition list of the weapon
+     */
     public int getAmountOfBullet(){
         return ammunition.size();
     }
 
+    /**
+     * Remove a bullet after shooting.
+     *
+     */
     public void shoot(){
         ammunition.remove(ammunition.size() - 1);
     }
 
+    /**
+     * Load all bullets from the ammunition box into the weapon.
+     *
+     * @param box an AmmunitionBox containing bullets
+     */
     public void loadAmmunition(AmmunitionBox box){
         ammunition.addAll(box.getAmmunition());
     }
