@@ -18,6 +18,8 @@ public class Human extends ZombieActor {
 			new WanderBehaviour(),
 	};
 
+	private int immuneRound;
+
 	/**
 	 * The default constructor creates default Humans
 	 * 
@@ -25,6 +27,7 @@ public class Human extends ZombieActor {
 	 */
 	public Human(String name) {
 		super(name, 'H', 50, ZombieCapability.ALIVE);
+		immuneRound = 0;
 	}
 	
 	/**
@@ -37,6 +40,7 @@ public class Human extends ZombieActor {
 	 */
 	protected Human(String name, char displayChar, int hitPoints) {
 		super(name, displayChar, hitPoints, ZombieCapability.ALIVE);
+		immuneRound = 0;
 	}
 
 	/**
@@ -58,6 +62,14 @@ public class Human extends ZombieActor {
 		// if this human has lower health points, it should be considered as damaged
 		if(this.hitPoints < this.maxHitPoints && !this.hasCapability(ZombieCapability.DAMAGED)){
 			this.addCapability(ZombieCapability.DAMAGED);
+		}
+
+		if(immuneRound == 8){
+			immuneRound = 0;
+			this.removeCapability(ZombieCapability.IMMUNE);
+		}
+		else if(this.hasCapability(ZombieCapability.IMMUNE)){
+			immuneRound += 1;
 		}
 
 		for (Behaviour behaviour : behaviours) {

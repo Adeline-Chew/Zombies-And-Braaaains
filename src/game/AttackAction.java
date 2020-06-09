@@ -38,6 +38,9 @@ public class AttackAction extends Action {
 
 		// Attack the target
 		try {
+			if(target.hasCapability(ZombieCapability.IMMUNE)){
+				return target + " has immunisation, cannot be attacked.";
+			}
 			result = actor + " " + weapon.verb() + " " + target + " for " + weapon.damage() + " damage.";
 			result += target.damage(weapon.damage(), map);
 		}

@@ -6,5 +6,6 @@ public enum ZombieCapability {
 	DEAD,
 	WALK,
 	HOLD,
-	DAMAGED
+	DAMAGED,
+	IMMUNE
 }
