@@ -442,3 +442,86 @@ to _corpse_ attribute. If not, a new `PortableItem` object will be created and a
 * Adding new classes will increase the dependencies. For example, a `Crop` is created in `Sowbehaviour` class. 
 * `Farmer` will fertilise the crop for multiple times, player can get heal easily.
 
+## **Going to Town**
+
+#### A new class: Vehicle
+
+* A new type of `Item` which can move `Player` between maps. 
+
+1. This class extends the `Item` class. 
+1. It has a `MoveActorAction` as its allowable actions. 
+1. It has a *moveActor()* method.
+	* A list of multiple `Exit` represent the adjacent locations of the destination.
+	* A for loop loops through the exits list to find an empty location without any actors.
+
+#### Design reason
+
+* Simple implementation, dependencies are reduced as much as possible as only a new class created.
+* Find adjacent locations instead of a specific destination to prevent an actor exists on that location, thus can prevent error occur. 
+
+## **New weapons and ammunition**
+
+#### A new class: Ammunition
+
+* A new type of `Item` represents bullets of guns. 
+
+#### A new class: AmmunitionBox
+
+* A new type of `PortableItem` which contains 5 `Ammunition`.
+
+1. This class extends the `PortableItem` class.
+1. It has an array list of `Ammunition`. 
+1. In the constructor, instances of `Ammunition` are added into list.
+1. `AmmunitionBox` also has the capability *BULLET*.
+1. It has an accessor *getAmmunition* to get the array list.
+
+#### A new abstract class: RangedWeapon 
+
+* A new type of `WeaponItem` which can do area damage and hit more than one target.
+
+1. This class extends the `WeaponItem` class.
+1. This class has a new capability *RANGED_WEAPON* in constructor. 
+1. Has an accessor to get weapon’s name. 
+1. An abstract method *subMenu()* to display submenu.
+1. A method *getAmountOfBullet*. 
+1. A method *shoot()* to remove a bullet after shooting once. 
+1. A method *loadAmmunition()* to load bullets from ammunition box into the weapon. 
+
+#### Design reason
+
+* This class is responsible for its own properties, which is ranged weapon. It is extensible and can be inherited by other classes with similar properties. 
+
+## **New weapon: Shotgun**
+
+#### A new class: Shotgun
+
+* A new type of `RangedWeapon` which does area damage. It can also be used as melee weapon without ammunitions. 
+
+1. This class extends the `RangedWeapon` class. 
+1. This weapon has 20 damages.
+1. It has an overridden *subMenu()* method.
+	* This method shows a submenu with 8 different directions to be selected by player. 
+	* A new instance of `Actions` is created, it contains 8 `ShotDirectionAction`.
+	* `Menu` *showMenu()* method is called and returned. 
+
+#### Design reason
+
+1. Things are declared in the tightest possible scope. For example, `ShotDirectionAction` is declared while being added into actions. 
+
+#### A new class: ShotDirectionAction
+
+* A new type of `Action` so that `Player` can use shotgun to shoot in a direction.
+
+1. This class extends `Action` class.
+1. It has an instance variable `RangedWeapon` represents shotgun and a string represents direction.
+1. It has an overridden *execute()* method.
+	* An instance of `Actions` contains actions to damage actor. 
+	* Check if the direction is diagonal direction. 
+	* Set `NumberRange` according to the direction.
+	* Loops through `NumberRange` and get the location. If the location contains an `Actor`, an instance of `RangedAttackAction` will be added. 
+	
+1. It has an overridden *menuDescription()* method.
+	* This method shows a message in the menu, this enables `Player` to choose which direction to shoot. 
+
+
+
