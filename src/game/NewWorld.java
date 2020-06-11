@@ -17,6 +17,14 @@ public class NewWorld extends World {
         super(display);
     }
 
+
+    /**
+     * Run the game.
+     * On each iteration the gameloop does the following: - displays the player's
+     * map - processes the actions of every Actor in the game.
+     * Mambo Marie also can be added into map and the turn of occurrence is calculated.
+     *
+     */
     @Override
     public void run() {
         Random rand = new Random();
@@ -72,6 +80,11 @@ public class NewWorld extends World {
 
     }
 
+    /**
+     * Check if the maps contain player, also check if all humans or zombies vanished.
+     *
+     * @return true if the game is still running
+     */
     @Override
     protected boolean stillRunning() {
         boolean containHuman = false, containMarie = false, containZombie = false;
