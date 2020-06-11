@@ -442,7 +442,11 @@ to _corpse_ attribute. If not, a new `PortableItem` object will be created and a
 * Adding new classes will increase the dependencies. For example, a `Crop` is created in `Sowbehaviour` class. 
 * `Farmer` will fertilise the crop for multiple times, player can get heal easily.
 
+# **Assignment 3 - Team StormBreaker**
+
 ## **Going to Town**
+
+### **Design choice**
 
 #### A new class: Vehicle
 
@@ -460,6 +464,10 @@ to _corpse_ attribute. If not, a new `PortableItem` object will be created and a
 * Find adjacent locations instead of a specific destination to prevent an actor exists on that location, thus can prevent error occur. 
 
 ## **New weapons and ammunition**
+In `Player`'s *playTurn()*, if there is a Shotgun or SniperRifle in the inventory, a new `ChooseWeaponAction` will be added in the actions.
+`ChooseWeaponAction` allows Player to select the ranged weapon available and then attacks target or fires at a specific direction.
+
+### **Design choice**
 
 #### A new class: Ammunition
 
@@ -522,6 +530,92 @@ to _corpse_ attribute. If not, a new `PortableItem` object will be created and a
 	
 1. It has an overridden *menuDescription()* method.
 	* This method shows a message in the menu, this enables `Player` to choose which direction to shoot. 
+
+## **New weapon: SniperRifle**
+When Player selects sniper, a submenu is displayed to allow Player to choose a target. After selecting which target to shoot, 
+another submenu will be displayed with the options: Spend a round aiming at the target, or shoot the target. 
+- Given that the aiming option is chosen, in the following turn player can choose to attack the target or do other actions.
+- If player choose to continue aiming, concentration will be increased, shooting the target at this round, the damage will be doubled. 
+- If player choose to aim for two rounds and shoot at the third round, the sniper will instakill the target. 
+- Otherwise, if player choose to do other actions or get hurt in the middle of aiming, the concentration will be broken.
+
+#### A new class: SniperRifle
+
+* A sub class of `RangedWeapon` which does more damage if spend more time aiming at the target. It can also be used as melee weapon without ammunition.
+
+1. This class extends from `RangedWeapon` class.
+1. Initial damage for this weapon is 20.
+1. It has an overridden *subMenu()* method.
+    * This method calls a private method *scanTarget()* which returns an `ArrayList<Location>` contains all the targets available within the range. 
+    * Run a loop to create new `ChooseTargetAction` for each target, all the ChooseTargetActions are added into an `Actions` variable.
+    * Return *menu.showMenu()* to allow Player to choose the target.
+    
+#### A new class: ChooseTargetAction
+
+* A sub class of `Action` allows Player to choose targets.
+
+1. This class extends from `Action` class.
+1. It has four instance variables: `RangedWeapon`, `Menu`, `Actor` represents target and `AimAction`.
+1. In the overridden *execute()* method, it adds `AimAction` instance into the `Actions` variable if the concentration at the target is lower than 2,
+it also adds `RangedAttackAction` into the `Actions` variable. It will call *menu.showMenu* which allows Player to choose either aiming at the target or
+shoot the target. 
+1. It has a public method called *lastActionIsAim* called in `Player` class to return true if player's last action is aiming.
+
+#### A new class: AimAction
+
+* A sub class of `Action` which counts the concentration of the Player on a selected target.
+
+1. This class extends from `Action` class.
+1. It has two instance variables: `Actor` represents target and `int` concentration.
+1. It increases the concentration in the overridden *execute()* method.
+1. It has two public methods which are *resetConcentration()* to reset the concentration to zero, and *getConcentration()*.
+
+#### Modifying *hurt()* in `Player` class
+
+* When calling this method, player's concentration will become zero.
+
+#### Design reason
+
+1. This design decision is following the principle **Classes should be responsible for their own properties.** 
+1. Each class has its own properties and thus decreased the dependencies.
+
+## **Mambo Marie**
+
+### **Design Choice**
+
+#### A new class: MamboMarie
+
+* A sub class of `ZombieActor` which represents a new character in this game.
+
+1. This class extends from `ZombieActor`.
+1. It has ZombieCapability.UNDEAD.
+1. It has an instance variable `Behaviour[]` which contains `ChantBehaviour`, `WanderBehaviour` and `ScreamBehaviour`.
+
+#### A new class: ChantBehaviour
+
+* A sub class of `Actions` which allows Mambo Marie to chant and summon five new `Zombie`. 
+
+1. This class extends from `Action` and implements `Behaviour`.
+1. It has an instance variable `int` turn to count the passage of time.
+1. In *getAction()* method, it will return this class every 10 turns. Otherwise, return null.
+1. In the overridden *execute()* method, we use a for loop to generate five new `Zombie`, the coordinate is randomly generated 
+and it will check if the `Location` contains an `Actor`. If there isn't, call *map.addActor()* to add the `Zombie` into the game.
+
+#### A new class: NewWorld
+
+* A sub class of `World` allows us to extend the game functionality.
+
+1. This class extends from `World`.
+1. This class has two instance variables `MamboMarie` and `int` turn.
+1. In the overridden *run()* method, after processing all the actors and tick all the item on maps, check if the Mambo Marie
+exists on the compound map. If Mambo Marie currently not on the map and passed the 5% chance, she will be added to the edge of the map.
+1. In the same method, checks if the turn exceeds 30 and Mambo Marie still on the map, remove her from the map.
+
+#### Design reason
+
+1. We think it is better to make Mambo Marie a singleton in `NewWorld` because if every time she returns as a new object with full health point,
+it will harder for the player to kill her and win this game.
+1. The new class `NewWorld` extends from `World` so it minimises the dependencies that cross encapsulation boundaries.
 
 
 ## **Bonus Features**
