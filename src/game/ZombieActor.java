@@ -51,7 +51,7 @@ public abstract class ZombieActor extends Actor {
 	public String damage(int points, GameMap map){
 		String result;
 		hurt(points);
-		result = this.name + " gets hurt. Hit points: " + this.hitPoints;
+		result = this.name + " gets hurt. Current hit points: " + this.hitPoints;
 		return result;
 	}
 

@@ -21,12 +21,5 @@ public class MamboMarie extends ZombieActor {
         }
         return new DoNothingAction();
     }
-
-
-
-    @Override
-    public String damage(int points, GameMap map) {
-        return null;
-    }
     
 }
