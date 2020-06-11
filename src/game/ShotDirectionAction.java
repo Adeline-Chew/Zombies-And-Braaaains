@@ -10,18 +10,17 @@ import static java.lang.Math.abs;
  * @author Adeline Chew Yao Yi and Tey Kai Ying
  */
 
-public class ShotDirectionAction extends Action  {
+public class ShotDirectionAction extends Action {
     protected String direction;
     protected RangedWeapon weapon;
-    final String[] DIAGONALDIRECT = {"North-East", "South-East", "South-West", "North-West"};
 
     /**
      * Constructor.
      *
-     * @param weapon weapon to perform the action
+     * @param weapon    weapon to perform the action
      * @param direction a string represents the shooting direction
      */
-    public ShotDirectionAction(RangedWeapon weapon, String direction){
+    public ShotDirectionAction(RangedWeapon weapon, String direction) {
         this.direction = direction;
         this.weapon = weapon;
     }
@@ -40,72 +39,43 @@ public class ShotDirectionAction extends Action  {
         Actions actions = new Actions();
         String result = "";
 
-        for(String direct : DIAGONALDIRECT){
-            if(direct.equals(direction)){
 
-                NumberRange xs = setXRange(here, direction);
-                NumberRange ys = setYRange(here, direction);
+        if (direction.equals("North-East") || direction.equals("South-East") || direction.equals("South-West") || direction.equals("North-West")) {
+
+            NumberRange xs = setXRange(here, direction);
+            NumberRange ys = setYRange(here, direction);
 
 
-                for(int x : xs){
-                    for(int y : ys){
-                        if(x != here.x() || y != here.y()){
-                            if(map.at(x,y).containsAnActor()){
-                                actions.add(new RangedAttackAction(weapon, map.at(x, y).getActor(), 0.75, weapon.damage()));
-                            }
+            for (int x : xs) {
+                for (int y : ys) {
+                    if (x != here.x() || y != here.y()) {
+                        if (map.at(x, y).containsAnActor()) {
+                            actions.add(new RangedAttackAction(weapon, map.at(x, y).getActor(), 0.75, weapon.damage()));
                         }
                     }
                 }
             }
+        }
 
-            else{
+        else {
 
-                NumberRange ranges = setRange(here, direction);
+            NumberRange ranges = setRange(here, direction);
 
-                if(direction.equals("East") || direction.equals("West")){
-                    int count = 0;
-                    for(int x : ranges){
-                        int diff = abs(here.x() - x);
-                        for(int i = 0; i <= diff; i++){
-                            if(map.at(x, here.y() + diff - i).containsAnActor() && diff - i != 0){
-                                actions.add(new RangedAttackAction(weapon, map.at(x, here.y() + diff - i).getActor(), 0.75, weapon.damage()));
-                            }
-                            if(map.at(x, here.y() - diff + i).containsAnActor() && count == 0){
-                                actions.add(new RangedAttackAction(weapon, map.at(x, here.y() - diff + i).getActor(), 0.75, weapon.damage()));
-                                if(i - diff == 0){
-                                    count += 1;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                else if(direction.equals("South") ||  direction.equals("North")){
-                    int count = 0;
-                    for(int y : ranges){
-                        int diff = abs(here.y() - y);
-                        for(int i = 0; i <= diff; i++){
-                            if(map.at(here.x() + diff - i, y).containsAnActor() &&  diff - i != 0){
-                                actions.add(new RangedAttackAction(weapon, map.at(here.x() + diff - i, y).getActor(), 0.75, weapon.damage()));
-                            }
-                            if(map.at(here.x() - diff + i, y).containsAnActor() && count == 0){
-                                actions.add(new RangedAttackAction(weapon, map.at(here.x() - diff + i, y).getActor(), 0.75, weapon.damage()));
-                                if(i - diff == 0){
-                                    count += 1;
-                                }
-                            }
-                        }
-                    }
-                }
-
+            if (direction.equals("East") || direction.equals("West")){
+                xShoot(actions, map, here, ranges);
             }
+            else if (direction.equals("South") || direction.equals("North")){
+                yShoot(actions, map, here, ranges);
+            }
+
         }
 
-        for(Action action: actions){
-            result += "\n" + action.execute(actor, map) ;
+
+        for(Action action:actions){
+            result += "\n" + action.execute(actor, map);
         }
 
-        return menuDescription(actor) + result;
+        return menuDescription(actor) +result;
     }
 
     /**
@@ -178,6 +148,35 @@ public class ShotDirectionAction extends Action  {
             range = new NumberRange(here.y()-3, 3);
         }
         return range;
+    }
+
+    private void xShoot(Actions actions, GameMap map, Location here, NumberRange ranges){
+        for(int x : ranges){
+            int diff = abs(here.x() - x);
+            for(int i = 0; i <= diff; i++){
+                if(map.at(x, (here.y() + diff) - i).containsAnActor() && diff != i){
+                    actions.add(new RangedAttackAction(weapon, map.at(x, (here.y() + diff) - i).getActor(), 0.75, weapon.damage()));
+                }
+                if(map.at(x, (here.y() - diff) + i).containsAnActor()){
+                    actions.add(new RangedAttackAction(weapon, map.at(x, (here.y() - diff) + i).getActor(), 0.75, weapon.damage()));
+                }
+            }
+        }
+    }
+
+    private void yShoot(Actions actions, GameMap map, Location here, NumberRange ranges){
+        for(int y : ranges){
+            int diff = abs(here.y() - y);
+            for(int i = 0; i <= diff; i++){
+                if(map.at((here.x() + diff) - i, y).containsAnActor() &&  diff - i != 0){
+                    actions.add(new RangedAttackAction(weapon, map.at((here.x() + diff) - i, y).getActor(), 0.75, weapon.damage()));
+                }
+                if(map.at((here.x() - diff) + i, y).containsAnActor()) {
+                    actions.add(new RangedAttackAction(weapon, map.at((here.x() - diff) + i, y).getActor(), 0.75, weapon.damage()));
+
+                }
+            }
+        }
     }
 
 }
