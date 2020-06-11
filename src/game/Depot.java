@@ -12,7 +12,7 @@ public class Depot extends Building {
      * Constructor.
      */
     public Depot() {
-        super('D');
+        super('d');
         storage = new ArrayList<>();
         refillAmmunition();
     }
