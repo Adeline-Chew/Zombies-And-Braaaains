@@ -199,7 +199,7 @@ public class Zombie extends ZombieActor {
 			result += "\n" + this.name + " lost a leg.";
 		}
 
-		if(!isConscious() && Math.random() <= 1){
+		if(!isConscious() && Math.random() <= 0.1){
 			result += "\n" + turnIntoBomb(map);
 		}
 		return result;

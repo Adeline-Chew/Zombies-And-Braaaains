@@ -38,7 +38,7 @@ public class AttackAction extends Action {
 
 		// Attack the target
 		try {
-			if(target.hasCapability(ZombieCapability.IMMUNE)){
+			if(target.hasCapability(ZombieCapability.IMMUNE) && weapon.verb().equals("bites")){
 				return target + " has immunisation, cannot be attacked.";
 			}
 			result = actor + " " + weapon.verb() + " " + target + " for " + weapon.damage() + " damage.";
