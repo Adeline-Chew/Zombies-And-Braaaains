@@ -6,7 +6,7 @@ import edu.monash.fit2099.engine.Location;
 import java.util.ArrayList;
 
 public class Depot extends Building {
-    ArrayList<AmmunitionBox> storage;
+    private final ArrayList<AmmunitionBox> storage;
 
     /**
      * Constructor.

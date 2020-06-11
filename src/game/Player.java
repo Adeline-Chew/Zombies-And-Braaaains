@@ -3,7 +3,6 @@ package game;
 import edu.monash.fit2099.engine.*;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Class representing the Player.
@@ -11,7 +10,6 @@ import java.util.Random;
 public class Player extends Human {
 
 	private final Menu menu = new Menu();
-	private final Random rand = new Random();
 	private static int concentration;
 	private static ChooseTargetAction chooseTargetAction;
 

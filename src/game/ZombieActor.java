@@ -14,7 +14,7 @@ import java.util.Random;
  *
  */
 public abstract class ZombieActor extends Actor {
-	private final Random rand = new Random();
+	protected Random rand = new Random();
 	
 	public ZombieActor(String name, char displayChar, int hitPoints, ZombieCapability team) {
 		super(name, displayChar, hitPoints);

@@ -5,7 +5,6 @@ import edu.monash.fit2099.engine.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 /**
  * A Zombie.
@@ -15,7 +14,6 @@ import java.util.Random;
  *
  */
 public class Zombie extends ZombieActor {
-	private final Random rand = new Random();
 	private int numberOfArms, numberOfLegs, turn;
 
 	private final Behaviour[] behaviours = {new PickUpBehaviour(),

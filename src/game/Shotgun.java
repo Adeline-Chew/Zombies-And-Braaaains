@@ -8,7 +8,7 @@ import edu.monash.fit2099.engine.*;
  */
 
 public class Shotgun extends RangedWeapon {
-    final String [] DIRECTIONS = {"North", "North-East", "East", "South-East", "South", "South-West", "West", "North-West"};
+    private final String [] DIRECTIONS = {"North", "North-East", "East", "South-East", "South", "South-West", "West", "North-West"};
 
     /**
      * Constructor.

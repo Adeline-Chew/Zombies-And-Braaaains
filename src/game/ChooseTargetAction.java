@@ -3,11 +3,11 @@ package game;
 import edu.monash.fit2099.engine.*;
 
 public class ChooseTargetAction extends Action {
-    Actor target;
-    SniperRifle sniper;
-    AimAction aim;
-    Menu menu = new Menu();
-    Display display;
+    private final Actor target;
+    private final SniperRifle sniper;
+    private final AimAction aim;
+    private final Menu menu = new Menu();
+    private final Display display;
 
     public ChooseTargetAction(Actor actor, SniperRifle weapon, Display display){
         this.target = actor;

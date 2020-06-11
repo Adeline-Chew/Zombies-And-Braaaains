@@ -12,8 +12,8 @@ import edu.monash.fit2099.engine.GameMap;
  */
 
 public class HarvestAction extends Action {
-    Exit ripenCropLocation;
-    String nameOfFood;
+    private final Exit ripenCropLocation;
+    private final String nameOfFood;
 
     /**
      * Constructor.

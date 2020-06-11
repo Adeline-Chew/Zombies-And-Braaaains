@@ -3,8 +3,8 @@ package game;
 import edu.monash.fit2099.engine.*;
 
 public class ChooseWeaponAction extends Action {
-    RangedWeapon weapon;
-    Display display;
+    private final RangedWeapon weapon;
+    private final Display display;
 
     public ChooseWeaponAction(Display display, RangedWeapon weapon){
         this.weapon = weapon;

@@ -3,7 +3,7 @@ package game;
 import java.util.ArrayList;
 
 public class AmmunitionBox extends PortableItem {
-    ArrayList<Ammunition> bulletBox = new ArrayList<>();
+    private final ArrayList<Ammunition> bulletBox = new ArrayList<>();
 
     public AmmunitionBox() {
         super("a box of bullets", 'A');
