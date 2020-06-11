@@ -524,4 +524,82 @@ to _corpse_ attribute. If not, a new `PortableItem` object will be created and a
 	* This method shows a message in the menu, this enables `Player` to choose which direction to shoot. 
 
 
+## **Bonus Features**
+
+## **Zombie self-exploded after killed (1 mark)**
+
+#### New method in `Zombie` class : *turnIntoBomb()*
+
+1. `Zombie` can cause 15 damages if it turns into bomb. 
+1. Generate a list of exits to find adjacent locations of the `Zombie`. 
+1. `Actor` exists at the adjacent location will be hurt. 
+1. The probability of `Zombie` self-exploding is 0.1, and it is calculated in the *damage()* method in `Zombie`
+class.
+
+## **Hospitals and Doctors (2 marks)**
+
+#### A new class: Doctor
+
+* A new type of `Human` which can self-heal and inject vaccines into other `Human`.
+
+1. This class extends `Human` class and has a new behaviour `CureBehaviour`.
+1. It has an overridden *playTurn()* method. 
+    * It has 50% chance to heal by 15-30 points randomly. 
+    * A for loop in the behaviours list and get action for the behaviour. 
+    * If the action does not return null, the actor will perform the action
+    * It will perform `Human` normal behaviours if no farmer’s behaviours available.
+
+#### Design reason
+
+* `Doctor` is responsible for its own behaviour and responsibility, which is injecting vaccine. 
+* Use super keyword to call parent class *playTurn()* method to avoid repeated code and achieve DRY principle.  
+    
+#### A new class: CureBehaviour
+
+* A new type of behaviour of `Doctor` so that it can perform an injecting vaccine action.
+
+1. This class implements `Behaviour` class.
+1. It has an overridden *getAction()* method.
+    * Generate a list of exits to get adjacent locations of the `Doctor`.
+    * Check if that location contains an actor and that actor is `Human`.
+    * Perform an `InjectVaccineAction` if above statements are true.
+
+#### Design reason
+
+* Reduce dependencies as much as possible. 
+* Keep the method simple and easy to understand. 
+
+#### A new class: InjectVaccineAction
+
+* A new type of `Action` so that `Doctor` can inject vaccines into `Human` and make they immune.
+
+1. This class extends `Action` class.
+1. It has an instance variable `Actor` as the patient to be injected. 
+1. It has an overridden *execute()* method.
+    * The patient will be added a new capability *IMMUNE*. 
+1. It has an overridden *menuDescription()* method.
+    * This returns an empty string as it is not needed.
+    
+#### New code implementation in `Human` class.
+
+1. An integer to record the round of immune capability. 
+1. When it reaches 8 turns, the capability *IMMUNE* will be removed from the `Human`. 
+
+#### New code implementation in `AttackAction` class.
+
+1. In the *execute()* method, the target capability and the verb of weapon will be checked. 
+1. If it is zombie bite weapon and the target has capability *IMMUNE*, no attack action happen. 
+
+#### Design reason
+
+1. `InjectVaccineAction` class is responsible for its own responsibility and the implementation is simple. 
+1. No duplicated code occur. 
+
+
+
+
+
+
+
+
 
