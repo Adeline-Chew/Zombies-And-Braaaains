@@ -13,6 +13,7 @@ import static java.lang.Math.abs;
 public class ShotDirectionAction extends Action {
     protected String direction;
     protected RangedWeapon weapon;
+    private double hitProbability = 0.75;
 
     /**
      * Constructor.
@@ -50,7 +51,7 @@ public class ShotDirectionAction extends Action {
                 for (int y : ys) {
                     if (x != here.x() || y != here.y()) {
                         if (map.at(x, y).containsAnActor()) {
-                            actions.add(new RangedAttackAction(weapon, map.at(x, y).getActor(), 0.75, weapon.damage()));
+                            actions.add(new RangedAttackAction(weapon, map.at(x, y).getActor(), hitProbability , weapon.damage()));
                         }
                     }
                 }
@@ -157,10 +158,10 @@ public class ShotDirectionAction extends Action {
             int diff = abs(here.x() - x);
             for(int i = 0; i <= diff; i++){
                 if(map.at(x, (here.y() + diff) - i).containsAnActor() && diff != i){
-                    actions.add(new RangedAttackAction(weapon, map.at(x, (here.y() + diff) - i).getActor(), 0.75, weapon.damage()));
+                    actions.add(new RangedAttackAction(weapon, map.at(x, (here.y() + diff) - i).getActor(), hitProbability, weapon.damage()));
                 }
                 if(map.at(x, (here.y() - diff) + i).containsAnActor()){
-                    actions.add(new RangedAttackAction(weapon, map.at(x, (here.y() - diff) + i).getActor(), 0.75, weapon.damage()));
+                    actions.add(new RangedAttackAction(weapon, map.at(x, (here.y() - diff) + i).getActor(), hitProbability, weapon.damage()));
                 }
             }
         }
@@ -171,10 +172,10 @@ public class ShotDirectionAction extends Action {
             int diff = abs(here.y() - y);
             for(int i = 0; i <= diff; i++){
                 if(map.at((here.x() + diff) - i, y).containsAnActor() &&  diff - i != 0){
-                    actions.add(new RangedAttackAction(weapon, map.at((here.x() + diff) - i, y).getActor(), 0.75, weapon.damage()));
+                    actions.add(new RangedAttackAction(weapon, map.at((here.x() + diff) - i, y).getActor(), hitProbability, weapon.damage()));
                 }
                 if(map.at((here.x() - diff) + i, y).containsAnActor()) {
-                    actions.add(new RangedAttackAction(weapon, map.at((here.x() - diff) + i, y).getActor(), 0.75, weapon.damage()));
+                    actions.add(new RangedAttackAction(weapon, map.at((here.x() - diff) + i, y).getActor(), hitProbability, weapon.damage()));
 
                 }
             }
