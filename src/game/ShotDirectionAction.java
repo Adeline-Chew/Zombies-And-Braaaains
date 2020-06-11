@@ -75,6 +75,8 @@ public class ShotDirectionAction extends Action {
             result += "\n" + action.execute(actor, map);
         }
 
+        weapon.shoot();
+
         return menuDescription(actor) +result;
     }
 

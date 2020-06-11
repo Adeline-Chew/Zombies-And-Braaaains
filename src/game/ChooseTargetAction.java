@@ -32,8 +32,10 @@ public class ChooseTargetAction extends Action {
         actions.add(new RangedAttackAction(sniper, target, getShootProbability(), sniper.getSniperDamage().get(getShootProbability())));
         Action action = menu.showMenu(actor, actions, display);
         result = action.execute(actor, map);
-        if(action instanceof RangedAttackAction)
+        if(action instanceof RangedAttackAction) {
             aim.resetConcentration();
+            sniper.shoot();
+        }
         Player.concentrateAction(this, aim.getConcentration());
 
         return result;

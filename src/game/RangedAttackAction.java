@@ -22,7 +22,6 @@ public class RangedAttackAction extends Action {
         String result = actor + " miss " + target;
         if(Math.random() <= hitProb) {
             target.damage(damage, map);
-            weapon.shoot();
             result = actor + " use " + weapon.getName() + " fires " + target + " for " + damage + " damage.";
 
             if (!target.isConscious()) {
