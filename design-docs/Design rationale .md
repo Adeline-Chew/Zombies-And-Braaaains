@@ -457,6 +457,9 @@ to _corpse_ attribute. If not, a new `PortableItem` object will be created and a
 1. It has a *moveActor()* method.
 	* A list of multiple `Exit` represent the adjacent locations of the destination.
 	* A for loop loops through the exits list to find an empty location without any actors.
+	
+#### A new abstract class: Building
+* A new type of `Ground` which represents building in the game system.
 
 #### Design reason
 
@@ -482,6 +485,17 @@ In `Player`'s *playTurn()*, if there is a Shotgun or SniperRifle in the inventor
 1. In the constructor, instances of `Ammunition` are added into list.
 1. `AmmunitionBox` also has the capability *BULLET*.
 1. It has an accessor *getAmmunition* to get the array list.
+
+#### A new class: Depot
+
+* A new sub class from `Building` to store ammunition.
+
+1. This class extends from abstract `Building` class.
+1. It has an instance variable `ArrayList<Ammunition>` stores ammunition.
+1. Each Depot initially contains 5 boxes of `Ammunition`.
+1. In the overridden *tick()* method, if `Player` is standing on `Depot`, we use *location.addItem()* to allow `Player` to 
+pick up `Ammunition`.
+1. The storage will be refilled once the `ArrayList<Ammunition>` is empty.
 
 #### A new abstract class: RangedWeapon 
 
@@ -530,6 +544,16 @@ In `Player`'s *playTurn()*, if there is a Shotgun or SniperRifle in the inventor
 	
 1. It has an overridden *menuDescription()* method.
 	* This method shows a message in the menu, this enables `Player` to choose which direction to shoot. 
+	
+#### A new class: ChooseWeaponAction
+
+* A new type of `Action` allows `Player` to select any `RangedWeapon` available.
+
+1. This class extends from `Action` class.
+1. It has two instance variables *display* and *weapon* which assigned to the parameters from the constructor.
+1. In the overridden *execute()* method, if `Actor`'s inventory contains `Ammunition`, call *weapon.loadAmmunition()* to add bullets into the weapon.
+1. Call *weapon.subMenu()* to execute next subMenu.
+1. otherwise, return a warning message if there is no `Ammunition` in inventory or the weapon.
 
 ## **New weapon: SniperRifle**
 When Player selects sniper, a submenu is displayed to allow Player to choose a target. After selecting which target to shoot, 
@@ -689,6 +713,14 @@ class.
 1. `InjectVaccineAction` class is responsible for its own responsibility and the implementation is simple. 
 1. No duplicated code occur. 
 
+#### A new class: Hospital
+
+* A sub class from *Building* represents a Hospital in the game system.
+
+1. This class extends from abstract `Building` class.
+1. It has a class variable `ArrayList<String> doctorsName` storing all the available doctor's name to be used for the game.
+1. In the overridden method *tick()*, a new `Doctor` will be created every 10 turns. Maximum 10 doctors for each `Hospital`.
+1. If a `Human` is standing on the `Hospital`'s location, heal the `Human` 50 health points.
 
 
 
