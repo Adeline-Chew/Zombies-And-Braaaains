@@ -5,8 +5,12 @@ import edu.monash.fit2099.engine.Location;
 
 import java.util.ArrayList;
 
+/**
+ * Class represents Depot that stores Ammunition.
+ */
+
 public class Depot extends Building {
-    private final ArrayList<AmmunitionBox> storage;
+    private ArrayList<AmmunitionBox> storage;
 
     /**
      * Constructor.
@@ -23,7 +27,7 @@ public class Depot extends Building {
     }
 
     /**
-     * Ground can also experience the joy of time.
+     * If Player standing on Depot, add a box of Ammunition on the current location.
      *
      * @param location The location of the Ground
      */
@@ -51,6 +55,9 @@ public class Depot extends Building {
         }
     }
 
+    /**
+     * Refill 3 ammunition boxes when it is empty.
+     */
     private void refillAmmunition() {
         for(int i = 0; i < 3; i++)
             storage.add(new AmmunitionBox());

@@ -17,9 +17,9 @@ import java.util.Random;
  */
 
 public class Hospital extends Building{
-    private static final ArrayList<String> doctorsName = new ArrayList<>();
-    private final Random rand = new Random();
-    private final Display display = new Display();
+    private static ArrayList<String> doctorsName = new ArrayList<>();
+    private Random rand = new Random();
+    private Display display = new Display();
     private int turn;
 
     /**
