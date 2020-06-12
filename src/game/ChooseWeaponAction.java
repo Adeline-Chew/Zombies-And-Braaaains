@@ -2,16 +2,26 @@ package game;
 
 import edu.monash.fit2099.engine.*;
 
-public class ChooseWeaponAction extends Action {
-    private final RangedWeapon weapon;
-    private final Display display;
+/**
+ * Class represent Ranged Weapon available in Player's inventory.
+ */
 
+public class ChooseWeaponAction extends Action {
+    private RangedWeapon weapon;
+    private Display display;
+
+    /**
+     * Constructor.
+     * @param display Display.
+     * @param weapon RangedWeapon to be used.
+     */
     public ChooseWeaponAction(Display display, RangedWeapon weapon){
         this.weapon = weapon;
         this.display = display;
     }
     /**
-     * Perform the Action.
+     * Load ammunition to the weapon if Actor's inventory contains Ammunition.
+     * If weapon has ammunition, call subMenu() to present another sub Menu.
      *
      * @param actor The actor performing the action.
      * @param map   The map the actor is on.
@@ -46,6 +56,9 @@ public class ChooseWeaponAction extends Action {
         return actor + " use " + weapon.getName();
     }
 
+    /**
+     * Getter that return the weapon.
+     */
     public RangedWeapon getWeapon(){return weapon;}
 
 }

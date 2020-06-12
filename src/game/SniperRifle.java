@@ -1,13 +1,19 @@
 package game;
 
-
 import edu.monash.fit2099.engine.*;
 
 import java.util.*;
 
-public class SniperRifle extends RangedWeapon {
-    private final HashMap<Double, Integer> sniperDamage = new HashMap<>();
+/**
+ * A type of ranged weapon.
+ */
 
+public class SniperRifle extends RangedWeapon {
+    private HashMap<Double, Integer> sniperDamage = new HashMap<>();
+
+    /**
+     * Constructor.
+     */
     public SniperRifle(){
         super("Sniper Rifle", 'S', 20, "bangs");
         sniperDamage.put(0.75, 20);
@@ -15,6 +21,14 @@ public class SniperRifle extends RangedWeapon {
         sniperDamage.put(1.00, 200);
     }
 
+    /**
+     * Display the menu of description of actions with all the targets available.
+     *
+     * @param actor actor performs the action
+     * @param map the map where the current actor is
+     * @param display the Display where the weapon's utterances will be displayed
+     * @return Action chosen by Player.
+     */
     @Override
     public Action subMenu(Actor actor, GameMap map, Display display){
         Actions actions = new Actions();
@@ -26,6 +40,12 @@ public class SniperRifle extends RangedWeapon {
         return menu.showMenu(actor, actions, display);
     }
 
+    /**
+     * This method adapted from HuntBehaviour. It scan and return all the Actor with UNDEAD capability within the range.
+     * @param here Location of Actor.
+     * @param actor Player.
+     * @return ArrayList<Location> containing all the targets' location.
+     */
     private ArrayList<Location> scanTarget(Location here, Actor actor){
         HashSet<Location> visitedLocations = new HashSet<>();
         ArrayList<Location> now = new ArrayList<>();
@@ -44,6 +64,9 @@ public class SniperRifle extends RangedWeapon {
         return targets;
     }
 
+    /**
+     * Search every exits from the paramter given to check whether the location contains target.
+     */
     private ArrayList<Location> search(ArrayList<ArrayList<Location>> layer) {
         ArrayList<Location> locations = new ArrayList<>();
         for (ArrayList<Location> path : layer) {
@@ -54,10 +77,16 @@ public class SniperRifle extends RangedWeapon {
         return locations;
     }
 
+    /**
+     * Return true if the location contains Actor with UNDEAD capability.
+     */
     private boolean containsTarget(Location here) {
         return (here.getActor() != null && here.getActor().hasCapability(ZombieCapability.UNDEAD));
     }
 
+    /**
+     * Get the next layer of exits surrounding the Actor.
+     */
     private ArrayList<ArrayList<Location>> getNextLayer(Actor actor, ArrayList<ArrayList<Location>> layer, HashSet<Location> visitedLocations) {
         ArrayList<ArrayList<Location>> nextLayer = new ArrayList<>();
 
@@ -77,6 +106,9 @@ public class SniperRifle extends RangedWeapon {
         return nextLayer;
     }
 
+    /**
+     * @return Get the combinations of Sniper's damage and its probability.
+     */
     public HashMap<Double, Integer> getSniperDamage(){
         return sniperDamage;
     }

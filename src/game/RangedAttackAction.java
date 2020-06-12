@@ -12,10 +12,10 @@ import edu.monash.fit2099.engine.GameMap;
  */
 
 public class RangedAttackAction extends Action {
-    private final RangedWeapon weapon;
-    private final Actor target;
-    private final double hitProb;
-    private final int damage;
+    private RangedWeapon weapon;
+    private Actor target;
+    private double hitProb;
+    private int damage;
 
     /**
      * Constructor.

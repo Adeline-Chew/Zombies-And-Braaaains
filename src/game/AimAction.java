@@ -4,13 +4,22 @@ import edu.monash.fit2099.engine.Action;
 import edu.monash.fit2099.engine.Actor;
 import edu.monash.fit2099.engine.GameMap;
 
+/**
+ * Class that allows Sniper to aim at a target.
+ */
+
 public class AimAction extends Action {
-    private final Actor target;
+    private Actor target;
     private int concentration;
 
+    /**
+     * Constructor
+     * @param actor Target to be aimed.
+     */
     public AimAction(Actor actor){
         this.target = actor;
     }
+
     /**
      * Perform the Action.
      *
@@ -26,10 +35,17 @@ public class AimAction extends Action {
         return menuDescription(actor);
     }
 
+    /**
+     *
+     * @return the value of the concentration.
+     */
     public int getConcentration() {
         return concentration;
     }
 
+    /**
+     * Reset concentration to zero.
+     */
     public void resetConcentration(){
         concentration = 0;
     }

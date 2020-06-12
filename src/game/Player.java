@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class Player extends Human {
 
-	private final Menu menu = new Menu();
+	private Menu menu = new Menu();
 	private static int concentration;
 	private static ChooseTargetAction chooseTargetAction;
 
@@ -31,6 +31,7 @@ public class Player extends Human {
 	 * Select and return an action for current turn.
 	 * Player can harvest if there is ripen crop nearby. If not, Player can eat
 	 * if damaged. Player can also craft a new weapon if it is holding craftable item.
+	 * Player can use the ranged weapon to attack if there is one in the inventory.
 	 * Player can wander around too.
 	 *
 	 * @param actions collection of possible Actions for this Actor
@@ -63,11 +64,12 @@ public class Player extends Human {
 			}
 		}
 
+		// Allows player to continue aim at the target
 		if(concentration > 0){
 			if(chooseTargetAction.lastActionIsAim(lastAction))
 				actions.add(chooseTargetAction);
 			else
-				concentration = 0;
+				concentration = 0;	// Reset the concentration
 		}
 
 		// Handle multi-turn Actions
@@ -77,6 +79,9 @@ public class Player extends Human {
 		return menu.showMenu(this, actions, display);
 	}
 
+	/**
+	 * Get the chooseTargetAction executed last turn as class variable.
+	 */
 	public static void concentrateAction(ChooseTargetAction action, int focusValue){
 		concentration = focusValue;
 		chooseTargetAction = action;

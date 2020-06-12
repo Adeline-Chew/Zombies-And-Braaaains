@@ -2,13 +2,22 @@ package game;
 
 import edu.monash.fit2099.engine.*;
 
+/**
+ * An action class allows Player to choose and lock at a target within the range.
+ */
 public class ChooseTargetAction extends Action {
-    private final Actor target;
-    private final SniperRifle sniper;
-    private final AimAction aim;
-    private final Menu menu = new Menu();
-    private final Display display;
+    private Actor target;
+    private SniperRifle sniper;
+    private AimAction aim;
+    private Menu menu = new Menu();
+    private Display display;
 
+    /**
+     * Constructor.
+     * @param actor Target.
+     * @param weapon Ranged weapon to be used.
+     * @param display Display.
+     */
     public ChooseTargetAction(Actor actor, SniperRifle weapon, Display display){
         this.target = actor;
         this.sniper = weapon;
@@ -17,7 +26,9 @@ public class ChooseTargetAction extends Action {
     }
 
     /**
-     * Perform the Action.
+     * Add AimAction into Actions if the concentration is less than 2, and add RangedAttackAction into Actions.
+     * Use showMenu to present a sub menu allows player to choose which action to execute.
+     * Reset the concentration if ranged attack is executed.
      *
      * @param actor The actor performing the action.
      * @param map   The map the actor is on.
@@ -41,6 +52,10 @@ public class ChooseTargetAction extends Action {
         return result;
     }
 
+    /**
+     * Internal method to get the probability based on the concentration.
+     * @return Probability to attack the target.
+     */
     private double getShootProbability(){
         double prob = 1;
         int concentration = this.aim.getConcentration();
@@ -51,6 +66,10 @@ public class ChooseTargetAction extends Action {
         return prob;
     }
 
+    /**
+     * Return true if the lastAction is instance of ChooseWeaponAction or this class.
+     * @param lastAction Player's action taken in last turn.
+     */
     public boolean lastActionIsAim(Action lastAction){
         boolean retVal = false;
         if(lastAction instanceof ChooseWeaponAction && ((ChooseWeaponAction) lastAction).getWeapon().equals(sniper)){
@@ -58,6 +77,7 @@ public class ChooseTargetAction extends Action {
         }
         return retVal || lastAction instanceof ChooseTargetAction;
     }
+
     /**
      * Returns a descriptive string
      *
