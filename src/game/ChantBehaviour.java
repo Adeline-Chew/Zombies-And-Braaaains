@@ -6,10 +6,20 @@ import edu.monash.fit2099.engine.GameMap;
 
 import java.util.Random;
 
+/**
+ * Class extends from Behaviour allows Actor to do chant action.
+ */
+
 public class ChantBehaviour extends Action implements Behaviour{
     private int turn;
     private Random rand = new Random();
 
+    /**
+     * Return this class as an Action every 10 turns.
+     * @param actor the Actor acting
+     * @param map the GameMap containing the Actor
+     * @return
+     */
     @Override
     public Action getAction(Actor actor, GameMap map){
         turn++;
@@ -19,6 +29,12 @@ public class ChantBehaviour extends Action implements Behaviour{
         return null;
     }
 
+    /**
+     * Generates 5 new Zombies, the location will be checked before add the zombie.
+     * @param actor The actor performing the action.
+     * @param map The map the actor is on.
+     * @return menuDescription indicates 5 Zombies are born.
+     */
     @Override
     public String execute(Actor actor, GameMap map){
         int x, y;

@@ -4,6 +4,10 @@ import edu.monash.fit2099.engine.*;
 
 import java.util.Random;
 
+/**
+ * A class extends from the World to make this game more extensible.
+ */
+
 public class NewWorld extends World {
     private int turn;
     private MamboMarie mamboMarie = new MamboMarie();
