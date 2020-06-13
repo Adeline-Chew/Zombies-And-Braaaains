@@ -37,12 +37,16 @@ public class ChooseWeaponAction extends Action {
             }
         }
         if(weapon.getAmountOfBullet() > 0) {
-            Action action = weapon.subMenu(actor, map, display);
-            return action.execute(actor, map);
+            Action action;
+            try {
+                action = weapon.subMenu(actor, map, display);
+                return action.execute(actor, map);
+            }
+            catch (NullPointerException e){
+                display.println("No target available within the range.");
+            }
         }
-        else{
-            return weapon + " needs to load bullet to fire.";
-        }
+        return weapon + " needs to load bullet to fire.";
     }
 
     /**

@@ -36,7 +36,8 @@ public class SniperRifle extends RangedWeapon {
         for(Location location: scanTarget(map.locationOf(actor), actor)){
             actions.add(new ChooseTargetAction(location.getActor(), this, display));
         }
-
+        if(actions.size() == 0)
+            return null;
         return menu.showMenu(actor, actions, display);
     }
 
@@ -65,7 +66,7 @@ public class SniperRifle extends RangedWeapon {
     }
 
     /**
-     * Search every exits from the paramter given to check whether the location contains target.
+     * Search every exits from the parameter given to check whether the location contains target.
      */
     private ArrayList<Location> search(ArrayList<ArrayList<Location>> layer) {
         ArrayList<Location> locations = new ArrayList<>();
