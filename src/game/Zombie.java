@@ -16,7 +16,7 @@ import java.util.List;
 public class Zombie extends ZombieActor {
 	private int numberOfArms, numberOfLegs, turn;
 
-	private final Behaviour[] behaviours = {new PickUpBehaviour(),
+	private Behaviour[] behaviours = {new PickUpBehaviour(),
 			new AttackBehaviour(ZombieCapability.ALIVE),
 			new ScreamBehaviour(),
 			new HuntBehaviour(Human.class, 10),

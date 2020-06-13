@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 
 public class AmmunitionBox extends PortableItem {
-    private final ArrayList<Ammunition> bulletBox = new ArrayList<>();
+    private ArrayList<Ammunition> bulletBox = new ArrayList<>();
 
     /**
      * Constructor. 5 Ammunition are added.

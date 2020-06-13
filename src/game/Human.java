@@ -11,7 +11,7 @@ import edu.monash.fit2099.engine.*;
  *
  */
 public class Human extends ZombieActor {
-	private final Behaviour[] behaviours = {
+	private Behaviour[] behaviours = {
 			new AttackBehaviour(ZombieCapability.UNDEAD),
 			new EatBehaviour(),
 			new PickUpBehaviour(),
