@@ -65,7 +65,6 @@ public class Application {
 		gameMap.at(54, 10).addItem(new Plank());
 		gameMap.at(30, 20).addItem(new Plank());
 		gameMap.at(30, 18).addItem(new Plank());
-		
 
 		gameMap.at(30, 20).addActor(new Zombie("Groan"));
 		gameMap.at(31,  18).addActor(new Zombie("Boo"));
