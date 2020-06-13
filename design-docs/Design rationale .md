@@ -541,9 +541,12 @@ pick up `Ammunition`.
 	* Check if the direction is diagonal direction. 
 	* Set `NumberRange` according to the direction.
 	* Loops through `NumberRange` and get the location. If the location contains an `Actor`, an instance of `RangedAttackAction` will be added. 
-	
 1. It has an overridden *menuDescription()* method.
 	* This method shows a message in the menu, this enables `Player` to choose which direction to shoot. 
+
+#### Design reason
+1. Private attributes to enforce encapsulation. 
+1. Separate long method into multiple methods to increase understandability. 
 	
 #### A new class: ChooseWeaponAction
 
@@ -641,6 +644,35 @@ exists on the compound map. If Mambo Marie currently not on the map and passed t
 it will harder for the player to kill her and win this game.
 1. The new class `NewWorld` extends from `World` so it minimises the dependencies that cross encapsulation boundaries.
 
+## **Ending the game**
+
+### **Design Choice**
+
+#### A new class: QuitGameAction
+
+* A new type of `Action` that allows player to select quit game.
+
+1. This class extends `Action` class.
+1. It has an overridden *execute()* method.
+	* remove player from the map using `GameMap` *remove()* method.
+1. It has an overridden *menuDescription()* method.
+	* This method shows a message in the menu, let player choose when to quit game. 
+
+#### Design reason
+1. Simple implementation and dependencies are reduced as much as possible. 
+	
+#### Modify *stillRunning()* method in `NewWorld` class
+
+1. Total four boolean variables: containHuman, containMarie, containZombie, continueGame
+1. Loops through all actorLocations in `NewWorld` to check if that actor is `Human`, if yes, containHuman is true.
+1. If actorLocations contains Mambo Marie, containMarie is true.
+1. Loops through all actorLocations in `NewWorld` to check if that actor is `Zombie` and exists in compound map, if yes, containZombie is true.
+1. Call parent class *stillRunning()* method using super keyword to check if player still exists, if no, continueGame is false.
+1. If both containMarie and containZombie are false, end the game.
+
+#### Design reason
+1. Calling parent class method to avoid repeated code. 
+1. Avoid data clump, each variable is responsible for its own information. 
 
 ## **Bonus Features**
 
