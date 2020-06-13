@@ -29,8 +29,20 @@ public class Shotgun extends RangedWeapon {
     public Action subMenu(Actor actor, GameMap map, Display display) {
         Actions actions = new Actions();
         for(String direction : DIRECTIONS){
-            actions.add(new ShotDirectionAction(this, direction));
+            if(direction.contains("North") && map.locationOf(actor).y() != map.getYRange().min()){
+                actions.add(new ShotDirectionAction(this, direction));
+            }
+            else if(direction.contains("South") && map.locationOf(actor).y() != map.getYRange().max()){
+                actions.add(new ShotDirectionAction(this, direction));
+            }
+            else if(direction.contains("East") && map.locationOf(actor).x() != map.getXRange().max()){
+                actions.add(new ShotDirectionAction(this, direction));
+            }
+            else if(direction.contains("West") && map.locationOf(actor).x() != map.getXRange().min()){
+                actions.add(new ShotDirectionAction(this, direction));
+            }
         }
+
         return menu.showMenu(actor, actions, display);
     }
 
