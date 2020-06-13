@@ -1,6 +1,8 @@
 package game;
 
-import edu.monash.fit2099.engine.*;
+import edu.monash.fit2099.engine.Action;
+import edu.monash.fit2099.engine.Actor;
+import edu.monash.fit2099.engine.GameMap;
 
 /**
  * Action to allow the Player to quit the game.
@@ -19,6 +21,7 @@ public class QuitGameAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         map.removeActor(actor);
+        NewWorld.playerQuitGame();
         return "Player quits the game.";
     }
 

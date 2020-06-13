@@ -11,6 +11,7 @@ import java.util.Random;
 public class NewWorld extends World {
     private int turn;
     private MamboMarie mamboMarie = new MamboMarie();
+    private static boolean isPlayerWin = false, isPlayerQuit = false;
 
     /**
      * Constructor.
@@ -123,10 +124,35 @@ public class NewWorld extends World {
             continueGame = false;
         }
         else if(!containZombie && !containMarie) {
-            display.println("Player wins");
+            isPlayerWin = true;
             continueGame = false;
         }
         
         return continueGame;
+    }
+
+    /**
+     * This method is called when Player choose to quit the game.
+     */
+    public static void playerQuitGame(){
+        isPlayerQuit = true;
+        isPlayerWin = false;
+    }
+
+    /**
+     * Return a string that can be displayed when the game ends.
+     *
+     * @return the string "Game Over"
+     */
+    @Override
+    protected String endGameMessage() {
+        String result = "";
+        if(isPlayerWin){
+            result = "Player wins";
+        }
+        else if (!isPlayerQuit){
+            result = "Player loses.";
+        }
+        return result + "\n" + super.endGameMessage();
     }
 }
