@@ -94,7 +94,7 @@ public class Player extends Human {
 	 */
 	@Override
 	public Weapon getWeapon(){
-		boolean hit = rand.nextBoolean();
+		boolean hit = Math.random() <= 0.75 ;
 		Weapon chosenWeapon = super.getWeapon();
 		int damage = 0;
 		ArrayList<Weapon> weapons = new ArrayList<>();
@@ -114,7 +114,7 @@ public class Player extends Human {
 			}
 		}
 
-		// Player has 50% chance to hit the target with weapon
+		// Player has 75% chance to hit the target with weapon
 		if(hit){
 			return chosenWeapon;
 		}
@@ -132,5 +132,23 @@ public class Player extends Human {
 	public void hurt(int points) {
 		super.hurt(points);
 		concentration = 0;
+	}
+
+	/**
+	 * Add points to the current Actor's hitpoint total.
+	 * <p>
+	 * This cannot take the hitpoints over the Actor's maximum. If there is an
+	 * overflow, hitpoints are silently capped at the maximum.
+	 * <p>
+	 * Does not check for consciousness: unconscious Actors can still be healed
+	 * if the game client allows.
+	 *
+	 * @param points number of hitpoints to add.
+	 */
+	@Override
+	public void heal(int points) {
+		Display display = new Display();
+		super.heal(points);
+		display.println("Current hit points: " + hitPoints);
 	}
 }
