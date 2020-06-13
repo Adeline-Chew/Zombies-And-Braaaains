@@ -18,6 +18,7 @@ import java.util.Random;
 public class HumanCorpse extends PortableItem {
     private int turn = 0;
     private Random rand = new Random();
+    private boolean success = false;
 
     /**
      * A Constructor creates human corpse.
@@ -37,11 +38,11 @@ public class HumanCorpse extends PortableItem {
      */
     @Override
     public void tick(Location currentLocation) {
-        boolean revive = rand.nextBoolean(), success = false;
+        boolean revive = rand.nextBoolean();
 
         turn++;
 
-        if((turn > 5 && turn < 10 && revive) || turn >= 10) {
+        if((turn > 5 && turn < 10 && revive) || turn == 10) {
             while (!success) {
                 try {
                     corpseRevive(currentLocation);
@@ -66,11 +67,11 @@ public class HumanCorpse extends PortableItem {
      */
     @Override
     public void tick(Location currentLocation, Actor actor){
-        boolean revive = rand.nextBoolean(), success = false;
+        boolean revive = rand.nextBoolean();
 
         turn++;
 
-        if((turn > 5 && turn < 10 && revive) || turn >= 10) {
+        if((turn > 5 && turn < 10 && revive) || turn == 10) {
             while (!success) {
                 try {
                     corpseRevive(actor.getRandomAdjacent(currentLocation.map()));

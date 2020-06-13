@@ -75,7 +75,10 @@ public class ChooseTargetAction extends Action {
         if(lastAction instanceof ChooseWeaponAction && ((ChooseWeaponAction) lastAction).getWeapon().equals(sniper)){
             retVal = true;
         }
-        return retVal || lastAction instanceof ChooseTargetAction;
+        if((retVal || lastAction instanceof ChooseTargetAction) && target.isConscious()){
+            retVal = true;
+        }
+        return retVal;
     }
 
     /**

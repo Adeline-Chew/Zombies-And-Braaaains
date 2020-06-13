@@ -57,7 +57,7 @@ public class SniperRifle extends RangedWeapon {
         ArrayList<ArrayList<Location>> layer = new ArrayList<>();
         layer.add(now);
 
-        int range = 10;
+        int range = 15;
         for(int r = 0; r < range; r++){
             layer = getNextLayer(actor, layer, visitedLocations);
             targets.addAll(search(layer));
