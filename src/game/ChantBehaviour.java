@@ -13,7 +13,7 @@ import java.util.Random;
 public class ChantBehaviour extends Action implements Behaviour{
     private int turn;
     private Random rand = new Random();
-
+    private int number = 0;
     /**
      * Return this class as an Action every 10 turns.
      * @param actor the Actor acting
@@ -39,7 +39,8 @@ public class ChantBehaviour extends Action implements Behaviour{
     public String execute(Actor actor, GameMap map){
         int x, y;
         for(int i = 0; i < 5; i++){
-            Zombie zombie = new Zombie("M-Zombie" + (i + 1));
+            number++;
+            Zombie zombie = new Zombie("M-Zombie" + number);
             do{
                 x = rand.nextInt(map.getXRange().max());
                 y = rand.nextInt(map.getYRange().max());

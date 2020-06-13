@@ -31,8 +31,6 @@ public class NewWorld extends World {
      */
     @Override
     public void run() {
-        Random rand = new Random();
-        boolean isAppear = Math.random() <= 0.05;
 
         if (player == null)
             throw new IllegalStateException();
@@ -52,6 +50,8 @@ public class NewWorld extends World {
             for (Actor actor : actorLocations) {
                 if (stillRunning())
                     processActorTurn(actor);
+                else
+                    break;
             }
 
             // Tick over all the maps. For the map stuff.
@@ -59,29 +59,38 @@ public class NewWorld extends World {
                 gameMap.tick();
             }
 
-            // Add Mambo Marie
-            if(isAppear && !compound.contains(mamboMarie)){
-                int x, y;
-                do{
-                    x = 0;
-                    y = rand.nextInt(compound.getYRange().max());
-                }
-                while(compound.at(x, y).containsAnActor() || !compound.at(x, y).canActorEnter(mamboMarie));
-                compound.addActor(mamboMarie, compound.at(x, y));
-                display.println("Mambo Marie appears in game.");
-            }
-
-            // After 30 turns, Mambo Marie will vanish
-            if(actorLocations.contains(mamboMarie)) {
-                turn++;
-                if (turn % 30 == 0) {
-                    actorLocations.remove(mamboMarie);
-                    display.println("Mambo Marie temporary disappears.");
-                }
-            }
+            checkMamboMarie(gameMaps.get(0));
         }
         display.println(endGameMessage());
 
+    }
+
+    protected void checkMamboMarie(GameMap compound){
+        boolean isAppear = Math.random() <= 0.05;
+        Random rand = new Random();
+        if(!mamboMarie.isConscious()){
+            isAppear = false;
+        }
+        // Add Mambo Marie
+        if(isAppear && !compound.contains(mamboMarie)){
+            int x, y;
+            do{
+                x = 0;
+                y = rand.nextInt(compound.getYRange().max());
+            }
+            while(compound.at(x, y).containsAnActor() || !compound.at(x, y).canActorEnter(mamboMarie));
+            compound.addActor(mamboMarie, compound.at(x, y));
+            display.println("Mambo Marie appears in game.");
+        }
+
+        // After 30 turns, Mambo Marie will vanish
+        if(actorLocations.contains(mamboMarie)) {
+            turn++;
+            if (turn % 30 == 0) {
+                actorLocations.remove(mamboMarie);
+                display.println("Mambo Marie temporary disappears.");
+            }
+        }
     }
 
     /**
